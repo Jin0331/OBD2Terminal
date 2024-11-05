@@ -25,9 +25,21 @@ struct BluetoothDevice : Hashable {
     public var description: String {
         return "BluetoothDevice - name: \(name), address: \(address), rssi: \(rssi)"
     }
+    
 }
 
 typealias BluetoothDeviceList = [BluetoothDevice]
+extension BluetoothDeviceList {
+    func toBluetoothItemList() -> BluetoothItemList {
+        return self.map { device in
+            BluetoothItem(
+                name: device.name,
+                address: device.address,
+                rssi: device.rssi
+            )
+        }
+    }
+}
 
 /// Presentation에서 사용하는 블루투스 장치 정보
 struct BluetoothItem : Identifiable, Equatable {
@@ -35,11 +47,10 @@ struct BluetoothItem : Identifiable, Equatable {
     let name : String
     let address : String
     var rssi: Int = 0
-    var connected: Bool = false
 }
 
-typealias BluetoothList = [BluetoothItem]
-extension BluetoothList {
+typealias BluetoothItemList = [BluetoothItem]
+extension BluetoothItemList {
     var sorted: Self {
         sorted { $0.rssi > $1.rssi }
     }
