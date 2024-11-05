@@ -13,7 +13,10 @@ struct ContentFeature {
     @ObservableState
     struct State : Equatable {
         let id = UUID()
-
+        var bluetoothItemList : BluetoothItemList = .init()
+        var bluetoothConnect : Bool = false
+        
+        var popupPresent : PopupPresent?
     }
     
     enum Action : BindableAction {
@@ -30,11 +33,15 @@ struct ContentFeature {
     }
     
     enum ButtonTapped {
-        
+        case bluetoothScanStart
+        case bluetoothConnect(BluetoothItem)
+        case bluetoothDisconnect
+        case bluetoothRegistration
     }
     
     enum ViewTransition {
         case onAppear
+        case popupDismiss
     }
 
     enum Provider {
@@ -61,12 +68,22 @@ struct ContentFeature {
                 return .run { send in
                     await send(.provider(.registerPublisher))
                 }
+                
+            case .viewTransition(.popupDismiss):
+                state.bluetoothItemList = .init()
+                state.popupPresent = nil
             
+            case .buttonTapped(.bluetoothRegistration):
+                state.popupPresent = .bluetoothRegistration
+                
+            case .buttonTapped(.bluetoothScanStart):                
+                obd2Gateway.scanBluetooth()
+                
             case .provider(.registerPublisher):
                 return .merge(registerPublisher())
                 
             case let .provider(.onDeviceFoundProperty(deviceList)):
-                Logger.debug(deviceList)
+                state.bluetoothItemList = deviceList.toBluetoothItemList()
                 
             default :
                 break
@@ -90,5 +107,12 @@ extension ContentFeature {
         )
         
         return effects
+    }
+}
+
+
+extension ContentFeature {
+    enum PopupPresent {
+        case bluetoothRegistration
     }
 }

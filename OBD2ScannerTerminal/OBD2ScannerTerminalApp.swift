@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct OBD2ScannerTerminalApp: App {
+    init() {
+        Logger.configurations()
+    }
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(store: Store(initialState: ContentFeature.State(), reducer: {
+                ContentFeature()
+            }))
         }
     }
 }

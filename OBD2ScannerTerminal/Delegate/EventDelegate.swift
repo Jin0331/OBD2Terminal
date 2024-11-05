@@ -48,15 +48,6 @@ protocol BluetoothConnectionDelegate {
     /// - Parameters:
     ///   - device: 대상 블루투스 장치 정보
     func onConnectFailedDevice(device: BluetoothDevice)
-
-    /// 블루투스 자동 연결 실패 이벤트
-    func onAutoConnectFailedDevice()
-    
-    /// 블루투스 미승인 이벤트
-    func onUnauthorizedDevice()
-    
-    /// 블루투스 에러 관련
-    func onDeviceError()
     
     /// 블루투스 연결 종료 이벤트
     ///
