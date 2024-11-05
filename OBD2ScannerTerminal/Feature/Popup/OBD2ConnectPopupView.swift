@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct OBD2ConnectPopupView: View {
-    let bluetoothList : BluetoothList
+    let bluetoothItemList : BluetoothItemList
     let selectItem : (BluetoothItem) -> Void
     let searchAction : () -> Void
     let cancleAction : () -> Void
@@ -16,13 +16,13 @@ struct OBD2ConnectPopupView: View {
     var body: some View {
         VStack(spacing:20) {
             VStack(spacing:15) {
-                Text("제트카 OBD II 연결")
+                Text("OBD II Connection")
                     .fontModifier(fontSize: 20, weight: .bold, color: ColorSystem.green5ea504.rawValue)
-                Text("연결할 장치가 켜져 있는지 확인해주세요.")
+                Text("Please make sure the device you want to connect is turned on.")
                     .fontModifier(fontSize: 16, weight: .semibold, color: ColorSystem.black.rawValue)
             }
             
-            List(bluetoothList.sorted, id: \.id) { bluetoothItem in
+            List(bluetoothItemList.sorted, id: \.id) { bluetoothItem in
                 HStack(alignment: .center, spacing: 10) {
                     Text(bluetoothItem.name)
                         .fontModifier(fontSize: 16, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
@@ -47,21 +47,13 @@ struct OBD2ConnectPopupView: View {
             
                         
             VStack(alignment: .leading, spacing: 12) {
-                Text("1. Z-CAR 항목을 클릭하여 연결")
+                Text("1. Click on the Bluetooth Item to connect")
                     .multilineTextAlignment(.leading)
                     .fontModifier(fontSize: 14, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
                 
-                Text("2. 휴대폰 B/T 성능에 따라 연결시간 발생")
+                Text("2. Connection time may vary depending on the phone's B/T performance.")
                     .multilineTextAlignment(.leading)
                     .fontModifier(fontSize: 14, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
-                
-                HStack {
-                    Text("3. 초기 비번 ") +
-                    Text("1234").foregroundColor(Color(hex: ColorSystem.green5ea504.rawValue)) + Text(" 또는 ")
-                     + Text("0000").foregroundColor(Color(hex: ColorSystem.green5ea504.rawValue)) + Text(" 입력")
-                }
-                .multilineTextAlignment(.leading)
-                .fontModifier(fontSize: 14, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
             }
             
             HStack {
@@ -78,5 +70,6 @@ struct OBD2ConnectPopupView: View {
         }
         .padding(25)
         .background(Color(hex: ColorSystem.whitee4ebf1.rawValue).cornerRadius(10))
+        .padding(.horizontal, 25)
     }
 }
