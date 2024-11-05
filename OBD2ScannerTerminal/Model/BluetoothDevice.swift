@@ -28,3 +28,19 @@ struct BluetoothDevice : Hashable {
 }
 
 typealias BluetoothDeviceList = [BluetoothDevice]
+
+/// Presentation에서 사용하는 블루투스 장치 정보
+struct BluetoothItem : Identifiable, Equatable {
+    let id : UUID = UUID()
+    let name : String
+    let address : String
+    var rssi: Int = 0
+    var connected: Bool = false
+}
+
+typealias BluetoothList = [BluetoothItem]
+extension BluetoothList {
+    var sorted: Self {
+        sorted { $0.rssi > $1.rssi }
+    }
+}
