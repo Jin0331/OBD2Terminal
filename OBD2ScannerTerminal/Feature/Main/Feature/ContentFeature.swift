@@ -10,11 +10,15 @@ import ComposableArchitecture
 
 @Reducer
 struct ContentFeature {
+    
+    let obdService = OBDService(connectionType: .bluetooth)
+    
     @ObservableState
     struct State : Equatable {
         let id = UUID()
         var bluetoothItemList : BluetoothItemList = .init()
         var bluetoothConnect : Bool = false
+        var userCommand : String = .init()
         
         var popupPresent : PopupPresent?
     }
@@ -37,6 +41,7 @@ struct ContentFeature {
         case bluetoothConnect(BluetoothItem)
         case bluetoothDisconnect
         case bluetoothRegistration
+        case sendMessage
     }
     
     enum ViewTransition {
@@ -53,7 +58,7 @@ struct ContentFeature {
 
     }
     
-    @Dependency(\.obd2Gateway) var obd2Gateway
+//    @Dependency(\.obd2Gateway) var obd2Gateway
     
     var body : some ReducerOf<Self> {
         
@@ -63,7 +68,7 @@ struct ContentFeature {
             switch action {
             
             case .viewTransition(.onAppear):
-                obd2Gateway.setGateway()
+//                obd2Gateway.setGateway()
                 
                 return .run { send in
                     await send(.provider(.registerPublisher))
@@ -76,11 +81,26 @@ struct ContentFeature {
             case .buttonTapped(.bluetoothRegistration):
                 state.popupPresent = .bluetoothRegistration
                 
-            case .buttonTapped(.bluetoothScanStart):                
-                obd2Gateway.scanBluetooth()
+            case .buttonTapped(.bluetoothScanStart):
+                return .run { send in
+                    do {
+                        try await obdService.startScan()
+                    } catch(let error) {
+                        Logger.error(error)
+                    }
+                }
+                
+            case let .buttonTapped(.bluetoothConnect(item)):
+                Logger.debug("item: \(item)")
+//                obd2Gateway.connect(address: item.address)
+                
+            case .buttonTapped(.sendMessage):
+                Logger.debug("sendMessage: \(state.userCommand)")
+//                obd2Gateway.sendMessager(message: state.userCommand)
                 
             case .provider(.registerPublisher):
-                return .merge(registerPublisher())
+//                return .merge(registerPublisher())
+                break
                 
             case let .provider(.onDeviceFoundProperty(deviceList)):
                 state.bluetoothItemList = deviceList.toBluetoothItemList()
@@ -94,20 +114,20 @@ struct ContentFeature {
 }
 
 extension ContentFeature {
-    private func registerPublisher() -> [Effect<ContentFeature.Action>] {
-        var effects : [Effect<ContentFeature.Action>] = .init()
-        
-        effects.append(Effect<ContentFeature.Action>
-            .publisher {
-                obd2Gateway.onDeviceFoundProperty
-                    .map { deviceList in
-                        Action.provider(.onDeviceFoundProperty(deviceList))
-                    }
-            }
-        )
-        
-        return effects
-    }
+//    private func registerPublisher() -> [Effect<ContentFeature.Action>] {
+//        var effects : [Effect<ContentFeature.Action>] = .init()
+//        
+//        effects.append(Effect<ContentFeature.Action>
+//            .publisher {
+//                obd2Gateway.onDeviceFoundProperty
+//                    .map { deviceList in
+//                        Action.provider(.onDeviceFoundProperty(deviceList))
+//                    }
+//            }
+//        )
+//        
+//        return effects
+//    }
 }
 
 

@@ -27,6 +27,21 @@ struct ContentView: View {
                             }
                         }
                 }
+                
+                HStack {
+                    TextField("Type OBD2 Command", text: $store.userCommand)
+                        .normalTextFieldModifier(height: 45)
+                    
+                    Text("Send")
+                        .font(.system(size: 15, weight: .bold))
+                        .frame(width: 50, height: 45)
+                        .foregroundStyle(Color.init(hex: ColorSystem.white.rawValue))
+                        .background(Color.init(hex: ColorSystem.green5ea504.rawValue))
+                        .clipShape(RoundedRectangle(cornerRadius: 4))
+                        .asButton {
+                            store.send(.buttonTapped(.sendMessage))
+                        }
+                }
             }
             .padding()
             .onAppear {
@@ -36,7 +51,8 @@ struct ContentView: View {
                 switch popup {
                 case .bluetoothRegistration:
                     OBD2ConnectPopupView(bluetoothItemList: store.bluetoothItemList) { item in
-                        Logger.debug(item)
+                        Logger.debug("item: \(item)")
+                        store.send(.buttonTapped(.bluetoothConnect(item)))
                     } searchAction: {
                         store.send(.buttonTapped(.bluetoothScanStart))
                     } cancleAction: {
