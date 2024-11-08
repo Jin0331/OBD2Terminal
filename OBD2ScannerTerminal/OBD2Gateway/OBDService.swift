@@ -5,20 +5,24 @@
 //  Created by Namuplanet on 11/7/24.
 //
 
+import SwiftUI
 import Combine
 import CoreBluetooth
 import Foundation
+import ComposableArchitecture
 
-final class OBDService {
+final class OBDService : ObservableObject {
+    static let shared = OBDService()
     @Published public  var connectionType: ConnectionType = .bluetooth
+    @Published var btList: BluetoothItemList = .init()
     var pidList: [OBDCommand] = []
     
     private var elm327: ELM327
     private var bleManager : BLEManager
     private var cancellables = Set<AnyCancellable>()
     
-    /// Provider 전달용
-    var scanDelegate: BluetoothScanEventDelegate?
+    /// Sending Data
+    let onDeviceFoundProperty: PassthroughSubject<BluetoothDeviceList, Never> = .init()
     
     init(connectionType: ConnectionType = .bluetooth) {
         self.connectionType = connectionType
@@ -241,17 +245,39 @@ final class OBDService {
 //MARK: - BluetoothScanEventDelegate
 extension OBDService :BluetoothScanEventDelegate {
     func onDiscoveryStarted() {
-        Logger.debug("onDiscoveryStarted")
-        scanDelegate?.onDiscoveryStarted()
+        
     }
     
     func onDiscoveryFinised() {
-        Logger.debug("onDiscoveryFinished")
-        scanDelegate?.onDiscoveryFinised()
+        
     }
     
     func onDeviceFound(device: BluetoothDeviceList) {
         Logger.debug("Found device: \(device)")
-        scanDelegate?.onDeviceFound(device: device)
+        addBTList(device)
+        onDeviceFoundProperty.send(device)
+    }
+}
+
+extension OBDService {
+    /// Adding Bluetooth Device
+    func addBTList(_ addList : BluetoothDeviceList) {
+        btList = addList.map { BluetoothItem(name: $0.name, address: $0.address, rssi: $0.rssi) }
+    }
+    
+    /// Removing Bluetooth Device
+    func delBTList(at indexPath: IndexPath) {
+        btList.remove(at: indexPath.row)
+    }
+}
+
+private enum OBDServiceKey : DependencyKey {
+    static var liveValue: OBDService = OBDService()
+}
+
+extension DependencyValues {
+    var obdService : OBDService {
+        get { self[OBDServiceKey.self] }
+        set { self[OBDServiceKey.self] = newValue}
     }
 }

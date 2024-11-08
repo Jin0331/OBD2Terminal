@@ -10,9 +10,6 @@ import ComposableArchitecture
 
 @Reducer
 struct ContentFeature {
-    
-    let obdService = OBDService(connectionType: .bluetooth)
-    
     @ObservableState
     struct State : Equatable {
         let id = UUID()
@@ -58,7 +55,7 @@ struct ContentFeature {
 
     }
     
-//    @Dependency(\.obd2Gateway) var obd2Gateway
+    @Dependency(\.obdService) var obdService
     
     var body : some ReducerOf<Self> {
         
@@ -68,7 +65,6 @@ struct ContentFeature {
             switch action {
             
             case .viewTransition(.onAppear):
-//                obd2Gateway.setGateway()
                 
                 return .run { send in
                     await send(.provider(.registerPublisher))
@@ -92,17 +88,20 @@ struct ContentFeature {
                 
             case let .buttonTapped(.bluetoothConnect(item)):
                 Logger.debug("item: \(item)")
-//                obd2Gateway.connect(address: item.address)
+                
+                return .run { send in
+                    let obdInfo = try await obdService.startConnection(address: item.address)
+                }
                 
             case .buttonTapped(.sendMessage):
                 Logger.debug("sendMessage: \(state.userCommand)")
 //                obd2Gateway.sendMessager(message: state.userCommand)
                 
             case .provider(.registerPublisher):
-//                return .merge(registerPublisher())
-                break
+                return .merge(registerPublisher())
                 
             case let .provider(.onDeviceFoundProperty(deviceList)):
+                Logger.debug("deviceList: \(deviceList)")
                 state.bluetoothItemList = deviceList.toBluetoothItemList()
                 
             default :
@@ -114,20 +113,20 @@ struct ContentFeature {
 }
 
 extension ContentFeature {
-//    private func registerPublisher() -> [Effect<ContentFeature.Action>] {
-//        var effects : [Effect<ContentFeature.Action>] = .init()
-//        
-//        effects.append(Effect<ContentFeature.Action>
-//            .publisher {
-//                obd2Gateway.onDeviceFoundProperty
-//                    .map { deviceList in
-//                        Action.provider(.onDeviceFoundProperty(deviceList))
-//                    }
-//            }
-//        )
-//        
-//        return effects
-//    }
+    private func registerPublisher() -> [Effect<ContentFeature.Action>] {
+        var effects : [Effect<ContentFeature.Action>] = .init()
+        
+        effects.append(Effect<ContentFeature.Action>
+            .publisher {
+                obdService.onDeviceFoundProperty
+                    .map { deviceList in
+                        Action.provider(.onDeviceFoundProperty(deviceList))
+                    }
+            }
+        )
+        
+        return effects
+    }
 }
 
 

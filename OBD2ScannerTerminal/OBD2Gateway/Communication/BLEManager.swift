@@ -107,8 +107,6 @@ final class BLEManager: NSObject, CommProtocol {
                 deviceListWithPublished.append(newDevice)
             }
             
-            Logger.info(">>> Found Bluetooth : \(deviceListWithPublished)")
-            
             /// 연결가능한 OBD2 발견할 때 마다, 해당 Array update
             if peripheral.state == .disconnected {
                 self.connectedPeripheral = peripheral
