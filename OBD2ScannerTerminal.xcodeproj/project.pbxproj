@@ -16,9 +16,22 @@
 		6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OBD2ScannerTerminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 6BB97D382CD8911300CA6407 /* OBD2ScannerTerminal */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6BB97D3B2CD8911300CA6407 /* OBD2ScannerTerminal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */,
+			);
 			path = OBD2ScannerTerminal;
 			sourceTree = "<group>";
 		};
@@ -272,6 +285,7 @@
 				DEVELOPMENT_TEAM = SUZFV58S8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -307,6 +321,7 @@
 				DEVELOPMENT_TEAM = SUZFV58S8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
