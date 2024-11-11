@@ -41,6 +41,7 @@ struct ContentFeature {
         case bluetoothDisconnect
         case bluetoothRegistration
         case sendMessage
+        case supportedPIDs
     }
     
     enum ViewTransition {
@@ -56,6 +57,7 @@ struct ContentFeature {
         case onDisConnectDeviceProperty(BluetoothDevice)
         
         case requestPID
+        case supportedPID(OBDInfo)
     }
     
     enum AnyAction {
@@ -99,7 +101,7 @@ struct ContentFeature {
                 
                 return .run { send in
                     let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
-                    Logger.info("OBDInfo: \(obdInfo)")
+                    await send(.provider(.supportedPID(obdInfo)))
                 }
                 
             case .buttonTapped(.bluetoothDisconnect):
@@ -118,15 +120,20 @@ struct ContentFeature {
                 }
                 .throttle(id: ID.throttle, for: 1.2, scheduler: DispatchQueue.main, latest: true)
                 
+            case .buttonTapped(.supportedPIDs):
+                Logger.debug(state.obdInfo.supportedPIDsToString)
+                
             case .provider(.requestPID):
                 return .run { send in
                     do {
-                        let response = try await obdService.requestPIDs([.mode1(.intakeTemp)], unit: .metric)
-                        Logger.debug("PIds response: \(response)")
+                        try await obdService.requestPIDs([.mode1(.intakeTemp)], unit: .metric)
                     } catch { }
                     
                     await send(.anyAction(.addLogSeperate))
                 }
+                
+            case let .provider(.supportedPID(OBDInfo)):
+                state.obdInfo = OBDInfo
                 
             case .provider(.registerPublisher):
                 return .merge(registerPublisher())

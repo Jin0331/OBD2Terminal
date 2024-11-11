@@ -22,6 +22,13 @@ struct ContentView: View {
                             store.send(.anyAction(.logClear))
                         }
                     Spacer()
+                    
+                    Text("Supported\nPIDs")
+                        .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
+                            store.send(.buttonTapped(.supportedPIDs))
+                        }
+                        .disabled(!store.bluetoothConnect)
+                    
                     Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
                         .resizable()
                         .frame(width: 55, height: 55)
