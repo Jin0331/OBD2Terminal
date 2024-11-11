@@ -57,12 +57,12 @@ struct OBD2ConnectPopupView: View {
             }
             
             HStack {
-                Text("취소")
+                Text("Cancle")
                     .textTobuttonModifier(fontSize: 15, width: 130, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.gray6e7f8d.rawValue) {
                         cancleAction()
                     }
                 
-                Text("검색")
+                Text("Search")
                     .textTobuttonModifier(fontSize: 15, width: 130, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.green5ea504.rawValue) {
                         searchAction()
                     }

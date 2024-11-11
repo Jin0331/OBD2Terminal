@@ -122,6 +122,7 @@ struct ContentFeature {
                 
             case .buttonTapped(.supportedPIDs):
                 Logger.debug(state.obdInfo.supportedPIDsToString)
+                state.popupPresent = .supportedPIDsCheck
                 
             case .provider(.requestPID):
                 return .run { send in
@@ -222,6 +223,7 @@ extension ContentFeature {
 extension ContentFeature {
     enum PopupPresent {
         case bluetoothRegistration
+        case supportedPIDsCheck
     }
     
     enum ID: Hashable {

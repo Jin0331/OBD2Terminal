@@ -98,25 +98,37 @@ struct ContentView: View {
                     } cancleAction: {
                         store.send(.viewTransition(.popupDismiss))
                     }
-
+                case .supportedPIDsCheck:
+                    OBD2SupportedPopupView(supportedOBD2Commands: store.obdInfo.supportedPIDsToString)
                 }
             } customize: {
-                $0
-                    .isOpaque(true)
-                    .closeOnTap(false)
-                    .closeOnTapOutside(false)
-                    .dragToDismiss(false)
-                    .backgroundView {
-                        PopupBackgroundView(value: 0.4)
-                    }
+                if let popup = store.popupPresent, popup == .bluetoothRegistration {
+                    $0
+                        .isOpaque(true)
+                        .closeOnTap(false)
+                        .closeOnTapOutside(false)
+                        .dragToDismiss(false)
+                        .backgroundView {
+                            PopupBackgroundView(value: 0.4)
+                        }
+                } else {
+                    $0
+                        .isOpaque(true)
+                        .closeOnTap(false)
+                        .closeOnTapOutside(true)
+                        .dragToDismiss(false)
+                        .backgroundView {
+                            PopupBackgroundView(value: 0.4)
+                        }
+                }
             }
-
+            
         }
     }
 }
 
-#Preview {
-    ContentView(store: Store(initialState: ContentFeature.State(), reducer: {
-        ContentFeature()
-    }))
-}
+//#Preview {
+//    ContentView(store: Store(initialState: ContentFeature.State(), reducer: {
+//        ContentFeature()
+//    }))
+//}

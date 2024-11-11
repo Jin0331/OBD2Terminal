@@ -17,16 +17,16 @@ struct OBDInfo: Codable, Hashable {
     public var obdProtocol: PROTOCOL?
     public var ecuMap: [UInt8: ECUID]?
     
-    var supportedPIDsToString : String {
-        guard let supportedPIDs else { return "" }
+    var supportedPIDsToString : [OBDCommand] {
+        guard let supportedPIDs else { return .init() }
         
         let orderedPIDs = supportedPIDs.sorted { $0.properties.command < $1.properties.command }
         
-        let res = orderedPIDs.map { obdCommand in
-            return "\(obdCommand.properties.command) - \(obdCommand.properties.description)"
-        }
-        
+//        let res = orderedPIDs.map { obdCommand in
+//            return "\(obdCommand.properties.command) - \(obdCommand.properties.description)"
+//        }
+//        
                 
-        return res.joined(separator: "\n")
+        return orderedPIDs
     }
 }
