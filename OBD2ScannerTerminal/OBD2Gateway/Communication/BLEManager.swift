@@ -296,6 +296,7 @@ final class BLEManager: NSObject, CommProtocol {
     @discardableResult
     func sendCommand(_ command: String, retries: Int = 3) async throws -> [String] {
         guard sendMessageCompletion == nil else {
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.sendingMessagesInProgress)")
             throw BLEManagerError.sendingMessagesInProgress
         }
         
@@ -304,6 +305,7 @@ final class BLEManager: NSObject, CommProtocol {
         
         guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic, let data = "\(command)\r".data(using: .ascii) else {
             Logger.error("Error: Missing peripheral or ecu characteristic.")
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.missingPeripheralOrCharacteristic)")
             throw BLEManagerError.missingPeripheralOrCharacteristic
         }
         
@@ -381,6 +383,7 @@ final class BLEManager: NSObject, CommProtocol {
                 if self.foundPeripheralCompletion != nil {
                     self.foundPeripheralCompletion?(nil, BLEManagerError.scanTimeout)
                 }
+                self.obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.timeout)")
                 throw BLEManagerError.timeout
             }
             // First finished child task wins, cancel the other task.
