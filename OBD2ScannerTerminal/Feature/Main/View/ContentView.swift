@@ -24,7 +24,7 @@ struct ContentView: View {
                     Spacer()
                     Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
                         .resizable()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 50, height: 50)
                         .asButton {
                             if store.bluetoothConnect {
                                 store.send(.buttonTapped(.bluetoothDisconnect))
@@ -47,9 +47,10 @@ struct ContentView: View {
                             }
                         }
                         .onChange(of: store.obdLog) { _ in
-                            // 새 로그가 추가되면 마지막 항목으로 스크롤
                             if let lastLogIndex = store.obdLog.indices.last {
-                                scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                                DispatchQueue.main.async {
+                                    scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                                }
                             }
                         }
                     }
@@ -73,6 +74,7 @@ struct ContentView: View {
                         }
                 }
             }
+            .animation(.easeIn(duration: 0.5), value: store.bluetoothConnect)
             .padding()
             .onAppear {
                 store.send(.viewTransition(.onAppear))

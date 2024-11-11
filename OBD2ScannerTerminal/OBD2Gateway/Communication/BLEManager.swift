@@ -138,17 +138,11 @@ final class BLEManager: NSObject, CommProtocol {
         let address = peripheral.identifier.uuidString
         let device = BluetoothDevice(name: name!, address: address, rssi: 0, lastSeen: Date())
         
-        guard name == "Z-CAR" else {
-            // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
-//            connectionDelegate?.onConnectFailedDevice(device: device)
-            return
-        }
         
         // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
-//        connectionDelegate?.onConnectingDevice(device: device)
+        obdConnectionDelegate?.onConnectingDevice(device: device)
         
         // 연결 실패를 대비하여 현재 연결 중인 주변 기기를 저장합니다.
-//        pendingPeripheral = peripheral
         centralManager.connect(peripheral, options: nil)
     }
     
@@ -157,6 +151,8 @@ final class BLEManager: NSObject, CommProtocol {
         connectedPeripheral = peripheral
         connectedPeripheral?.delegate = self
         connectedPeripheral?.discoverServices(Self.services)
+        
+        obdConnectionDelegate?.onConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: peripheral.rssi?.intValue ?? 0, lastSeen: Date()))
     }
     
     func scanForPeripheralAsync(_ timeout: TimeInterval) async throws -> CBPeripheral? {
@@ -247,19 +243,21 @@ final class BLEManager: NSObject, CommProtocol {
     func didFailToConnect(_: CBCentralManager, peripheral: CBPeripheral, error _: Error?) {
         Logger.error("Failed to connect to peripheral: \(peripheral.name ?? "Unnamed")")
         resetConfigure()
+        obdConnectionDelegate?.onConnectFailedDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func didDisconnect(_: CBCentralManager, peripheral: CBPeripheral, error _: Error?) {
         Logger.info("Disconnected from peripheral: \(peripheral.name ?? "Unnamed")")
         resetConfigure()
+        obdConnectionDelegate?.onDisConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func willRestoreState(_: CBCentralManager, dict: [String: Any]) {
-        if let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral], let peripheral = peripherals.first {
-            Logger.debug("Restoring peripheral: \(peripherals[0].name ?? "Unnamed")")
-            connectedPeripheral = peripheral
-            connectedPeripheral?.delegate = self
-        }
+//        if let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral], let peripheral = peripherals.first {
+//            Logger.debug("Restoring peripheral: \(peripherals[0].name ?? "Unnamed")")
+//            connectedPeripheral = peripheral
+//            connectedPeripheral?.delegate = self
+//        }
     }
     
     func connectionEventDidOccur(_: CBCentralManager, event: CBConnectionEvent, peripheral _: CBPeripheral) {

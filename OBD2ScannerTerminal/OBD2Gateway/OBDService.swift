@@ -16,6 +16,7 @@ final class OBDService : ObservableObject {
     @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = .init()
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
+    
     var pidList: [OBDCommand] = []
     
     private var elm327: ELM327
@@ -24,6 +25,10 @@ final class OBDService : ObservableObject {
     
     /// Sending Data
     let onDeviceFoundProperty: PassthroughSubject<BluetoothDeviceList, Never> = .init()
+    let onConnectDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
+    let onConnectEcuProperty : PassthroughSubject<Void, Never> = .init()
+    let onConnectFailedDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
+    let onDisConnectDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
     
     init(connectionType: ConnectionType = .bluetooth) {
         self.connectionType = connectionType
@@ -59,6 +64,9 @@ final class OBDService : ObservableObject {
             try await elm327.connectToAdapter(timeout: timeout, address: address)
             try await elm327.adapterInitialization()
             let obdInfo = try await initializeVehicle(preferedProtocol)
+            
+            onConnectEcuProperty.send(())
+            
             return obdInfo
         } catch {
             throw OBDServiceError.adapterConnectionFailed(underlyingError: error) // Propagate
@@ -228,6 +236,9 @@ final class OBDService : ObservableObject {
         bleManager.startScanning()
     }
     
+    func stopScan() async throws {
+        bleManager.stopScanning()
+    }
     
     func getVINInfo(vin: String) async throws -> VINResults {
         let endpoint = "https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvalues/\(vin)?format=json"
@@ -267,8 +278,36 @@ extension OBDService :BluetoothScanEventDelegate {
 
 //MARK: - BluetoothConnectionDelegate
 extension OBDService : BluetoothConnectionEventDelegate {
+    func onConnectingEcu() {
+        
+    }
+    
+    func onConnectEcu() {
+        
+    }
+    
+    func onConnectingDevice(device: BluetoothDevice) {
+        Logger.info("onConnectingDevice \(device)")
+    }
+    
+    func onConnectDevice(device: BluetoothDevice) {
+        Logger.info("onConnectDevice \(device)")
+        onConnectDeviceProperty.send(device)
+    }
+    
+    func onConnectFailedDevice(device: BluetoothDevice) {
+        Logger.error("onConnectFailedDevice \(device)")
+        onConnectFailedDeviceProperty.send(device)
+    }
+    
+    func onDisConnectDevice(device: BluetoothDevice) {
+        Logger.info("onConnectDevice \(device)")
+        onDisConnectDeviceProperty.send(device)
+    }
+    
     func onOBDLog(logs: String) {
         obdLog.append(logs)
+        Logger.debug("obdLog: \(obdLog)")
     }
 }
 

@@ -29,32 +29,32 @@ protocol BluetoothConnectionEventDelegate {
     /// OBD2 Log
     func onOBDLog(logs : String)
     
-//    /// ECU 연결 중 이벤트
-//    func onConnectingEcu()
-//    
-//    /// ECU 연결 완료 이벤트
-//    func onConnectEcu()
-//    
+    /// ECU 연결 중 이벤트
+    func onConnectingEcu()
+    
+    /// ECU 연결 완료 이벤트
+    func onConnectEcu()
+    
 //    /// ECU 연결 실패 이벤트
 //    func onFailedEcu()
 //    
-//    /// 블루투스 연결 중 이벤트
-//    ///
-//    /// - Parameters:
-//    ///   - device: 대상 블루투스 장치 정보
-//    func onConnectingDevice(device: BluetoothDevice)
-//    
-//    /// 블루투스 연결 완료 이벤트
-//    ///
-//    /// - Parameters:
-//    ///   - device: 대상 블루투스 장치 정보
-//    func onConnectDevice(device: BluetoothDevice)
-//    
-//    /// 블루투스 연결 실패 이벤트
-//    ///
-//    /// - Parameters:
-//    ///   - device: 대상 블루투스 장치 정보
-//    func onConnectFailedDevice(device: BluetoothDevice)
+    /// 블루투스 연결 중 이벤트
+    ///
+    /// - Parameters:
+    ///   - device: 대상 블루투스 장치 정보
+    func onConnectingDevice(device: BluetoothDevice)
+    
+    /// 블루투스 연결 완료 이벤트
+    ///
+    /// - Parameters:
+    ///   - device: 대상 블루투스 장치 정보
+    func onConnectDevice(device: BluetoothDevice)
+    
+    /// 블루투스 연결 실패 이벤트
+    ///
+    /// - Parameters:
+    ///   - device: 대상 블루투스 장치 정보
+    func onConnectFailedDevice(device: BluetoothDevice)
 //
 //    /// 블루투스 자동 연결 실패 이벤트
 //    func onAutoConnectFailedDevice()
@@ -65,9 +65,9 @@ protocol BluetoothConnectionEventDelegate {
 //    /// 블루투스 에러 관련
 //    func onDeviceError()
 //    
-//    /// 블루투스 연결 종료 이벤트
-//    ///
-//    /// - Parameters:
-//    ///   - device: 대상 블루투스 장치 정보
-//    func onDisConnectDevice(device: BluetoothDevice)
+    /// 블루투스 연결 종료 이벤트
+    ///
+    /// - Parameters:
+    ///   - device: 대상 블루투스 장치 정보
+    func onDisConnectDevice(device: BluetoothDevice)
 }

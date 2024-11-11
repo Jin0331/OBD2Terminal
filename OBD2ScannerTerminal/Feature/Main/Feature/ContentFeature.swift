@@ -16,6 +16,7 @@ struct ContentFeature {
         var bluetoothItemList : BluetoothItemList = .init()
         var bluetoothConnect : Bool = false
         var userCommand : String = .init()
+        var obdInfo : OBDInfo = .init()
         @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
         
         var popupPresent : PopupPresent?
@@ -50,10 +51,14 @@ struct ContentFeature {
     enum Provider {
         case registerPublisher
         case onDeviceFoundProperty(BluetoothDeviceList)
+        case onConnectEcuProperty
+        case onConnectFailedDeviceProperty(BluetoothDevice)
+        case onDisConnectDeviceProperty(BluetoothDevice)
     }
     
     enum AnyAction {
         case logClear
+        case addLogSeperate
     }
     
     @Dependency(\.obdService) var obdService
@@ -95,12 +100,22 @@ struct ContentFeature {
                     Logger.info("OBDInfo: \(obdInfo)")
                 }
                 
+            case .buttonTapped(.bluetoothDisconnect):
+                Logger.debug("OBD2 Disconnect")
+                state.bluetoothConnect = false
+                
+                return .run { send in
+                    obdService.stopConnection()
+                }
+                
             case .buttonTapped(.sendMessage):
                 Logger.debug("sendMessage: \(state.userCommand)")
                 
                 return .run { send in
-                    let response = try await obdService.requestPIDs([.mode1(.maf)], unit: .metric)
+                    let response = try await obdService.requestPIDs([.mode1(.fuelLevel)], unit: .metric)
                     Logger.debug("PIds response: \(response)")
+                    
+                    await send(.anyAction(.addLogSeperate))
                 }
                 
             case .provider(.registerPublisher):
@@ -110,8 +125,28 @@ struct ContentFeature {
                 Logger.debug("deviceList: \(deviceList)")
                 state.bluetoothItemList = deviceList.toBluetoothItemList()
                 
+            case .provider(.onConnectEcuProperty):
+                Logger.debug("ECU Connected 🌱")
+                state.obdLog.append("ECU Connected 🌱\n")
+                state.bluetoothConnect = true
+                
+                return .run { send in
+                    try await obdService.stopScan()
+                }
+                
+            case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
+                Logger.debug("OBD2 disconnected ⛑️")
+                state.obdLog.append("OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address) ⛑️")
+                
+                return .run { send in
+                    obdService.stopConnection()
+                }
+                
             case .anyAction(.logClear):
                 state.obdLog = [""]
+                
+            case .anyAction(.addLogSeperate):
+                state.obdLog.append(contentsOf: [""])
             
             default :
                 break
@@ -133,6 +168,34 @@ extension ContentFeature {
                     }
             }
         )
+        
+        effects.append(Effect<ContentFeature.Action>
+            .publisher {
+                obdService.onConnectEcuProperty
+                    .map { device in
+                        Action.provider(.onConnectEcuProperty)
+                    }
+            }
+        )
+        
+        effects.append(Effect<ContentFeature.Action>
+            .publisher {
+                obdService.onDisConnectDeviceProperty
+                    .map { device in
+                        Action.provider(.onDisConnectDeviceProperty(device))
+                    }
+            }
+        )
+        
+        effects.append(Effect<ContentFeature.Action>
+            .publisher {
+                obdService.onConnectFailedDeviceProperty
+                    .map { device in
+                        Action.provider(.onConnectFailedDeviceProperty(device))
+                    }
+            }
+        )
+        
         
         return effects
     }
