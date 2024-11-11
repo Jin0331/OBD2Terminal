@@ -13,7 +13,7 @@ import ComposableArchitecture
 
 final class OBDService : ObservableObject {
     static let shared = OBDService()
-    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
+    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = .init()
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
     var pidList: [OBDCommand] = []

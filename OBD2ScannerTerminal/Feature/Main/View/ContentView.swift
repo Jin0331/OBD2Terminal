@@ -15,10 +15,16 @@ struct ContentView: View {
     
     var body: some View {
         WithPerceptionTracking {
-            VStack {
+            VStack(spacing : 10) {
                 HStack {
+                    Text("Clear")
+                        .textTobuttonModifier(fontSize: 15, width: 60, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.green5ea504.rawValue) {
+                            store.send(.anyAction(.logClear))
+                        }
                     Spacer()
                     Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
+                        .resizable()
+                        .frame(width: 40, height: 40)
                         .asButton {
                             if store.bluetoothConnect {
                                 store.send(.buttonTapped(.bluetoothDisconnect))

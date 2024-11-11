@@ -346,12 +346,12 @@ final class BLEManager: NSObject, CommProtocol {
             // remove the last line
             lines.removeLast()
             
+            obdConnectionDelegate?.onOBDLog(logs: "Response: \(lines)")
+            
             if sendMessageCompletion != nil {
                 if lines[0].uppercased().contains("NO DATA") {
-                    obdConnectionDelegate?.onOBDLog(logs: "Response: \(BLEManagerError.noData.description)")
                     sendMessageCompletion?(nil, BLEManagerError.noData)
                 } else {
-                    obdConnectionDelegate?.onOBDLog(logs: "Response: \(lines)")
                     sendMessageCompletion?(lines, nil)
                 }
             }

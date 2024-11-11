@@ -16,7 +16,7 @@ struct ContentFeature {
         var bluetoothItemList : BluetoothItemList = .init()
         var bluetoothConnect : Bool = false
         var userCommand : String = .init()
-        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = [""]
+        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
         
         var popupPresent : PopupPresent?
     }
@@ -53,7 +53,7 @@ struct ContentFeature {
     }
     
     enum AnyAction {
-
+        case logClear
     }
     
     @Dependency(\.obdService) var obdService
@@ -110,6 +110,9 @@ struct ContentFeature {
                 Logger.debug("deviceList: \(deviceList)")
                 state.bluetoothItemList = deviceList.toBluetoothItemList()
                 
+            case .anyAction(.logClear):
+                state.obdLog = [""]
+            
             default :
                 break
             }
