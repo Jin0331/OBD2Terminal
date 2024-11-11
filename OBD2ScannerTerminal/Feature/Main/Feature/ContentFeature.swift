@@ -16,6 +16,7 @@ struct ContentFeature {
         var bluetoothItemList : BluetoothItemList = .init()
         var bluetoothConnect : Bool = false
         var userCommand : String = .init()
+        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = [""]
         
         var popupPresent : PopupPresent?
     }
@@ -90,12 +91,17 @@ struct ContentFeature {
                 Logger.debug("item: \(item)")
                 
                 return .run { send in
-                    let obdInfo = try await obdService.startConnection(address: item.address)
+                    let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
+                    Logger.info("OBDInfo: \(obdInfo)")
                 }
                 
             case .buttonTapped(.sendMessage):
                 Logger.debug("sendMessage: \(state.userCommand)")
-//                obd2Gateway.sendMessager(message: state.userCommand)
+                
+                return .run { send in
+                    let response = try await obdService.requestPIDs([.mode1(.maf)], unit: .metric)
+                    Logger.debug("PIds response: \(response)")
+                }
                 
             case .provider(.registerPublisher):
                 return .merge(registerPublisher())

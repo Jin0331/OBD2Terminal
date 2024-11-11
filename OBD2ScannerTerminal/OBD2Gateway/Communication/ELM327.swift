@@ -11,6 +11,7 @@ import CoreBluetooth
 
 final class ELM327 {
     var canProtocol: CANProtocol?
+    var obdConnectionDelegate: BluetoothConnectionEventDelegate?
     private var comm: CommProtocol
     
     private var cancellables = Set<AnyCancellable>()
@@ -69,6 +70,7 @@ final class ELM327 {
     /// - Throws: `ELM327Error` if detection fails.
     private func detectProtocol(preferredProtocol: PROTOCOL? = nil) async throws -> PROTOCOL {
         Logger.info("Starting protocol detection...")
+        obdConnectionDelegate?.onOBDLog(logs: "Starting protocol detection...")
         
         if let protocolToTest = preferredProtocol {
             Logger.info("Attempting preferred protocol: \(protocolToTest.description)")
@@ -76,6 +78,7 @@ final class ELM327 {
                 return protocolToTest
             } else {
                 Logger.warning("Preferred protocol \(protocolToTest.description) failed. Falling back to automatic detection.")
+                obdConnectionDelegate?.onOBDLog(logs: "Preferred protocol \(protocolToTest.description) failed. Falling back to automatic detection.")
             }
         } else {
             do {
@@ -93,9 +96,9 @@ final class ELM327 {
     /// - Returns: The detected protocol, or nil if none could be found.
     /// - Throws: Various setup-related errors.
     private func detectProtocolAutomatically() async throws -> PROTOCOL {
-        _ = try await okResponse("ATSP0")
+        try await okResponse("ATSP0")
         try? await Task.sleep(nanoseconds: 1_000_000_000)
-        _ = try await sendCommand("0100")
+        try await sendCommand("0100")
 
         let obdProtocolNumber = try await sendCommand("ATDPN")
 
@@ -159,6 +162,7 @@ final class ELM327 {
     func adapterInitialization() async throws {
         /// [.ATZ, .ATD, .ATL0, .ATE0, .ATH1, .ATAT1, .ATRV, .ATDPN]
         Logger.info("Initializing ELM327 adapter...")
+        obdConnectionDelegate?.onOBDLog(logs: "Initializing ELM327 adapter...")
             do {
                 try await sendCommand("ATZ") // Reset adapter
                 try await okResponse("ATE0") // Echo off
@@ -167,6 +171,7 @@ final class ELM327 {
                 try await okResponse("ATH1") // Headers off
                 try await okResponse("ATSP0") // Set protocol to automatic
                 Logger.info("ELM327 adapter initialized successfully.")
+                obdConnectionDelegate?.onOBDLog(logs: "ELM327 adapter initialized successfully.")
             } catch {
                 Logger.error("Adapter initialization failed: \(error.localizedDescription)")
                 throw ELM327Error.adapterInitializationFailed

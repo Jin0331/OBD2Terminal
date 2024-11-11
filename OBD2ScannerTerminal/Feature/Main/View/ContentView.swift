@@ -28,6 +28,30 @@ struct ContentView: View {
                         }
                 }
                 
+                ScrollViewReader { scrollViewProxy in
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(store.obdLog.indices, id: \.self) { index in
+                                Text(store.obdLog[index])
+                                    .font(.system(size: 15, weight: .regular, design: .monospaced))
+                                    .padding(.horizontal)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .background(index % 2 == 0 ? Color(.systemGray6) : Color(.white)) // 배경색 번갈아 가며 설정
+                                    .cornerRadius(4)
+                            }
+                        }
+                        .onChange(of: store.obdLog) { _ in
+                            // 새 로그가 추가되면 마지막 항목으로 스크롤
+                            if let lastLogIndex = store.obdLog.indices.last {
+                                scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                            }
+                        }
+                    }
+                }
+                .background(Color(.systemGray5))
+                .cornerRadius(4)
+                
+                
                 HStack {
                     TextField("Type OBD2 Command", text: $store.userCommand)
                         .normalTextFieldModifier(height: 45)

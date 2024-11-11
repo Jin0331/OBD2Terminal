@@ -13,6 +13,7 @@ import ComposableArchitecture
 
 final class OBDService : ObservableObject {
     static let shared = OBDService()
+    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
     var pidList: [OBDCommand] = []
@@ -38,6 +39,9 @@ final class OBDService : ObservableObject {
             
         /// EventDelegate 소유
         bleManager.obdScanDelegate = self
+        
+        bleManager.obdConnectionDelegate = self
+        elm327.obdConnectionDelegate = self
     }
     
     /// Initiates the connection process to the OBD2 adapter and vehicle.
@@ -129,6 +133,8 @@ final class OBDService : ObservableObject {
     /// - Throws: Errors that might occur during the request process.
     func requestPIDs(_ commands: [OBDCommand], unit: MeasurementUnit) async throws -> [OBDCommand: MeasurementResult] {
         let response = try await sendCommandInternal("01" + commands.compactMap { $0.properties.command.dropFirst(2) }.joined(), retries: 10)
+        
+        Logger.debug("requestPIDs Response: \(response)")
         
         guard let responseData = try elm327.canProtocol?.parse(response).first?.data else { return [:] }
         
@@ -256,6 +262,13 @@ extension OBDService :BluetoothScanEventDelegate {
         Logger.debug("Found device: \(device)")
         addBTList(device)
         onDeviceFoundProperty.send(device)
+    }
+}
+
+//MARK: - BluetoothConnectionDelegate
+extension OBDService : BluetoothConnectionEventDelegate {
+    func onOBDLog(logs: String) {
+        obdLog.append(logs)
     }
 }
 

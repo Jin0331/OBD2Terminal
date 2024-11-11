@@ -38,10 +38,11 @@ final class BLEManager: NSObject, CommProtocol {
     private var connectionCompletion: ((CBPeripheral?, Error?) -> Void)?
     
     var obdScanDelegate: BluetoothScanEventDelegate?
+    var obdConnectionDelegate: BluetoothConnectionEventDelegate?
     
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: .main, options: [CBCentralManagerOptionShowPowerAlertKey: true, CBCentralManagerOptionRestoreIdentifierKey: BLEManager.RestoreIdentifierKey])
+        centralManager = CBCentralManager(delegate: self, queue: .global(qos: .userInteractive))
     }
     
     /// Bluetooth Connect 관련
@@ -75,7 +76,6 @@ final class BLEManager: NSObject, CommProtocol {
         switch central.state {
         case .poweredOn:
             Logger.info(">>> Bluetooth is powered on.")
-            startScanning(Self.services)
         case .poweredOff:
             Logger.warning("Bluetooth is currently powered off.")
             connectedPeripheral = nil
@@ -123,6 +123,7 @@ final class BLEManager: NSObject, CommProtocol {
             return
         }
         Logger.info("Bluetooth address: \(address)")
+        obdConnectionDelegate?.onOBDLog(logs: "Connecting Bluetooth for OBD Address: \(address)")
         if let peripheral = deviceList[address]{
             connect(peripheral)
         } else {
@@ -299,19 +300,20 @@ final class BLEManager: NSObject, CommProtocol {
         }
         
         Logger.info("Sending command: \(command)")
+        obdConnectionDelegate?.onOBDLog(logs: "Sending command: \(command)")
         
         guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic, let data = "\(command)\r".data(using: .ascii) else {
             Logger.error("Error: Missing peripheral or ecu characteristic.")
             throw BLEManagerError.missingPeripheralOrCharacteristic
         }
         
-        return try await Timeout(seconds: 3) {
+        return try await Timeout(seconds: 5) {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
                 // Set up a timeout timer
                 self.sendMessageCompletion = { response, error in
-                    if let response = response {
+                    if let response {
                         continuation.resume(returning: response)
-                    } else if let error = error {
+                    } else if let error {
                         continuation.resume(throwing: error)
                     }
                     self.sendMessageCompletion = nil
@@ -334,6 +336,7 @@ final class BLEManager: NSObject, CommProtocol {
         }
         
         if string.contains(">") {
+            Logger.debug("Response: \(string)")
             var lines = string
                 .components(separatedBy: .newlines)
                 .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
@@ -341,14 +344,12 @@ final class BLEManager: NSObject, CommProtocol {
             // remove the last line
             lines.removeLast()
             
-            #if DEBUG
-            Logger.debug("Response: \(lines)")
-            #endif
-            
             if sendMessageCompletion != nil {
                 if lines[0].uppercased().contains("NO DATA") {
+                    obdConnectionDelegate?.onOBDLog(logs: "Response: \(BLEManagerError.noData.description)")
                     sendMessageCompletion?(nil, BLEManagerError.noData)
                 } else {
+                    obdConnectionDelegate?.onOBDLog(logs: "Response: \(lines)")
                     sendMessageCompletion?(lines, nil)
                 }
             }
@@ -428,7 +429,8 @@ extension BLEManager : CBCentralManagerDelegate {
     }
     
     func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
-        willRestoreState(central, dict: dict)
+        /// 재연결 로직 ,, 추후 수정
+        ///willRestoreState(central, dict: dict)
     }
 }
 
