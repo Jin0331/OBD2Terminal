@@ -16,7 +16,7 @@ struct ContentView: View {
     var body: some View {
         WithPerceptionTracking {
             VStack(spacing : 10) {
-                HStack {
+                HStack(alignment:.center) {
                     Text("Clear")
                         .textTobuttonModifier(fontSize: 15, width: 60, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.green5ea504.rawValue) {
                             store.send(.anyAction(.logClear))
@@ -24,7 +24,7 @@ struct ContentView: View {
                     Spacer()
                     Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
                         .resizable()
-                        .frame(width: 50, height: 50)
+                        .frame(width: 55, height: 55)
                         .asButton {
                             if store.bluetoothConnect {
                                 store.send(.buttonTapped(.bluetoothDisconnect))
@@ -33,6 +33,7 @@ struct ContentView: View {
                             }
                         }
                 }
+                .padding(.bottom, 10)
                 
                 ScrollViewReader { scrollViewProxy in
                     ScrollView {

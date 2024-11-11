@@ -54,6 +54,8 @@ struct ContentFeature {
         case onConnectEcuProperty
         case onConnectFailedDeviceProperty(BluetoothDevice)
         case onDisConnectDeviceProperty(BluetoothDevice)
+        
+        case requestPID
     }
     
     enum AnyAction {
@@ -112,8 +114,16 @@ struct ContentFeature {
                 Logger.debug("sendMessage: \(state.userCommand)")
                 
                 return .run { send in
-                    let response = try await obdService.requestPIDs([.mode1(.fuelLevel)], unit: .metric)
-                    Logger.debug("PIds response: \(response)")
+                    await send(.provider(.requestPID))
+                }
+                .throttle(id: ID.throttle, for: 1.2, scheduler: DispatchQueue.main, latest: true)
+                
+            case .provider(.requestPID):
+                return .run { send in
+                    do {
+                        let response = try await obdService.requestPIDs([.mode1(.intakeTemp)], unit: .metric)
+                        Logger.debug("PIds response: \(response)")
+                    } catch { }
                     
                     await send(.anyAction(.addLogSeperate))
                 }
@@ -205,5 +215,9 @@ extension ContentFeature {
 extension ContentFeature {
     enum PopupPresent {
         case bluetoothRegistration
+    }
+    
+    enum ID: Hashable {
+        case debounce, throttle
     }
 }
