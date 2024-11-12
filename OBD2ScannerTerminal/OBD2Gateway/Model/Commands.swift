@@ -97,7 +97,9 @@ public enum OBDCommand: Codable, Hashable, Comparable {
         case ATZ
         case ATRV
         case ATL0
+        case ATL1
         case ATE0
+        case ATE1
         case ATH1
         case ATH0
         case ATAT1
@@ -403,7 +405,9 @@ extension OBDCommand.General {
         case .ATZ: return CommandProperties("ATZ", "Reset", 5, .none)
         case .ATRV: return CommandProperties("ATRV", "Voltage", 5, .none)
         case .ATL0: return CommandProperties("ATL0", "Linefeeds Off", 5, .none)
+        case .ATL1: return CommandProperties("ATL1", "Linefeeds On", 5, .none)
         case .ATE0: return CommandProperties("ATE0", "Echo Off", 5, .none)
+        case .ATE1: return CommandProperties("ATE0", "Echo On", 5, .none)
         case .ATH1: return CommandProperties("ATH1", "Headers On", 5, .none)
         case .ATH0: return CommandProperties("ATH0", "Headers Off", 5, .none)
         case .ATAT1: return CommandProperties("ATAT1", "Adaptive Timing On", 5, .none)
