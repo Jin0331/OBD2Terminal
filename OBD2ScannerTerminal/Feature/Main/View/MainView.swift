@@ -61,9 +61,7 @@ struct MainView: View {
                             cursorPublisher.send(())
                         }
                         .onReceive(cursorPublisher
-                            .debounce(
-                                for: .seconds(0.1),
-                                scheduler: DispatchQueue.main)) { _ in
+                            .debounce(for: .seconds(0.35), scheduler: DispatchQueue.main)) {
                             if let lastLogIndex = store.obdLog.indices.last {
                                 scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
                             }
