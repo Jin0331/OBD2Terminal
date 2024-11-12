@@ -7,6 +7,7 @@
 
 import Foundation
 import ComposableArchitecture
+import UIKit
 
 @Reducer
 struct MainFeature {
@@ -38,6 +39,10 @@ struct MainFeature {
         case bluetoothRegistration
         case sendMessage
         case supportedPIDs
+        
+        case logClear
+        case logCopy
+        case logShared
     }
     
     enum ViewTransition {
@@ -59,7 +64,6 @@ struct MainFeature {
     }
     
     enum AnyAction {
-        case logClear
         case addLogSeperate
         case addLogRes([OBDCommand : MeasurementResult])
     }
@@ -126,6 +130,19 @@ struct MainFeature {
                 #endif
                 state.supportedPIDsCheckPresnet = true
                 
+            case .buttonTapped(.logClear):
+                state.obdLog = [""]
+                
+            case .buttonTapped(.logCopy):
+                guard !state.obdLog.isEmpty else { return .none }
+
+                if UIPasteboard.general.hasStrings {
+                    UIPasteboard.general.string = state.obdLog.joined(separator: "\n")
+                }
+                
+            case .buttonTapped(.logShared):
+                break
+                
             case .provider(.requestPID):
                 let splitCommand = state.userCommand.split(separator: " ")
                 let commands : [OBDCommand] = splitCommand.map {
@@ -180,10 +197,7 @@ struct MainFeature {
                 return .run { send in
                     obdService.stopConnection()
                 }
-                
-            case .anyAction(.logClear):
-                state.obdLog = [""]
-                
+                                
             case .anyAction(.addLogSeperate):
                 state.obdLog.append(contentsOf: [""])
                 

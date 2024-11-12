@@ -65,13 +65,19 @@ struct MainView: View {
                     }
                     .contextMenu {
                         Button {
-                            store.send(.anyAction(.logClear))
+                            store.send(.buttonTapped(.logClear))
                         } label: {
                             Label("Terminal Clear", systemImage: "eraser")
                         }
                         
                         Button {
-                            store.send(.anyAction(.logClear))
+                            store.send(.buttonTapped(.logCopy))
+                        } label: {
+                            Label("Copy", systemImage: "document.on.document")
+                        }
+                        
+                        Button {
+                            store.send(.buttonTapped(.logShared))
                         } label: {
                             Label("Shared", systemImage: "square.and.arrow.up")
                         }
