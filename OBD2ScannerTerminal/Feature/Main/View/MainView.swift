@@ -104,7 +104,6 @@ struct MainView: View {
             } customize: {
                 if let popup = store.popupPresent, popup == .bluetoothRegistration {
                     $0
-                        .isOpaque(true)
                         .closeOnTap(false)
                         .closeOnTapOutside(false)
                         .dragToDismiss(false)

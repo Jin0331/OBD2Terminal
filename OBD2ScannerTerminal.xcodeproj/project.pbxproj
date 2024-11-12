@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */; };
+		6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */; };
 		6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */; };
 		6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */; };
 		6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97DA62CD9F35A00CA6407 /* PopupView */; };
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */,
 				6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */,
 				6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */,
 				6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */,
@@ -93,6 +95,7 @@
 				6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */,
 				6BB97DA62CD9F35A00CA6407 /* PopupView */,
 				6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */,
+				6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */,
 			);
 			productName = OBD2ScannerTerminal;
 			productReference = 6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */;
@@ -127,6 +130,7 @@
 				6BB97D602CD8AEB400CA6407 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				6BB97DA52CD9F35A00CA6407 /* XCRemoteSwiftPackageReference "PopupView" */,
 				6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */,
+				6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BB97D3A2CD8911300CA6407 /* Products */;
@@ -384,6 +388,14 @@
 				minimumVersion = 0.10.1;
 			};
 		};
+		6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
 		6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -415,6 +427,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */;
 			productName = TCACoordinators;
+		};
+		6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

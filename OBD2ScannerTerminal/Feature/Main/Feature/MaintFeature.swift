@@ -24,17 +24,12 @@ struct MainFeature {
     
     enum Action : BindableAction {
         case binding(BindingAction<State>)
-        case networkResponse(NetworkReponse)
         case buttonTapped(ButtonTapped)
         case viewTransition(ViewTransition)
         case anyAction(AnyAction)
         case provider(Provider)
     }
-    
-    enum NetworkReponse {
-        
-    }
-    
+
     enum ButtonTapped {
         case bluetoothScanStart
         case bluetoothConnect(BluetoothItem)
@@ -47,6 +42,8 @@ struct MainFeature {
     enum ViewTransition {
         case onAppear
         case popupDismiss
+        case loadingOn
+        case loadingOff
     }
 
     enum Provider {
@@ -100,6 +97,7 @@ struct MainFeature {
                 Logger.debug("item: \(item)")
                 
                 return .run { send in
+                    await send(.viewTransition(.loadingOn))
                     let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
                     await send(.provider(.supportedPID(obdInfo)))
                 }
@@ -149,12 +147,13 @@ struct MainFeature {
                 state.bluetoothConnect = true
                 
                 return .run { send in
+                    await send(.viewTransition(.loadingOff))
                     try await obdService.stopScan()
                 }
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
                 Logger.debug("OBD2 disconnected ⛑️")
-                state.obdLog.append("OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address) ⛑️")
+                state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
                     obdService.stopConnection()

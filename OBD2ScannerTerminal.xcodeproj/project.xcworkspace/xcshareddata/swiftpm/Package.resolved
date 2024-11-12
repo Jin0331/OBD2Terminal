@@ -1,6 +1,15 @@
 {
-  "originHash" : "e54760d6596fa7f40bcb587db32fc068d37a35140b5efdc431706a41ba676342",
+  "originHash" : "c51c88ae8198a129422cd3775756f97afe83ab55bbbd3136a228f5061399c148",
   "pins" : [
+    {
+      "identity" : "activityindicatorview",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/exyte/ActivityIndicatorView.git",
+      "state" : {
+        "revision" : "9970fd0bb7a05dad0b6566ae1f56937716686b24",
+        "version" : "1.1.1"
+      }
+    },
     {
       "identity" : "combine-schedulers",
       "kind" : "remoteSourceControl",
@@ -8,6 +17,15 @@
       "state" : {
         "revision" : "9fa31f4403da54855f1e2aeaeff478f4f0e40b13",
         "version" : "1.0.2"
+      }
+    },
+    {
+      "identity" : "flowstacks",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/johnpatrickmorgan/FlowStacks",
+      "state" : {
+        "revision" : "a2b974b81612e1e8ee3ecd757d936a2919527356",
+        "version" : "0.4.1"
       }
     },
     {
@@ -134,6 +152,15 @@
       "state" : {
         "revision" : "8cba041db09596183331d123f337d0eb2e6e8e91",
         "version" : "2.1.1"
+      }
+    },
+    {
+      "identity" : "tcacoordinators",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/johnpatrickmorgan/TCACoordinators.git",
+      "state" : {
+        "revision" : "8d2b3f9bbb5778fc6a20cde98bb45592e4ef0431",
+        "version" : "0.10.1"
       }
     },
     {
