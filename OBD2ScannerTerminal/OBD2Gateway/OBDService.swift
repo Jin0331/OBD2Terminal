@@ -69,6 +69,7 @@ final class OBDService : ObservableObject {
             
             return obdInfo
         } catch {
+            Logger.error(error)
             throw OBDServiceError.adapterConnectionFailed(underlyingError: error) // Propagate
         }
     }
@@ -117,6 +118,7 @@ final class OBDService : ObservableObject {
                             let results = try await self.requestPIDs(pids, unit: unit)
                             promise(.success(results))
                         } catch {
+                            Logger.error(error)
                             promise(.failure(error))
                         }
                     }
@@ -169,6 +171,7 @@ final class OBDService : ObservableObject {
             }
             return command.properties.decode(data: responseData.dropFirst())
         } catch {
+            Logger.error(error)
             throw OBDServiceError.commandFailed(command: command.properties.command, error: error)
         }
     }
@@ -187,6 +190,7 @@ final class OBDService : ObservableObject {
         do {
             return try await elm327.scanForTroubleCodes()
         } catch {
+            Logger.error(error)
             throw OBDServiceError.scanFailed(underlyingError: error)
         }
     }
@@ -198,6 +202,7 @@ final class OBDService : ObservableObject {
         do {
             try await elm327.clearTroubleCodes()
         } catch {
+            Logger.error(error)
             throw OBDServiceError.clearFailed(underlyingError: error)
         }
     }
@@ -209,6 +214,7 @@ final class OBDService : ObservableObject {
         do {
             return try await elm327.getStatus()
         } catch {
+            Logger.error(error)
             throw error
         }
     }
@@ -221,6 +227,7 @@ final class OBDService : ObservableObject {
         do {
             return try await elm327.sendCommand(message, retries: retries)
         } catch {
+            Logger.error(error)
             throw OBDServiceError.commandFailed(command: message, error: error)
         }
     }
@@ -229,6 +236,7 @@ final class OBDService : ObservableObject {
         do {
             try await elm327.connectToAdapter(timeout: 60,address: address)
         } catch {
+            Logger.error(error)
             throw OBDServiceError.adapterConnectionFailed(underlyingError: error)
         }
     }
