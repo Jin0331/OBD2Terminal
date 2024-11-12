@@ -11,9 +11,8 @@ import PopupView
 import Combine
 
 struct MainView: View {
-    
     @State var store : StoreOf<MainFeature>
-    @State var cursorPublisher = PassthroughSubject<Void, Never>()
+    @State private var cursorPublisher = PassthroughSubject<Void, Never>()
     
     var body: some View {
         WithPerceptionTracking {
@@ -24,6 +23,13 @@ struct MainView: View {
                             store.send(.buttonTapped(.supportedPIDs))
                         }
                         .disabled(!store.bluetoothConnect)
+                        
+                    Text("OBD2\nReset")
+                        .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
+                            store.send(.buttonTapped(.obd2Reset))
+                        }
+                        .disabled(!store.bluetoothConnect)
+
                     
                     Spacer()
                     

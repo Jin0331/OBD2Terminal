@@ -39,6 +39,7 @@ struct MainFeature {
         case bluetoothRegistration
         case sendMessage
         case supportedPIDs
+        case obd2Reset
         
         case logClear
         case logCopy
@@ -106,6 +107,17 @@ struct MainFeature {
                     await send(.viewTransition(.loadingOn))
                     try await obdService.stopScan()
                     let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
+                    await send(.provider(.supportedPID(obdInfo)))
+                    try await Task.sleep(for: .seconds(1))
+                    await send(.viewTransition(.loadingOff))
+                }
+                
+            case .buttonTapped(.obd2Reset):
+                Logger.info("OBD2 Reset")
+                
+                return .run { send in
+                    await send(.viewTransition(.loadingOn))
+                    let obdInfo = try await obdService.reConnection()
                     await send(.provider(.supportedPID(obdInfo)))
                 }
                 

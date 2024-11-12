@@ -75,6 +75,23 @@ final class OBDService : ObservableObject {
         }
     }
     
+    /// Re-Initiates the connection process to the OBD2 adapter and vehicle.
+    ///
+    /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).
+    /// - Returns: Information about the connected vehicle (`OBDInfo`).
+    /// - Throws: Errors that might occur during the connection process.
+    func reConnection(preferedProtocol: PROTOCOL? = nil, timeout: TimeInterval = 7) async throws -> OBDInfo {        
+        do {
+            try await elm327.adapterInitialization()
+            let obdInfo = try await initializeVehicle(preferedProtocol)
+            
+            return obdInfo
+        } catch {
+            Logger.error(error)
+            throw OBDServiceError.adapterConnectionFailed(underlyingError: error) // Propagate
+        }
+    }
+    
     /// Initializes communication with the vehicle and retrieves vehicle information.
     ///
     /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).

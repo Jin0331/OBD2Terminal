@@ -43,7 +43,7 @@ struct OBD2ConnectPopupView: View {
                 }
             }
             .listStyle(.plain)
-            .frame(maxWidth: 250, maxHeight: 230)
+            .frame(maxWidth: .infinity, maxHeight: 230)
             .scrollContentBackground(.hidden)
             .background()
             .shadowModifier()
