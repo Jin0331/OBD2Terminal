@@ -613,6 +613,6 @@ extension OBDCommand.Mode6 {
 
 extension OBDCommand {
     static public func from(command: String) -> OBDCommand? {
-        return OBDCommand.allCommands.first(where: { $0.properties.command == command })
+        return OBDCommand.allCommands.first(where: { $0.properties.command == command.uppercased() })
     }
 }
