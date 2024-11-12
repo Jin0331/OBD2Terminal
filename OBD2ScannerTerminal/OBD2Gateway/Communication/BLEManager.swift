@@ -307,7 +307,7 @@ final class BLEManager: NSObject, CommProtocol {
             throw BLEManagerError.missingPeripheralOrCharacteristic
         }
         
-        return try await Timeout(seconds: 5) {
+        return try await Timeout(seconds: 10) {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
                 // Set up a timeout timer
                 self.sendMessageCompletion = { response, error in
