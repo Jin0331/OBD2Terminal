@@ -98,6 +98,7 @@ final class ELM327 {
     /// - Returns: The detected protocol, or nil if none could be found.
     /// - Throws: Various setup-related errors.
     private func detectProtocolAutomatically() async throws -> PROTOCOL {
+        Logger.info("detectProtocolAutomatically")
         try await okResponse("ATSP0")
         try? await Task.sleep(nanoseconds: 1_000_000_000)
         try await sendCommand("0100")

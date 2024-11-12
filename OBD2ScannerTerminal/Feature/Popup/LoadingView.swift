@@ -11,7 +11,7 @@ import ActivityIndicatorView
 
 struct LoadingView: View {
     @Binding var showLoadingIndicator : Bool
-    var loadingType : ActivityIndicatorView.IndicatorType = .scalingDots()
+    var loadingType : ActivityIndicatorView.IndicatorType = .growingCircle
     var value : Double
     var bg : Bool = true
     

@@ -19,7 +19,8 @@ struct MainFeature {
         var obdInfo : OBDInfo = .init()
         @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
         
-        var popupPresent : PopupPresent?
+        var bluetoothConnectPresent : Bool = false
+        var supportedPIDsCheckPresnet : Bool = false
     }
     
     enum Action : BindableAction {
@@ -79,10 +80,10 @@ struct MainFeature {
                 
             case .viewTransition(.popupDismiss):
                 state.bluetoothItemList = .init()
-                state.popupPresent = nil
+                state.bluetoothConnectPresent = false
             
             case .buttonTapped(.bluetoothRegistration):
-                state.popupPresent = .bluetoothRegistration
+                state.bluetoothConnectPresent = true
                 
             case .buttonTapped(.bluetoothScanStart):
                 return .run { send in
@@ -98,6 +99,7 @@ struct MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
+                    try await obdService.stopScan()
                     let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
                     await send(.provider(.supportedPID(obdInfo)))
                 }
@@ -111,8 +113,7 @@ struct MainFeature {
                 }
                 
             case .buttonTapped(.sendMessage):
-                Logger.debug("sendMessage: \(state.userCommand)")
-                
+                Logger.debug("sendMessage: \(state.userCommand)")                
                 return .run { send in
                     await send(.provider(.requestPID))
                 }
@@ -120,7 +121,7 @@ struct MainFeature {
                 
             case .buttonTapped(.supportedPIDs):
                 Logger.debug(state.obdInfo.supportedPIDsToString)
-                state.popupPresent = .supportedPIDsCheck
+                state.supportedPIDsCheckPresnet = true
                 
             case .provider(.requestPID):
                 return .run { send in
@@ -145,6 +146,7 @@ struct MainFeature {
                 Logger.debug("ECU Connected 🌱")
                 state.obdLog.append("ECU Connected 🌱\n")
                 state.bluetoothConnect = true
+                state.bluetoothConnectPresent = false
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOff))

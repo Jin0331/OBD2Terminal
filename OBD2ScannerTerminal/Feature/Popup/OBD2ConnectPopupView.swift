@@ -27,6 +27,9 @@ struct OBD2ConnectPopupView: View {
                     Text(bluetoothItem.name)
                         .fontModifier(fontSize: 16, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
                     
+                    Text(" (\(bluetoothItem.address)) ")
+                        .fontModifier(fontSize: 10, weight: .medium, color: ColorSystem.gray6e7f8d.rawValue)
+                    
                     Image(systemName: "antenna.radiowaves.left.and.right.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)

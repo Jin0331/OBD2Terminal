@@ -8,10 +8,12 @@
 import SwiftUI
 import ComposableArchitecture
 import PopupView
+import Combine
 
 struct MainView: View {
     
     @State var store : StoreOf<MainFeature>
+    @State var cursorPublisher = PassthroughSubject<Void, Never>()
     
     var body: some View {
         WithPerceptionTracking {
@@ -54,19 +56,23 @@ struct MainView: View {
                                     .cornerRadius(4)
                             }
                         }
+                        .animation(.easeIn(duration: 0.2), value: store.obdLog)
                         .onChange(of: store.obdLog) { _ in
+                            cursorPublisher.send(())
+                        }
+                        .onReceive(cursorPublisher
+                            .debounce(
+                                for: .seconds(0.1),
+                                scheduler: DispatchQueue.main)) { _ in
                             if let lastLogIndex = store.obdLog.indices.last {
-                                DispatchQueue.main.async {
-                                    scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
-                                }
+                                scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
                             }
                         }
                     }
                 }
                 .background(Color(.systemGray5))
                 .cornerRadius(4)
-                
-                
+                                
                 HStack {
                     TextField("Type OBD2 Command", text: $store.userCommand)
                         .normalTextFieldModifier(height: 45)
@@ -87,41 +93,36 @@ struct MainView: View {
             .onAppear {
                 store.send(.viewTransition(.onAppear))
             }
-            .popup(item: $store.popupPresent) { popup in
-                switch popup {
-                case .bluetoothRegistration:
-                    OBD2ConnectPopupView(bluetoothItemList: store.bluetoothItemList) { item in
-                        Logger.debug("item: \(item)")
-                        store.send(.buttonTapped(.bluetoothConnect(item)))
-                    } searchAction: {
-                        store.send(.buttonTapped(.bluetoothScanStart))
-                    } cancleAction: {
-                        store.send(.viewTransition(.popupDismiss))
+            .popup(isPresented: $store.bluetoothConnectPresent) {
+                OBD2ConnectPopupView(bluetoothItemList: store.bluetoothItemList) { item in
+                    Logger.debug("item: \(item)")
+                    store.send(.buttonTapped(.bluetoothConnect(item)))
+                } searchAction: {
+                    store.send(.buttonTapped(.bluetoothScanStart))
+                } cancleAction: {
+                    store.send(.viewTransition(.popupDismiss))
+                }
+            } customize : {
+                $0
+                    .closeOnTap(false)
+                    .closeOnTapOutside(false)
+                    .dragToDismiss(false)
+                    .backgroundView {
+                        PopupBackgroundView(value: 0.4)
                     }
-                case .supportedPIDsCheck:
-                    OBD2SupportedPopupView(supportedOBD2Commands: store.obdInfo.supportedPIDsToString)
-                }
-            } customize: {
-                if let popup = store.popupPresent, popup == .bluetoothRegistration {
-                    $0
-                        .closeOnTap(false)
-                        .closeOnTapOutside(false)
-                        .dragToDismiss(false)
-                        .backgroundView {
-                            PopupBackgroundView(value: 0.4)
-                        }
-                } else {
-                    $0
-                        .isOpaque(true)
-                        .closeOnTap(false)
-                        .closeOnTapOutside(true)
-                        .dragToDismiss(false)
-                        .backgroundView {
-                            PopupBackgroundView(value: 0.4)
-                        }
-                }
             }
-            
+            .popup(isPresented: $store.supportedPIDsCheckPresnet) {
+                OBD2SupportedPopupView(supportedOBD2Commands: store.obdInfo.supportedPIDsToString)
+            } customize : {
+                $0
+                    .isOpaque(true)
+                    .closeOnTap(false)
+                    .closeOnTapOutside(true)
+                    .dragToDismiss(false)
+                    .backgroundView {
+                        PopupBackgroundView(value: 0.4)
+                    }
+            }
         }
     }
 }
