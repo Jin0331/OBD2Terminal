@@ -96,18 +96,25 @@ struct MainView: View {
                 }
                                 
                 HStack {
-                    TextField("Type OBD2 Command", text: $store.userCommand)
-                        .normalTextFieldModifier(height: 45)
+                    if store.bluetoothConnect {
+                        TextField("Type OBD2 Command", text: $store.userCommand)
+                            .normalTextFieldModifier(height: 45)
+                    } else {
+                        TextField("Connect the OBD2 scanner using the top button.", text: $store.userCommand)
+                            .normalTextFieldModifier(height: 45, fontSize: 12)
+                            .disabled(true)
+                    }
                     
                     Text("Send")
                         .font(.system(size: 15, weight: .bold))
                         .frame(width: 50, height: 45)
                         .foregroundStyle(Color.init(hex: ColorSystem.white.rawValue))
-                        .background(Color.init(hex: ColorSystem.green5ea504.rawValue))
+                        .background(store.bluetoothConnect ? Color.init(hex: ColorSystem.green5ea504.rawValue) : Color.init(hex: ColorSystem.gray6e7f8d.rawValue))
                         .clipShape(RoundedRectangle(cornerRadius: 4))
                         .asButton {
                             store.send(.buttonTapped(.sendMessage))
                         }
+                        .disabled(!store.bluetoothConnect)
                 }
             }
             .animation(.easeIn(duration: 0.5), value: store.bluetoothConnect)

@@ -161,7 +161,7 @@ struct MainFeature {
                     if let command = OBDCommand.from(command: String($0)) {
                         return command
                     } else {
-                        state.obdLog.append("\($0) is not supported 😭.\n")
+                        state.obdLog.append("Pid[\($0)] is not supported 😭\n")
                         return nil
                     }
                 }
