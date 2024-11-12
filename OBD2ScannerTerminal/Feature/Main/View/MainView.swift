@@ -70,6 +70,9 @@ struct MainView: View {
                 }
                 .background(Color(.systemGray5))
                 .cornerRadius(4)
+                .onTapGesture {
+                    hideKeyboard()
+                }
                                 
                 HStack {
                     TextField("Type OBD2 Command", text: $store.userCommand)
