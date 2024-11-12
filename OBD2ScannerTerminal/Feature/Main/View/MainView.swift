@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainView.swift
 //  OBD2ScannerTerminal
 //
 //  Created by Namuplanet on 11/4/24.
@@ -9,9 +9,9 @@ import SwiftUI
 import ComposableArchitecture
 import PopupView
 
-struct ContentView: View {
+struct MainView: View {
     
-    @State var store : StoreOf<ContentFeature>
+    @State var store : StoreOf<MainFeature>
     
     var body: some View {
         WithPerceptionTracking {

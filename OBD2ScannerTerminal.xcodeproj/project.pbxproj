@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */; };
 		6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */; };
 		6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */; };
 		6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97DA62CD9F35A00CA6407 /* PopupView */; };
@@ -44,6 +45,7 @@
 			files = (
 				6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */,
 				6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */,
+				6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */,
 				6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -90,6 +92,7 @@
 				6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */,
 				6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */,
 				6BB97DA62CD9F35A00CA6407 /* PopupView */,
+				6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */,
 			);
 			productName = OBD2ScannerTerminal;
 			productReference = 6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */;
@@ -123,6 +126,7 @@
 				6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				6BB97D602CD8AEB400CA6407 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				6BB97DA52CD9F35A00CA6407 /* XCRemoteSwiftPackageReference "PopupView" */,
+				6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BB97D3A2CD8911300CA6407 /* Products */;
@@ -372,6 +376,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnpatrickmorgan/TCACoordinators.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.1;
+			};
+		};
 		6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -399,6 +411,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */;
+			productName = TCACoordinators;
+		};
 		6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

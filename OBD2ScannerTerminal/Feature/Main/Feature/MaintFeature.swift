@@ -1,5 +1,5 @@
 //
-//  ContentFeature.swift
+//  MainFeature.swift
 //  OBD2ScannerTerminal
 //
 //  Created by Namuplanet on 11/4/24.
@@ -9,7 +9,7 @@ import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct ContentFeature {
+struct MainFeature {
     @ObservableState
     struct State : Equatable {
         let id = UUID()
@@ -174,11 +174,11 @@ struct ContentFeature {
     }
 }
 
-extension ContentFeature {
-    private func registerPublisher() -> [Effect<ContentFeature.Action>] {
-        var effects : [Effect<ContentFeature.Action>] = .init()
+extension MainFeature {
+    private func registerPublisher() -> [Effect<MainFeature.Action>] {
+        var effects : [Effect<MainFeature.Action>] = .init()
         
-        effects.append(Effect<ContentFeature.Action>
+        effects.append(Effect<MainFeature.Action>
             .publisher {
                 obdService.onDeviceFoundProperty
                     .map { deviceList in
@@ -187,7 +187,7 @@ extension ContentFeature {
             }
         )
         
-        effects.append(Effect<ContentFeature.Action>
+        effects.append(Effect<MainFeature.Action>
             .publisher {
                 obdService.onConnectEcuProperty
                     .map { device in
@@ -196,7 +196,7 @@ extension ContentFeature {
             }
         )
         
-        effects.append(Effect<ContentFeature.Action>
+        effects.append(Effect<MainFeature.Action>
             .publisher {
                 obdService.onDisConnectDeviceProperty
                     .map { device in
@@ -205,7 +205,7 @@ extension ContentFeature {
             }
         )
         
-        effects.append(Effect<ContentFeature.Action>
+        effects.append(Effect<MainFeature.Action>
             .publisher {
                 obdService.onConnectFailedDeviceProperty
                     .map { device in
@@ -220,7 +220,7 @@ extension ContentFeature {
 }
 
 
-extension ContentFeature {
+extension MainFeature {
     enum PopupPresent {
         case bluetoothRegistration
         case supportedPIDsCheck

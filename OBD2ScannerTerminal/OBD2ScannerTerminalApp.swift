@@ -16,8 +16,8 @@ struct OBD2ScannerTerminalApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(store: Store(initialState: ContentFeature.State(), reducer: {
-                ContentFeature()
+            MainCoordinatorView(store: Store(initialState: .initialState, reducer: {
+                MainCoordinator()
             }))
         }
     }
