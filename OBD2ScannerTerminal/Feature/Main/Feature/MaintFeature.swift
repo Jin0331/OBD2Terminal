@@ -30,7 +30,7 @@ struct MainFeature {
         case anyAction(AnyAction)
         case provider(Provider)
     }
-
+    
     enum ButtonTapped {
         case bluetoothScanStart
         case bluetoothConnect(BluetoothItem)
@@ -46,7 +46,7 @@ struct MainFeature {
         case loadingOn
         case loadingOff
     }
-
+    
     enum Provider {
         case registerPublisher
         case onDeviceFoundProperty(BluetoothDeviceList)
@@ -61,6 +61,7 @@ struct MainFeature {
     enum AnyAction {
         case logClear
         case addLogSeperate
+        case addLogRes([OBDCommand : MeasurementResult])
     }
     
     @Dependency(\.obdService) var obdService
@@ -71,7 +72,7 @@ struct MainFeature {
         
         Reduce<State, Action> { state, action in
             switch action {
-            
+                
             case .viewTransition(.onAppear):
                 
                 return .run { send in
@@ -81,7 +82,7 @@ struct MainFeature {
             case .viewTransition(.popupDismiss):
                 state.bluetoothItemList = .init()
                 state.bluetoothConnectPresent = false
-            
+                
             case .buttonTapped(.bluetoothRegistration):
                 state.bluetoothConnectPresent = true
                 
@@ -113,24 +114,43 @@ struct MainFeature {
                 }
                 
             case .buttonTapped(.sendMessage):
-                Logger.debug("sendMessage: \(state.userCommand)")                
+                Logger.debug("sendMessage: \(state.userCommand)")
                 return .run { send in
                     await send(.provider(.requestPID))
                 }
-                .throttle(id: ID.throttle, for: 1.2, scheduler: DispatchQueue.main, latest: true)
+                .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
                 
             case .buttonTapped(.supportedPIDs):
+                #if DEBUG
                 Logger.debug(state.obdInfo.supportedPIDsToString)
+                #endif
                 state.supportedPIDsCheckPresnet = true
                 
             case .provider(.requestPID):
-                return .run { send in
-                    do {
-                        try await obdService.requestPIDs([.mode1(.intakeTemp)], unit: .metric)
-                    } catch { }
-                    
-                    await send(.anyAction(.addLogSeperate))
+                let splitCommand = state.userCommand.split(separator: " ")
+                let commands : [OBDCommand] = splitCommand.map {
+                    if let command = OBDCommand.from(command: String($0)) {
+                        return command
+                    } else {
+                        state.obdLog.append("\($0) is not supported 😭.\n")
+                        return nil
+                    }
                 }
+                    .compactMap { $0 }
+                
+                Logger.debug("userCommand - \(commands)")
+                
+                return .run { send in
+                    for command in commands {
+                        do {
+                            let response = try await obdService.requestPIDs([command], unit: .metric)
+                            await send(.anyAction(.addLogRes(response)))
+                        } catch { }
+                        
+                        await send(.anyAction(.addLogSeperate))
+                    }
+                }
+                
                 
             case let .provider(.supportedPID(OBDInfo)):
                 state.obdInfo = OBDInfo
@@ -166,7 +186,13 @@ struct MainFeature {
                 
             case .anyAction(.addLogSeperate):
                 state.obdLog.append(contentsOf: [""])
-            
+                
+            case let .anyAction(.addLogRes(response)):
+                response.values.forEach { res in
+                    Logger.debug("\(res.value), \(res.unit.symbol)")
+                    state.obdLog.append("Response Parse: \(res.value) \(res.unit.symbol)")
+                }
+                
             default :
                 break
             }
