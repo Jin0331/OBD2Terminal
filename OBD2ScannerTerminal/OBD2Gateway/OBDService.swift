@@ -151,7 +151,7 @@ final class OBDService : ObservableObject {
     /// - Throws: Errors that might occur during the request process.
     @discardableResult
     func requestPIDs(_ commands: [OBDCommand], unit: MeasurementUnit) async throws -> [OBDCommand: MeasurementResult] {
-        let response = try await sendCommandInternal("01" + commands.compactMap { $0.properties.command.dropFirst(2) }.joined(), retries: 10)
+        let response = try await sendCommandInternal(commands.compactMap { $0.properties.command }.joined(), retries: 10)
         
         Logger.debug("requestPIDs Response: \(response)")
         
