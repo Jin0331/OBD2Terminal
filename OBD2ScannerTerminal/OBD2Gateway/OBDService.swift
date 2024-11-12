@@ -25,6 +25,7 @@ final class OBDService : ObservableObject {
     
     /// Sending Data
     let onDeviceFoundProperty: PassthroughSubject<BluetoothDeviceList, Never> = .init()
+    let onDeviceErrorProperty : PassthroughSubject<Void, Never> = .init()
     let onConnectDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
     let onConnectEcuProperty : PassthroughSubject<Void, Never> = .init()
     let onConnectFailedDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
@@ -65,7 +66,7 @@ final class OBDService : ObservableObject {
             try await elm327.adapterInitialization()
             let obdInfo = try await initializeVehicle(preferedProtocol)
             
-            onConnectEcuProperty.send(())
+            Logger.debug("ECU Connected 🌱")
             
             return obdInfo
         } catch {
@@ -80,8 +81,15 @@ final class OBDService : ObservableObject {
     /// - Returns: Information about the connected vehicle (`OBDInfo`).
     /// - Throws: Errors if the vehicle initialization process fails.
     func initializeVehicle(_ preferedProtocol: PROTOCOL?) async throws -> OBDInfo {
-        let obd2info = try await elm327.setupVehicle(preferredProtocol: preferedProtocol)
-        return obd2info
+        do {
+            let obd2info = try await elm327.setupVehicle(preferredProtocol: preferedProtocol)
+            onConnectEcuProperty.send(())
+            return obd2info
+        } catch {
+            Logger.error(error)
+            onDeviceErrorProperty.send(())
+            throw OBDServiceError.initializeVehicle(underlyingError: error)
+        }
     }
     
     /// Terminates the connection with the OBD2 adapter.
