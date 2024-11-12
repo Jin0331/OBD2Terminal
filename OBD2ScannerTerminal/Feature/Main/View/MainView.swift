@@ -19,17 +19,13 @@ struct MainView: View {
         WithPerceptionTracking {
             VStack(spacing : 10) {
                 HStack(alignment:.center) {
-                    Text("Clear")
-                        .textTobuttonModifier(fontSize: 15, width: 60, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.green5ea504.rawValue) {
-                            store.send(.anyAction(.logClear))
-                        }
-                    Spacer()
-                    
                     Text("Supported\nPIDs")
                         .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
                             store.send(.buttonTapped(.supportedPIDs))
                         }
                         .disabled(!store.bluetoothConnect)
+                    
+                    Spacer()
                     
                     Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
                         .resizable()
@@ -65,6 +61,19 @@ struct MainView: View {
                             if let lastLogIndex = store.obdLog.indices.last {
                                 scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
                             }
+                        }
+                    }
+                    .contextMenu {
+                        Button {
+                            store.send(.anyAction(.logClear))
+                        } label: {
+                            Label("Terminal Clear", systemImage: "eraser")
+                        }
+                        
+                        Button {
+                            store.send(.anyAction(.logClear))
+                        } label: {
+                            Label("Shared", systemImage: "square.and.arrow.up")
                         }
                     }
                 }
