@@ -114,6 +114,7 @@ struct MainFeature {
                 
             case .buttonTapped(.obd2Reset):
                 Logger.info("OBD2 Reset")
+                state.obdLog = .init()
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))

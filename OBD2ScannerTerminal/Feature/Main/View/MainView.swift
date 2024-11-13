@@ -64,7 +64,7 @@ struct MainView: View {
                             cursorPublisher.send(())
                         }
                         .onReceive(cursorPublisher
-                            .debounce(for: .seconds(0.6), scheduler: DispatchQueue.main)) {
+                            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)) {
                             if let lastLogIndex = store.obdLog.indices.last {
                                 scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
                             }
@@ -113,7 +113,7 @@ struct MainView: View {
                             .overlay {
                                 if store.sendLoading {
                                     ActivityIndicatorView(isVisible: $store.sendLoading,
-                                                          type: .flickeringDots(count: 5))
+                                                          type: .flickeringDots(count: 8))
                                     .frame(width: 25, height: 25)
                                     .foregroundColor(.red)
                                 }

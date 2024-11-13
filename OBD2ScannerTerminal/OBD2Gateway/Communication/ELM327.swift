@@ -75,6 +75,7 @@ final class ELM327 {
         
         if let protocolToTest = preferredProtocol {
             Logger.info("Attempting preferred protocol: \(protocolToTest.description)")
+            obdConnectionDelegate?.onOBDLog(logs: "Attempting preferred protocol: \(protocolToTest.description)")
             if try await testProtocol(protocolToTest) {
                 return protocolToTest
             } else {
@@ -174,6 +175,7 @@ final class ELM327 {
         do {
             try await sendCommand("ATZ") // Reset adapter
             try await okResponse("ATE0") // Echo off
+            try await okResponse("ATS0") // Spaces off
             try await okResponse("ATL0") // Linefeeds off
             try await okResponse("ATH1") // Headers off
             try await okResponse("ATSP0") // Set protocol to automatic
