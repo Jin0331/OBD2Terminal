@@ -159,10 +159,7 @@ struct MainFeature {
                 break
                 
             case .provider(.requestAT):
-                let splitCommand = splitByAT(state.userCommand)
-                
-                Logger.debug("splitCommand: \(splitCommand)")
-                
+                let splitCommand = splitByAT(&state, state.userCommand)
                 state.sendLoading = false
 
                 return .run { send in
@@ -176,17 +173,7 @@ struct MainFeature {
                 }
                 
             case .provider(.requestPID):
-                let splitCommand = state.userCommand.split(separator: " ")
-                let commands : [OBDCommand] = splitCommand.map {
-                    if let command = OBDCommand.fromMode(command: String($0)) {
-                        return command
-                    } else {
-                        state.obdLog.append("Pid[\($0)] is not supported 😭\n")
-                        return nil
-                    }
-                }
-                    .compactMap { $0 }
-                
+                let commands = splitByPid(&state, state.userCommand)
                 Logger.debug("userCommand - \(commands)")
                 state.sendLoading = false
                 
@@ -322,16 +309,27 @@ extension MainFeature {
 }
 
 extension MainFeature {
-    func splitByAT(_ input: String) -> [String] {
+    func splitByAT(_ state : inout MainFeature.State, _ input: String) -> [String] {
         // "A"를 기준으로 나누고 공백을 추가하는 작업
         let modifiedInput = input.replacingOccurrences(of: "A", with: " A")
         
         // 공백으로 나눈 후, 빈 요소를 제거하고 배열로 변환
         let result = modifiedInput.split(separator: " ").map { String($0) }
         
+        // PIDs 가 포함되어있을 경우
+        let commands : [String] = result.map {
+            if let _ = OBDCommand.fromMode(command: String($0))?.properties.command {
+                state.obdLog.append("AT[\($0)] is not supported 😭\n")
+                return nil
+            } else {
+                return $0.uppercased()
+            }
+        }
+            .compactMap { $0 }
+        
         // 결과 배열을 순회하면서, 각 요소가 A로 시작하지 않으면 이전 요소와 합침
         var finalResult: [String] = []
-        for part in result {
+        for part in commands {
             if let last = finalResult.last, !part.hasPrefix("A") {
                 // A로 시작하지 않으면 이전 요소에 붙임
                 finalResult[finalResult.count - 1] = last + part
@@ -342,5 +340,20 @@ extension MainFeature {
         }
         
         return finalResult
+    }
+    
+    func splitByPid(_ state : inout MainFeature.State, _ input: String) -> [OBDCommand] {
+        let splitCommand = input.split(separator: " ")
+        let commands : [OBDCommand] = splitCommand.map {
+            if let command = OBDCommand.fromMode(command: String($0)) {
+                return command
+            } else {
+                state.obdLog.append("Pid[\($0)] is not supported 😭\n")
+                return nil
+            }
+        }
+            .compactMap { $0 }
+        
+        return commands
     }
 }
