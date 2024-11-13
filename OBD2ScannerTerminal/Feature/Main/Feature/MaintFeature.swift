@@ -137,7 +137,7 @@ struct MainFeature {
                 state.sendLoading = true
                 
                 return .run { [typeOfCommand = state.commandType] send in
-                    try await Task.sleep(for: .seconds(1))
+                    try await Task.sleep(for: .seconds(1.5))
                     if typeOfCommand == .AT {
                         await send(.provider(.requestAT))
                     } else {
