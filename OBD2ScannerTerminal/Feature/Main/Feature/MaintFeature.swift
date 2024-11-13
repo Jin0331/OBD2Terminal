@@ -124,6 +124,7 @@ struct MainFeature {
                     let obdInfo = try await obdService.reConnection()
                     await send(.provider(.supportedPID(obdInfo)))
                 }
+                .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
                 
             case .buttonTapped(.bluetoothDisconnect):
                 Logger.debug("OBD2 Disconnect")
