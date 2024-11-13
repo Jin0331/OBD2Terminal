@@ -76,17 +76,9 @@ struct MainView: View {
                             Label("Terminal Clear", systemImage: "eraser")
                         }
                         
-                        Button {
-                            store.send(.buttonTapped(.logCopy))
-                        } label: {
-                            Label("Copy", systemImage: "document.on.document")
-                        }
-                        
-                        Button {
-                            store.send(.buttonTapped(.logShared))
-                        } label: {
-                            Label("Shared", systemImage: "square.and.arrow.up")
-                        }
+                        ShareLink(item: store.obdLog.joined(separator: "\n"), label: {
+                            Label("Share", systemImage: "square.and.arrow.up")
+                        })
                     }
                 }
                 .background(Color(.systemGray5))

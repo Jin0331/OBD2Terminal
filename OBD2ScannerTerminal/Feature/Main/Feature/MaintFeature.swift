@@ -42,7 +42,6 @@ struct MainFeature {
         case obd2Reset
         
         case logClear
-        case logCopy
         case logShared
     }
     
@@ -144,13 +143,6 @@ struct MainFeature {
                 
             case .buttonTapped(.logClear):
                 state.obdLog = [""]
-                
-            case .buttonTapped(.logCopy):
-                guard !state.obdLog.isEmpty else { return .none }
-
-                if UIPasteboard.general.hasStrings {
-                    UIPasteboard.general.string = state.obdLog.joined(separator: "\n")
-                }
                 
             case .buttonTapped(.logShared):
                 break
