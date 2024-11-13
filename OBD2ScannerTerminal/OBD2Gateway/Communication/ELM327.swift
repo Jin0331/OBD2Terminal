@@ -203,13 +203,15 @@ final class ELM327 {
     }
     
     @discardableResult
-    private func okResponse(_ message: String) async throws -> [String] {
+    func okResponse(_ message: String, _ initMode : Bool = true) async throws -> [String] {
         let response = try await sendCommand(message)
         if response.contains("OK") {
+//            if !initMode {
+//                obdConnectionDelegate?.onOBDLog(logs: "Parse Response: \(response)")
+//            }
             return response
         } else {
             Logger.error("Invalid response: \(response)")
-            obdConnectionDelegate?.onOBDLog(logs: "Invalid response: \(response)")
             throw ELM327Error.invalidResponse(message: "message: \(message), \(String(describing: response.first))")
         }
     }

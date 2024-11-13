@@ -74,7 +74,7 @@ public enum OBDCommand: Codable, Hashable, Comparable {
     case mode6(Mode6)
     case mode9(Mode9)
     case protocols(Protocols)
-
+    
     public var properties: CommandProperties {
         switch self {
         case let .general(command):
@@ -396,6 +396,36 @@ public enum OBDCommand: Codable, Hashable, Comparable {
         }
         return commands
     }()
+    
+    static var modeCommands: [OBDCommand] = {
+        var commands: [OBDCommand] = []
+        
+        for command in OBDCommand.Mode1.allCases {
+            commands.append(.mode1(command))
+        }
+        
+        for command in OBDCommand.Mode3.allCases {
+            commands.append(.mode3(command))
+        }
+        
+        for command in OBDCommand.Mode6.allCases {
+            commands.append(.mode6(command))
+        }
+        
+        for command in OBDCommand.Mode9.allCases {
+            commands.append(.mode9(command))
+        }
+        return commands
+    }()
+    
+    static var generalCommands: [OBDCommand] = {
+        var commands: [OBDCommand] = []
+        let _ = OBDCommand.General.allCases.map {
+            commands.append(.general($0))
+        }
+        
+        return commands
+    }()
 }
 
 extension OBDCommand.General {
@@ -619,4 +649,13 @@ extension OBDCommand {
     static public func from(command: String) -> OBDCommand? {
         return OBDCommand.allCommands.first(where: { $0.properties.command == command.uppercased() })
     }
+    
+    static public func fromGeneral(command: String)  -> OBDCommand? {
+        return OBDCommand.generalCommands.first(where: { $0.properties.command == command.uppercased() })
+    }
+    
+    static public func fromMode(command: String)  -> OBDCommand? {
+        return OBDCommand.modeCommands.first(where: { $0.properties.command == command.uppercased() })
+    }
+
 }

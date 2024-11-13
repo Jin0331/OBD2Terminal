@@ -18,7 +18,8 @@ struct MainFeature {
         var bluetoothConnect : Bool = false
         var userCommand : String = .init()
         var obdInfo : OBDInfo = .init()
-        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
+        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: ["OBD2 Terminal Start..."])
+        var commandType : CommandType = .PIDs
         
         var sendLoading : Bool = false
         var bluetoothConnectPresent : Bool = false
@@ -60,6 +61,7 @@ struct MainFeature {
         case onConnectFailedDeviceProperty(BluetoothDevice)
         case onDisConnectDeviceProperty(BluetoothDevice)
         
+        case requestAT
         case requestPID
         case supportedPID(OBDInfo)
     }
@@ -114,7 +116,7 @@ struct MainFeature {
                 
             case .buttonTapped(.obd2Reset):
                 Logger.info("OBD2 Reset")
-                state.obdLog = .init()
+                state.obdLog = .init(log: [])
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
@@ -133,9 +135,14 @@ struct MainFeature {
             case .buttonTapped(.sendMessage):
                 Logger.debug("sendMessage: \(state.userCommand)")
                 state.sendLoading = true
-                return .run { send in
-                    try await Task.sleep(for: .seconds(2))
-                    await send(.provider(.requestPID))
+                
+                return .run { [typeOfCommand = state.commandType] send in
+                    try await Task.sleep(for: .seconds(1))
+                    if typeOfCommand == .AT {
+                        await send(.provider(.requestAT))
+                    } else {
+                        await send(.provider(.requestPID))
+                    }
                 }
                 .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
                 
@@ -146,15 +153,32 @@ struct MainFeature {
                 state.supportedPIDsCheckPresnet = true
                 
             case .buttonTapped(.logClear):
-                state.obdLog = [""]
+                state.obdLog = .init(log: [""])
                 
             case .buttonTapped(.logShared):
                 break
                 
+            case .provider(.requestAT):
+                let splitCommand = splitByAT(state.userCommand)
+                
+                Logger.debug("splitCommand: \(splitCommand)")
+                
+                state.sendLoading = false
+
+                return .run { send in
+                    for command in splitCommand {
+                        do {
+                            try await obdService.sendATCommand(at: command)
+                        } catch { }
+                        
+                        await send(.anyAction(.addLogSeperate))
+                    }
+                }
+                
             case .provider(.requestPID):
                 let splitCommand = state.userCommand.split(separator: " ")
                 let commands : [OBDCommand] = splitCommand.map {
-                    if let command = OBDCommand.from(command: String($0)) {
+                    if let command = OBDCommand.fromMode(command: String($0)) {
                         return command
                     } else {
                         state.obdLog.append("Pid[\($0)] is not supported 😭\n")
@@ -176,7 +200,6 @@ struct MainFeature {
                         await send(.anyAction(.addLogSeperate))
                     }
                 }
-                
                 
             case let .provider(.supportedPID(OBDInfo)):
                 state.obdInfo = OBDInfo
@@ -201,14 +224,19 @@ struct MainFeature {
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
                 Logger.debug("OBD2 disconnected ⛑️")
+                state.obdLog = .init(log: [])
                 state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
                     obdService.stopConnection()
                 }
                                 
+            case .binding(\.commandType):
+                Logger.info(state.commandType.name)
+                
             case .anyAction(.addLogSeperate):
-                state.obdLog.append(contentsOf: [""])
+//                state.obdLog.append(contentsOf: [""])
+                state.obdLog.append("")
                 
             case let .anyAction(.addLogRes(response)):
                 response.forEach { (key, items) in
@@ -277,5 +305,42 @@ extension MainFeature {
     
     enum ID: Hashable {
         case debounce, throttle
+    }
+    
+    enum CommandType : String, CaseIterable {
+        case AT, PIDs
+        
+        var name : String {
+            switch self {
+            case .AT:
+                return "AT"
+            case .PIDs:
+                return "PIDs"
+            }
+        }
+    }
+}
+
+extension MainFeature {
+    func splitByAT(_ input: String) -> [String] {
+        // "A"를 기준으로 나누고 공백을 추가하는 작업
+        let modifiedInput = input.replacingOccurrences(of: "A", with: " A")
+        
+        // 공백으로 나눈 후, 빈 요소를 제거하고 배열로 변환
+        let result = modifiedInput.split(separator: " ").map { String($0) }
+        
+        // 결과 배열을 순회하면서, 각 요소가 A로 시작하지 않으면 이전 요소와 합침
+        var finalResult: [String] = []
+        for part in result {
+            if let last = finalResult.last, !part.hasPrefix("A") {
+                // A로 시작하지 않으면 이전 요소에 붙임
+                finalResult[finalResult.count - 1] = last + part
+            } else {
+                // A로 시작하면 새 요소로 추가
+                finalResult.append(part)
+            }
+        }
+        
+        return finalResult
     }
 }

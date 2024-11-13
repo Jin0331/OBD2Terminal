@@ -301,10 +301,16 @@ final class BLEManager: NSObject, CommProtocol {
         Logger.info("Sending command: \(command)")
         obdConnectionDelegate?.onOBDLog(logs: "Sending command: \(command)")
         
-        guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic, let data = "\(command)\r".data(using: .ascii) else {
+        guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic else {
             Logger.error("Error: Missing peripheral or ecu characteristic.")
             obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.missingPeripheralOrCharacteristic)")
             throw BLEManagerError.missingPeripheralOrCharacteristic
+        }
+        
+        guard let data = "\(command)\r".data(using: .ascii) else {
+            Logger.error("Error: No Data.")
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.noData)")
+            throw BLEManagerError.noData
         }
         
         return try await Timeout(seconds: 10) {

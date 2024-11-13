@@ -24,13 +24,13 @@ struct MainView: View {
                             store.send(.buttonTapped(.supportedPIDs))
                         }
                         .disabled(!store.bluetoothConnect)
-                        
+                    
                     Text("OBD2\nReset")
                         .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
                             store.send(.buttonTapped(.obd2Reset))
                         }
                         .disabled(!store.bluetoothConnect)
-
+                    
                     
                     Spacer()
                     
@@ -50,8 +50,8 @@ struct MainView: View {
                 ScrollViewReader { scrollViewProxy in
                     ScrollView {
                         VStack(alignment: .leading, spacing: 8) {
-                            ForEach(store.obdLog.indices, id: \.self) { index in
-                                Text(store.obdLog[index])
+                            ForEach(store.obdLog.log.indices, id: \.self) { index in
+                                Text(store.obdLog.log[index])
                                     .font(.system(size: 15, weight: .regular, design: .monospaced))
                                     .padding(.horizontal)
                                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -59,16 +59,16 @@ struct MainView: View {
                                     .cornerRadius(4)
                             }
                         }
-                        .animation(.easeIn(duration: 0.2), value: store.obdLog)
-                        .onChange(of: store.obdLog) { _ in
+                        .animation(.easeIn(duration: 0.2), value: store.obdLog.log)
+                        .onChange(of: store.obdLog.log) { _ in
                             cursorPublisher.send(())
                         }
                         .onReceive(cursorPublisher
                             .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)) {
-                            if let lastLogIndex = store.obdLog.indices.last {
-                                scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                                if let lastLogIndex = store.obdLog.log.indices.last {
+                                    scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                                }
                             }
-                        }
                     }
                     .contextMenu {
                         Button {
@@ -77,7 +77,7 @@ struct MainView: View {
                             Label("Terminal Clear", systemImage: "eraser")
                         }
                         
-                        ShareLink(item: store.obdLog.joined(separator: "\n"), label: {
+                        ShareLink(item: store.obdLog.log.joined(separator: "\n"), label: {
                             Label("Share", systemImage: "square.and.arrow.up")
                         })
                     }
@@ -87,8 +87,20 @@ struct MainView: View {
                 .onTapGesture {
                     hideKeyboard()
                 }
-                                
+                
+                
                 HStack {
+                    Picker("CommandType", selection: $store.commandType) {
+                        ForEach(MainFeature.CommandType.allCases, id: \.self) { type in
+                            Text(type.name)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(maxWidth: 120)
+                    .clipped()
+                    .disabled(!store.bluetoothConnect)
+                    
+                    
                     if store.bluetoothConnect {
                         TextField("Type OBD2 Command", text: $store.userCommand)
                             .normalTextFieldModifier(height: 45)

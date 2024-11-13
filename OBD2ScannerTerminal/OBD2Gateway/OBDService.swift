@@ -13,7 +13,7 @@ import ComposableArchitecture
 
 final class OBDService : ObservableObject {
     static let shared = OBDService()
-    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = .init()
+    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: [])
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
     
@@ -272,6 +272,22 @@ final class OBDService : ObservableObject {
     
     func stopScan() async throws {
         bleManager.stopScanning()
+    }
+    
+    /// Initiates the connection process to the OBD2 adapter and vehicle.
+    ///
+    /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).
+    /// - Returns: Information about the connected vehicle (`OBDInfo`).
+    /// - Throws: Errors that might occur during the connection process.
+    func sendATCommand(at : String) async throws {
+        Logger.info("Sending AT command: \(at)")
+        do {
+            if at == "ATZ" {
+                try await elm327.sendCommand(at)
+            } else {
+                try await elm327.okResponse(at, false)
+            }
+        }
     }
     
     func getVINInfo(vin: String) async throws -> VINResults {
