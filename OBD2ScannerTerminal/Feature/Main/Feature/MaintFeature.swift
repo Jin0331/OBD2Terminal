@@ -206,9 +206,8 @@ struct MainFeature {
                 state.obdLog.append(contentsOf: [""])
                 
             case let .anyAction(.addLogRes(response)):
-                response.values.forEach { res in
-                    Logger.debug("\(res.value), \(res.unit.symbol)")
-                    state.obdLog.append("Response Parse: \(res.value) \(res.unit.symbol)")
+                response.forEach { (key, items) in
+                    state.obdLog.append("Parse Response: [\(key.properties.description)] \(items.value) \(items.unit.symbol)")
                 }
                 
             default :
