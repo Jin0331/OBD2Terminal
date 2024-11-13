@@ -356,8 +356,10 @@ extension OBDService : BluetoothConnectionEventDelegate {
     }
     
     func onOBDLog(logs: String) {
-        obdLog.append(logs)
-        Logger.debug("obdLog: \(obdLog)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            obdLog.append(logs)
+        }
     }
 }
 

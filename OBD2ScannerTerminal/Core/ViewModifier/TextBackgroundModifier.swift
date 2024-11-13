@@ -1,6 +1,6 @@
 //
 //  TextBackgroundModifier.swift
-//  z-car
+//  OBD2ScannerTerminal
 //
 //  Created by Namuplanet on 9/12/24.
 //

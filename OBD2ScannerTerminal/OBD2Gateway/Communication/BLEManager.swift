@@ -96,22 +96,20 @@ final class BLEManager: NSObject, CommProtocol {
         let address = peripheral.identifier.uuidString
         let rssi = rssi.intValue
         
-        if peripheral.name == "Z-CAR" {
-            deviceList[address] = peripheral
-            // 기존에 있던 장치 업데이트 또는 새로 추가
-            if let index = deviceListWithPublished.firstIndex(where: { $0.address == address }) {
-                deviceListWithPublished[index].rssi = rssi
-                deviceListWithPublished[index].lastSeen = Date() // 마지막으로 발견된 시간 업데이트
-            } else {
-                let newDevice = BluetoothDevice(name: name, address: address, rssi: rssi, lastSeen: Date())
-                deviceListWithPublished.append(newDevice)
-            }
-            
-            /// 연결가능한 OBD2 발견할 때 마다, 해당 Array update
-            if peripheral.state == .disconnected {
-                self.connectedPeripheral = peripheral
-                self.obdScanDelegate?.onDeviceFound(device: deviceListWithPublished)
-            }
+        deviceList[address] = peripheral
+        // 기존에 있던 장치 업데이트 또는 새로 추가
+        if let index = deviceListWithPublished.firstIndex(where: { $0.address == address }) {
+            deviceListWithPublished[index].rssi = rssi
+            deviceListWithPublished[index].lastSeen = Date() // 마지막으로 발견된 시간 업데이트
+        } else {
+            let newDevice = BluetoothDevice(name: name, address: address, rssi: rssi, lastSeen: Date())
+            deviceListWithPublished.append(newDevice)
+        }
+        
+        /// 연결가능한 OBD2 발견할 때 마다, 해당 Array update
+        if peripheral.state == .disconnected {
+            self.connectedPeripheral = peripheral
+            self.obdScanDelegate?.onDeviceFound(device: deviceListWithPublished)
         }
         
         removeLostDevices()
@@ -128,7 +126,6 @@ final class BLEManager: NSObject, CommProtocol {
             connect(peripheral)
         } else {
             Logger.error("Bluetooth address is Empty")
-//            connectionDelegate?.onAutoConnectFailedDevice() /// 블루투스 자동연결 실패 이벤트
         }
     }
     
@@ -152,7 +149,7 @@ final class BLEManager: NSObject, CommProtocol {
         connectedPeripheral?.delegate = self
         connectedPeripheral?.discoverServices(Self.services)
         
-        obdConnectionDelegate?.onConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: peripheral.rssi?.intValue ?? 0, lastSeen: Date()))
+        obdConnectionDelegate?.onConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func scanForPeripheralAsync(_ timeout: TimeInterval) async throws -> CBPeripheral? {
@@ -250,14 +247,6 @@ final class BLEManager: NSObject, CommProtocol {
         Logger.info("Disconnected from peripheral: \(peripheral.name ?? "Unnamed")")
         resetConfigure()
         obdConnectionDelegate?.onDisConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
-    }
-    
-    func willRestoreState(_: CBCentralManager, dict: [String: Any]) {
-//        if let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral], let peripheral = peripherals.first {
-//            Logger.debug("Restoring peripheral: \(peripherals[0].name ?? "Unnamed")")
-//            connectedPeripheral = peripheral
-//            connectedPeripheral?.delegate = self
-//        }
     }
     
     func connectionEventDidOccur(_: CBCentralManager, event: CBConnectionEvent, peripheral _: CBPeripheral) {
@@ -433,11 +422,6 @@ extension BLEManager : CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         didDisconnect(central, peripheral: peripheral, error: error)
-    }
-    
-    func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
-        /// 재연결 로직 ,, 추후 수정
-        ///willRestoreState(central, dict: dict)
     }
 }
 

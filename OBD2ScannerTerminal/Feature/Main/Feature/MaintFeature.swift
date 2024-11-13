@@ -113,6 +113,7 @@ struct MainFeature {
                     try await Task.sleep(for: .seconds(1))
                     await send(.viewTransition(.loadingOff))
                 }
+                .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
                 
             case .buttonTapped(.obd2Reset):
                 Logger.info("OBD2 Reset")

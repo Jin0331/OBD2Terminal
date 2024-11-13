@@ -1,6 +1,6 @@
 //
 //  View+Extension.swift
-//  z-car
+//  OBD2ScannerTerminal
 //
 //  Created by Namuplanet on 8/27/24.
 //
