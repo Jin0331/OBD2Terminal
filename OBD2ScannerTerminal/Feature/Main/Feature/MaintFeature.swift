@@ -20,6 +20,7 @@ struct MainFeature {
         var obdInfo : OBDInfo = .init()
         @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : [String] = ["OBD2 Terminal Start..."]
         
+        var sendLoading : Bool = false
         var bluetoothConnectPresent : Bool = false
         var supportedPIDsCheckPresnet : Bool = false
     }
@@ -130,7 +131,9 @@ struct MainFeature {
                 
             case .buttonTapped(.sendMessage):
                 Logger.debug("sendMessage: \(state.userCommand)")
+                state.sendLoading = true
                 return .run { send in
+                    try await Task.sleep(for: .seconds(2))
                     await send(.provider(.requestPID))
                 }
                 .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
@@ -160,6 +163,7 @@ struct MainFeature {
                     .compactMap { $0 }
                 
                 Logger.debug("userCommand - \(commands)")
+                state.sendLoading = false
                 
                 return .run { send in
                     for command in commands {

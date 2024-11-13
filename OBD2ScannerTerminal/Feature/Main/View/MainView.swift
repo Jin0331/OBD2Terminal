@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import ActivityIndicatorView
 import PopupView
 import Combine
 
@@ -63,7 +64,7 @@ struct MainView: View {
                             cursorPublisher.send(())
                         }
                         .onReceive(cursorPublisher
-                            .debounce(for: .seconds(0.35), scheduler: DispatchQueue.main)) {
+                            .debounce(for: .seconds(0.6), scheduler: DispatchQueue.main)) {
                             if let lastLogIndex = store.obdLog.indices.last {
                                 scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
                             }
@@ -97,16 +98,27 @@ struct MainView: View {
                             .disabled(true)
                     }
                     
-                    Text("Send")
-                        .font(.system(size: 15, weight: .bold))
-                        .frame(width: 50, height: 45)
-                        .foregroundStyle(Color.init(hex: ColorSystem.white.rawValue))
-                        .background(store.bluetoothConnect ? Color.init(hex: ColorSystem.green5ea504.rawValue) : Color.init(hex: ColorSystem.gray6e7f8d.rawValue))
-                        .clipShape(RoundedRectangle(cornerRadius: 4))
-                        .asButton {
-                            store.send(.buttonTapped(.sendMessage))
-                        }
-                        .disabled(!store.bluetoothConnect)
+                    ZStack {
+                        Text("Send")
+                            .font(.system(size: 15, weight: .bold))
+                            .frame(width: 50, height: 45)
+                            .foregroundStyle(Color.init(hex: ColorSystem.white.rawValue))
+                            .background(store.bluetoothConnect ? Color.init(hex: ColorSystem.green5ea504.rawValue) : Color.init(hex: ColorSystem.gray6e7f8d.rawValue))
+                            .clipShape(RoundedRectangle(cornerRadius: 4))
+                            .asButton {
+                                store.send(.buttonTapped(.sendMessage))
+                            }
+                            .disabled(!store.bluetoothConnect)
+                            .disabled(store.sendLoading)
+                            .overlay {
+                                if store.sendLoading {
+                                    ActivityIndicatorView(isVisible: $store.sendLoading,
+                                                          type: .flickeringDots(count: 5))
+                                    .frame(width: 25, height: 25)
+                                    .foregroundColor(.red)
+                                }
+                            }
+                    }
                 }
             }
             .animation(.easeIn(duration: 0.5), value: store.bluetoothConnect)
