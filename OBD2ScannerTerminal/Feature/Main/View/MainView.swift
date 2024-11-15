@@ -47,47 +47,48 @@ struct MainView: View {
                 }
                 .padding(.bottom, 10)
                 
-                ScrollViewReader { scrollViewProxy in
-                    ScrollView {
-                        VStack(alignment: .leading, spacing: 8) {
-                            ForEach(store.obdLog.log.indices, id: \.self) { index in
-                                Text(store.obdLog.log[index])
-                                    .font(.system(size: 15, weight: .regular, design: .monospaced))
-                                    .padding(.horizontal)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .background(index % 2 == 0 ? Color(.systemGray6) : Color(.white)) // 배경색 번갈아 가며 설정
-                                    .cornerRadius(4)
-                            }
-                        }
-                        .animation(.easeIn(duration: 0.2), value: store.obdLog.log)
-                        .onChange(of: store.obdLog.log) { _ in
-                            cursorPublisher.send(())
-                        }
-                        .onReceive(cursorPublisher
-                            .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)) {
-                                if let lastLogIndex = store.obdLog.log.indices.last {
-                                    scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                WithPerceptionTracking {
+                    ScrollViewReader { scrollViewProxy in
+                        ScrollView {
+                            VStack(alignment: .leading, spacing: 8) {
+                                ForEach(store.obdLog.log.indices, id: \.self) { index in
+                                    Text(store.obdLog.log[index])
+                                        .font(.system(size: 15, weight: .regular, design: .monospaced))
+                                        .padding(.horizontal)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .background(index % 2 == 0 ? Color(.systemGray6) : Color(.white)) // 배경색 번갈아 가며 설정
+                                        .cornerRadius(4)
                                 }
                             }
-                    }
-                    .contextMenu {
-                        Button {
-                            store.send(.buttonTapped(.logClear))
-                        } label: {
-                            Label("Terminal Clear", systemImage: "eraser")
+                            .animation(.easeIn(duration: 0.2), value: store.obdLog.log)
+                            .onChange(of: store.obdLog.log) { _ in
+                                cursorPublisher.send(())
+                            }
+                            .onReceive(cursorPublisher
+                                .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)) {
+                                    if let lastLogIndex = store.obdLog.log.indices.last {
+                                        scrollViewProxy.scrollTo(lastLogIndex, anchor: .bottom)
+                                    }
+                                }
                         }
-                        
-                        ShareLink(item: store.obdLog.log.joined(separator: "\n"), label: {
-                            Label("Share", systemImage: "square.and.arrow.up")
-                        })
+                        .contextMenu {
+                            Button {
+                                store.send(.buttonTapped(.logClear))
+                            } label: {
+                                Label("Terminal Clear", systemImage: "eraser")
+                            }
+                            
+                            ShareLink(item: store.obdLog.log.joined(separator: "\n"), label: {
+                                Label("Share", systemImage: "square.and.arrow.up")
+                            })
+                        }
+                    }
+                    .background(Color(.systemGray5))
+                    .cornerRadius(4)
+                    .onTapGesture {
+                        hideKeyboard()
                     }
                 }
-                .background(Color(.systemGray5))
-                .cornerRadius(4)
-                .onTapGesture {
-                    hideKeyboard()
-                }
-                
                 
                 HStack {
                     Picker("CommandType", selection: $store.commandType) {

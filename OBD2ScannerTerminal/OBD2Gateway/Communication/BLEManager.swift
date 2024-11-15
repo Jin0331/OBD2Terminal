@@ -10,6 +10,9 @@ import CoreBluetooth
 import Foundation
 
 final class BLEManager: NSObject, CommProtocol {
+    
+    static let shared = BLEManager()
+    
     private let peripheralSubject = PassthroughSubject<CBPeripheral, Never>()
     
     var peripheralPublisher: AnyPublisher<CBPeripheral, Never> {
@@ -19,7 +22,7 @@ final class BLEManager: NSObject, CommProtocol {
     static let services = [
         CBUUID(string: "FFE0"),
         CBUUID(string: "FFF0"),
-        CBUUID(string: "18F0"), //e.g. VGate iCar Pro
+        CBUUID(string: "18F0") //e.g. VGate iCar Pro
     ]
     
     static let RestoreIdentifierKey: String = "OBD2Adapter"

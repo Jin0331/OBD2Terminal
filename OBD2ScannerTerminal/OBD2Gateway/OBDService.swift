@@ -12,7 +12,6 @@ import Foundation
 import ComposableArchitecture
 
 final class OBDService : ObservableObject {
-    static let shared = OBDService()
     @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: [])
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
@@ -35,7 +34,7 @@ final class OBDService : ObservableObject {
         self.connectionType = connectionType
         switch connectionType {
         case .bluetooth:
-            bleManager = BLEManager()
+            bleManager = BLEManager.shared
             elm327 = ELM327(comm: bleManager)
             /*
              case .wifi:
@@ -376,7 +375,7 @@ extension OBDService {
 }
 
 private enum OBDServiceKey : DependencyKey {
-    static var liveValue: OBDService = OBDService()
+    static let liveValue: OBDService = OBDService()
 }
 
 extension DependencyValues {
