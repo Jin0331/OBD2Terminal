@@ -1,6 +1,6 @@
 //
 //  View+Extension.swift
-//  z-car
+//  OBD2ScannerTerminal
 //
 //  Created by Namuplanet on 8/27/24.
 //
@@ -58,3 +58,11 @@ extension View {
         modifier(RedactedModifier(isVisible: isVisible, redactedType: redactedType))
     }
 }
+
+#if canImport(UIKit)
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+#endif

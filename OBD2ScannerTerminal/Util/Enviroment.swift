@@ -68,12 +68,12 @@ struct Environment {
 //    }
     
     enum SharedInMemoryType<T> {
-        case memberSession
+        case obdLog
         
         var keys : InMemoryKey<T> {
             switch self {
-            case .memberSession:
-                return .inMemory("memberSession")
+            case .obdLog:
+                return .inMemory("obdLog")
             }
         }
     }

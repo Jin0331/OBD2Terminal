@@ -3,13 +3,10 @@
 <plist version="1.0">
 <dict>
 	<key>NSBluetoothServices</key>
-	<array>
-		<string></string>
-	</array>
+	<array/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
-		<string>processing</string>
 		<string>bluetooth-central</string>
 	</array>
 </dict>

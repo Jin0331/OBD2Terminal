@@ -10,6 +10,9 @@ import CoreBluetooth
 import Foundation
 
 final class BLEManager: NSObject, CommProtocol {
+    
+    static let shared = BLEManager()
+    
     private let peripheralSubject = PassthroughSubject<CBPeripheral, Never>()
     
     var peripheralPublisher: AnyPublisher<CBPeripheral, Never> {
@@ -19,7 +22,7 @@ final class BLEManager: NSObject, CommProtocol {
     static let services = [
         CBUUID(string: "FFE0"),
         CBUUID(string: "FFF0"),
-        CBUUID(string: "18F0"), //e.g. VGate iCar Pro
+        CBUUID(string: "18F0") //e.g. VGate iCar Pro
     ]
     
     static let RestoreIdentifierKey: String = "OBD2Adapter"
@@ -38,10 +41,11 @@ final class BLEManager: NSObject, CommProtocol {
     private var connectionCompletion: ((CBPeripheral?, Error?) -> Void)?
     
     var obdScanDelegate: BluetoothScanEventDelegate?
+    var obdConnectionDelegate: BluetoothConnectionEventDelegate?
     
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: .main, options: [CBCentralManagerOptionShowPowerAlertKey: true, CBCentralManagerOptionRestoreIdentifierKey: BLEManager.RestoreIdentifierKey])
+        centralManager = CBCentralManager(delegate: self, queue: .global(qos: .userInteractive))
     }
     
     /// Bluetooth Connect 관련
@@ -75,7 +79,6 @@ final class BLEManager: NSObject, CommProtocol {
         switch central.state {
         case .poweredOn:
             Logger.info(">>> Bluetooth is powered on.")
-            startScanning(Self.services)
         case .poweredOff:
             Logger.warning("Bluetooth is currently powered off.")
             connectedPeripheral = nil
@@ -96,24 +99,20 @@ final class BLEManager: NSObject, CommProtocol {
         let address = peripheral.identifier.uuidString
         let rssi = rssi.intValue
         
-        if peripheral.name == "Z-CAR" {
-            deviceList[address] = peripheral
-            // 기존에 있던 장치 업데이트 또는 새로 추가
-            if let index = deviceListWithPublished.firstIndex(where: { $0.address == address }) {
-                deviceListWithPublished[index].rssi = rssi
-                deviceListWithPublished[index].lastSeen = Date() // 마지막으로 발견된 시간 업데이트
-            } else {
-                let newDevice = BluetoothDevice(name: name, address: address, rssi: rssi, lastSeen: Date())
-                deviceListWithPublished.append(newDevice)
-            }
-            
-            Logger.info(">>> Found Bluetooth : \(deviceListWithPublished)")
-            
-            /// 연결가능한 OBD2 발견할 때 마다, 해당 Array update
-            if peripheral.state == .disconnected {
-                self.connectedPeripheral = peripheral
-                self.obdScanDelegate?.onDeviceFound(device: deviceListWithPublished)
-            }
+        deviceList[address] = peripheral
+        // 기존에 있던 장치 업데이트 또는 새로 추가
+        if let index = deviceListWithPublished.firstIndex(where: { $0.address == address }) {
+            deviceListWithPublished[index].rssi = rssi
+            deviceListWithPublished[index].lastSeen = Date() // 마지막으로 발견된 시간 업데이트
+        } else {
+            let newDevice = BluetoothDevice(name: name, address: address, rssi: rssi, lastSeen: Date())
+            deviceListWithPublished.append(newDevice)
+        }
+        
+        /// 연결가능한 OBD2 발견할 때 마다, 해당 Array update
+        if peripheral.state == .disconnected {
+            self.connectedPeripheral = peripheral
+            self.obdScanDelegate?.onDeviceFound(device: deviceListWithPublished)
         }
         
         removeLostDevices()
@@ -125,11 +124,11 @@ final class BLEManager: NSObject, CommProtocol {
             return
         }
         Logger.info("Bluetooth address: \(address)")
+        obdConnectionDelegate?.onOBDLog(logs: "Connecting Bluetooth for OBD Address: \(address)")
         if let peripheral = deviceList[address]{
             connect(peripheral)
         } else {
             Logger.error("Bluetooth address is Empty")
-//            connectionDelegate?.onAutoConnectFailedDevice() /// 블루투스 자동연결 실패 이벤트
         }
     }
     
@@ -139,17 +138,11 @@ final class BLEManager: NSObject, CommProtocol {
         let address = peripheral.identifier.uuidString
         let device = BluetoothDevice(name: name!, address: address, rssi: 0, lastSeen: Date())
         
-        guard name == "Z-CAR" else {
-            // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
-//            connectionDelegate?.onConnectFailedDevice(device: device)
-            return
-        }
         
         // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
-//        connectionDelegate?.onConnectingDevice(device: device)
+        obdConnectionDelegate?.onConnectingDevice(device: device)
         
         // 연결 실패를 대비하여 현재 연결 중인 주변 기기를 저장합니다.
-//        pendingPeripheral = peripheral
         centralManager.connect(peripheral, options: nil)
     }
     
@@ -158,6 +151,8 @@ final class BLEManager: NSObject, CommProtocol {
         connectedPeripheral = peripheral
         connectedPeripheral?.delegate = self
         connectedPeripheral?.discoverServices(Self.services)
+        
+        obdConnectionDelegate?.onConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func scanForPeripheralAsync(_ timeout: TimeInterval) async throws -> CBPeripheral? {
@@ -248,19 +243,13 @@ final class BLEManager: NSObject, CommProtocol {
     func didFailToConnect(_: CBCentralManager, peripheral: CBPeripheral, error _: Error?) {
         Logger.error("Failed to connect to peripheral: \(peripheral.name ?? "Unnamed")")
         resetConfigure()
+        obdConnectionDelegate?.onConnectFailedDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func didDisconnect(_: CBCentralManager, peripheral: CBPeripheral, error _: Error?) {
         Logger.info("Disconnected from peripheral: \(peripheral.name ?? "Unnamed")")
         resetConfigure()
-    }
-    
-    func willRestoreState(_: CBCentralManager, dict: [String: Any]) {
-        if let peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey] as? [CBPeripheral], let peripheral = peripherals.first {
-            Logger.debug("Restoring peripheral: \(peripherals[0].name ?? "Unnamed")")
-            connectedPeripheral = peripheral
-            connectedPeripheral?.delegate = self
-        }
+        obdConnectionDelegate?.onDisConnectDevice(device: BluetoothDevice(name: peripheral.name ?? "Unnamed", address: peripheral.identifier.uuidString, rssi: 0, lastSeen: Date()))
     }
     
     func connectionEventDidOccur(_: CBCentralManager, event: CBConnectionEvent, peripheral _: CBPeripheral) {
@@ -297,23 +286,32 @@ final class BLEManager: NSObject, CommProtocol {
     @discardableResult
     func sendCommand(_ command: String, retries: Int = 3) async throws -> [String] {
         guard sendMessageCompletion == nil else {
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.sendingMessagesInProgress)")
             throw BLEManagerError.sendingMessagesInProgress
         }
         
         Logger.info("Sending command: \(command)")
+        obdConnectionDelegate?.onOBDLog(logs: "Sending command: \(command)")
         
-        guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic, let data = "\(command)\r".data(using: .ascii) else {
+        guard let connectedPeripheral = connectedPeripheral, let characteristic = ecuWriteCharacteristic else {
             Logger.error("Error: Missing peripheral or ecu characteristic.")
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.missingPeripheralOrCharacteristic)")
             throw BLEManagerError.missingPeripheralOrCharacteristic
         }
         
-        return try await Timeout(seconds: 3) {
+        guard let data = "\(command)\r".data(using: .ascii) else {
+            Logger.error("Error: No Data.")
+            obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.noData)")
+            throw BLEManagerError.noData
+        }
+        
+        return try await Timeout(seconds: 10) {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
                 // Set up a timeout timer
                 self.sendMessageCompletion = { response, error in
-                    if let response = response {
+                    if let response {
                         continuation.resume(returning: response)
-                    } else if let error = error {
+                    } else if let error {
                         continuation.resume(throwing: error)
                     }
                     self.sendMessageCompletion = nil
@@ -336,6 +334,7 @@ final class BLEManager: NSObject, CommProtocol {
         }
         
         if string.contains(">") {
+            Logger.debug("Response: \(string)")
             var lines = string
                 .components(separatedBy: .newlines)
                 .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
@@ -343,9 +342,7 @@ final class BLEManager: NSObject, CommProtocol {
             // remove the last line
             lines.removeLast()
             
-            #if DEBUG
-            Logger.debug("Response: \(lines)")
-            #endif
+            obdConnectionDelegate?.onOBDLog(logs: "Raw Response: \(lines)")
             
             if sendMessageCompletion != nil {
                 if lines[0].uppercased().contains("NO DATA") {
@@ -382,6 +379,7 @@ final class BLEManager: NSObject, CommProtocol {
                 if self.foundPeripheralCompletion != nil {
                     self.foundPeripheralCompletion?(nil, BLEManagerError.scanTimeout)
                 }
+                self.obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.timeout)")
                 throw BLEManagerError.timeout
             }
             // First finished child task wins, cancel the other task.
@@ -427,10 +425,6 @@ extension BLEManager : CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         didDisconnect(central, peripheral: peripheral, error: error)
-    }
-    
-    func centralManager(_ central: CBCentralManager, willRestoreState dict: [String: Any]) {
-        willRestoreState(central, dict: dict)
     }
 }
 

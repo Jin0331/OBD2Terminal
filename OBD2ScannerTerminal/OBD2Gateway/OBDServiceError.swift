@@ -14,4 +14,5 @@ enum OBDServiceError: Error {
     case scanFailed(underlyingError: Error)
     case clearFailed(underlyingError: Error)
     case commandFailed(command: String, error: Error)
+    case initializeVehicle(underlyingError: Error)
 }
