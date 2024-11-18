@@ -27,6 +27,9 @@ struct OBD2ConnectPopupView: View {
                     Text(bluetoothItem.name)
                         .fontModifier(fontSize: 16, weight: .semibold, color: ColorSystem.gray6e7f8d.rawValue)
                     
+                    Text(" (\(bluetoothItem.address)) ")
+                        .fontModifier(fontSize: 10, weight: .medium, color: ColorSystem.gray6e7f8d.rawValue)
+                    
                     Image(systemName: "antenna.radiowaves.left.and.right.circle")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -40,7 +43,7 @@ struct OBD2ConnectPopupView: View {
                 }
             }
             .listStyle(.plain)
-            .frame(maxWidth: 250, maxHeight: 230)
+            .frame(maxWidth: .infinity, maxHeight: 230)
             .scrollContentBackground(.hidden)
             .background()
             .shadowModifier()
@@ -57,12 +60,12 @@ struct OBD2ConnectPopupView: View {
             }
             
             HStack {
-                Text("취소")
+                Text("Cancle")
                     .textTobuttonModifier(fontSize: 15, width: 130, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.gray6e7f8d.rawValue) {
                         cancleAction()
                     }
                 
-                Text("검색")
+                Text("Search")
                     .textTobuttonModifier(fontSize: 15, width: 130, height: 40, textColor: ColorSystem.white.rawValue, bgColor: ColorSystem.green5ea504.rawValue) {
                         searchAction()
                     }

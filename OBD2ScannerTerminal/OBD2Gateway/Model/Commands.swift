@@ -74,7 +74,7 @@ public enum OBDCommand: Codable, Hashable, Comparable {
     case mode6(Mode6)
     case mode9(Mode9)
     case protocols(Protocols)
-
+    
     public var properties: CommandProperties {
         switch self {
         case let .general(command):
@@ -97,7 +97,9 @@ public enum OBDCommand: Codable, Hashable, Comparable {
         case ATZ
         case ATRV
         case ATL0
+        case ATL1
         case ATE0
+        case ATE1
         case ATH1
         case ATH0
         case ATAT1
@@ -394,6 +396,36 @@ public enum OBDCommand: Codable, Hashable, Comparable {
         }
         return commands
     }()
+    
+    static var modeCommands: [OBDCommand] = {
+        var commands: [OBDCommand] = []
+        
+        for command in OBDCommand.Mode1.allCases {
+            commands.append(.mode1(command))
+        }
+        
+        for command in OBDCommand.Mode3.allCases {
+            commands.append(.mode3(command))
+        }
+        
+        for command in OBDCommand.Mode6.allCases {
+            commands.append(.mode6(command))
+        }
+        
+        for command in OBDCommand.Mode9.allCases {
+            commands.append(.mode9(command))
+        }
+        return commands
+    }()
+    
+    static var generalCommands: [OBDCommand] = {
+        var commands: [OBDCommand] = []
+        let _ = OBDCommand.General.allCases.map {
+            commands.append(.general($0))
+        }
+        
+        return commands
+    }()
 }
 
 extension OBDCommand.General {
@@ -403,7 +435,9 @@ extension OBDCommand.General {
         case .ATZ: return CommandProperties("ATZ", "Reset", 5, .none)
         case .ATRV: return CommandProperties("ATRV", "Voltage", 5, .none)
         case .ATL0: return CommandProperties("ATL0", "Linefeeds Off", 5, .none)
+        case .ATL1: return CommandProperties("ATL1", "Linefeeds On", 5, .none)
         case .ATE0: return CommandProperties("ATE0", "Echo Off", 5, .none)
+        case .ATE1: return CommandProperties("ATE0", "Echo On", 5, .none)
         case .ATH1: return CommandProperties("ATH1", "Headers On", 5, .none)
         case .ATH0: return CommandProperties("ATH0", "Headers Off", 5, .none)
         case .ATAT1: return CommandProperties("ATAT1", "Adaptive Timing On", 5, .none)
@@ -613,6 +647,15 @@ extension OBDCommand.Mode6 {
 
 extension OBDCommand {
     static public func from(command: String) -> OBDCommand? {
-        return OBDCommand.allCommands.first(where: { $0.properties.command == command })
+        return OBDCommand.allCommands.first(where: { $0.properties.command == command.uppercased() })
     }
+    
+    static public func fromGeneral(command: String)  -> OBDCommand? {
+        return OBDCommand.generalCommands.first(where: { $0.properties.command == command.uppercased() })
+    }
+    
+    static public func fromMode(command: String)  -> OBDCommand? {
+        return OBDCommand.modeCommands.first(where: { $0.properties.command == command.uppercased() })
+    }
+
 }

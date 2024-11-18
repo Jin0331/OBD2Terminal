@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */; };
+		6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */; };
+		6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */; };
 		6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */; };
 		6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97DA62CD9F35A00CA6407 /* PopupView */; };
+		6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BF051F92CE59C160087A250 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,8 +44,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */,
+				6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */,
 				6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */,
-				6BB97D4C2CD8914100CA6407 /* ComposableArchitecture in Frameworks */,
+				6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */,
 				6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -87,9 +91,11 @@
 			);
 			name = OBD2ScannerTerminal;
 			packageProductDependencies = (
-				6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */,
 				6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */,
 				6BB97DA62CD9F35A00CA6407 /* PopupView */,
+				6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */,
+				6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */,
+				6BF051F92CE59C160087A250 /* ComposableArchitecture */,
 			);
 			productName = OBD2ScannerTerminal;
 			productReference = 6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */;
@@ -120,9 +126,11 @@
 			mainGroup = 6BB97D302CD8911300CA6407;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				6BB97D602CD8AEB400CA6407 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
 				6BB97DA52CD9F35A00CA6407 /* XCRemoteSwiftPackageReference "PopupView" */,
+				6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */,
+				6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
+				6BF051F82CE59C160087A250 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BB97D3A2CD8911300CA6407 /* Products */;
@@ -279,6 +287,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OBD2ScannerTerminal/Preview Content\"";
@@ -286,27 +295,33 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2ScannerTerminal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -315,6 +330,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"OBD2ScannerTerminal/Preview Content\"";
@@ -322,27 +338,33 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
-				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2ScannerTerminal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -370,12 +392,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+		6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			repositoryURL = "https://github.com/johnpatrickmorgan/TCACoordinators.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.15.2;
+				minimumVersion = 0.10.1;
+			};
+		};
+		6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
 			};
 		};
 		6BB97D602CD8AEB400CA6407 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
@@ -394,13 +424,26 @@
 				minimumVersion = 3.1.4;
 			};
 		};
+		6BF051F82CE59C160087A250 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.16.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		6BB97D4B2CD8914100CA6407 /* ComposableArchitecture */ = {
+		6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 6BB97D4A2CD8914100CA6407 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
+			package = 6B2262BC2CE2D9BE001CF6B2 /* XCRemoteSwiftPackageReference "TCACoordinators" */;
+			productName = TCACoordinators;
+		};
+		6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -411,6 +454,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6BB97DA52CD9F35A00CA6407 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		6BF051F92CE59C160087A250 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BF051F82CE59C160087A250 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
