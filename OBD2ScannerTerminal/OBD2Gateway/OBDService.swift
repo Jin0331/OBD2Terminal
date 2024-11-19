@@ -16,8 +16,6 @@ final class OBDService : ObservableObject {
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
     
-    var pidList: [OBDCommand] = []
-    
     private var elm327: ELM327
     private var bleManager : BLEManager
     private var cancellables = Set<AnyCancellable>()
@@ -35,18 +33,21 @@ final class OBDService : ObservableObject {
         switch connectionType {
         case .bluetooth:
             bleManager = BLEManager.shared
-            elm327 = ELM327(comm: bleManager)
-            /*
-             case .wifi:
-             wifi mode 지원시 추가
-             */
+            elm327 = ELM327(comm: BLEManager.shared)
         }
             
         /// EventDelegate 소유
         bleManager.obdScanDelegate = self
-        
         bleManager.obdConnectionDelegate = self
         elm327.obdConnectionDelegate = self
+    }
+    
+    func startScan() async {
+        bleManager.startScanning()
+    }
+    
+    func stopScan() async {
+        bleManager.stopScanning()
     }
     
     /// Initiates the connection process to the OBD2 adapter and vehicle.
@@ -65,7 +66,7 @@ final class OBDService : ObservableObject {
             try await elm327.adapterInitialization()
             let obdInfo = try await initializeVehicle(preferedProtocol)
             
-            Logger.debug("ECU Connected 🌱")
+            Logger.info("ECU Connected 🌱")
             
             return obdInfo
         } catch {
@@ -91,6 +92,11 @@ final class OBDService : ObservableObject {
         }
     }
     
+    /// Terminates the connection with the OBD2 adapter.
+    func stopConnection() async {
+        elm327.stopConnection()
+    }
+    
     /// Initializes communication with the vehicle and retrieves vehicle information.
     ///
     /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).
@@ -108,35 +114,21 @@ final class OBDService : ObservableObject {
         }
     }
     
-    /// Terminates the connection with the OBD2 adapter.
-    func stopConnection() async {
-        elm327.stopConnection()
-    }
-    
-    /// Switches the active connection type (between Bluetooth and Wi-Fi).
-    ///
-    /// - Parameter connectionType: The new desired connection type.
-    func switchConnectionType(_ connectionType: ConnectionType) async {
-        await stopConnection()
-        switch connectionType {
-        case .bluetooth:
-            elm327 = ELM327(comm: BLEManager())
-        }
-    }
-    
     /// Sends an OBD2 command to the vehicle and returns a publisher with the result.
     /// - Parameter command: The OBD2 command to send.
     /// - Returns: A publisher with the measurement result.
     /// - Throws: Errors that might occur during the request process.
     func startContinuousUpdates(_ pids: [OBDCommand], unit: MeasurementUnit = .metric, interval: TimeInterval = 0.3) -> AnyPublisher<[OBDCommand: MeasurementResult], Error> {
-        Timer.publish(every: interval, on: .main, in: .common)
+        
+        return Timer.publish(every: interval, on: .main, in: .common)
             .autoconnect()
             .flatMap { [weak self] _ -> Future<[OBDCommand: MeasurementResult], Error> in
                 Future { promise in
-                    guard let self = self else {
+                    guard let self else {
                         promise(.failure(OBDServiceError.notConnectedToVehicle))
                         return
                     }
+                    
                     Task(priority: .userInitiated) {
                         do {
                             let results = try await self.requestPIDs(pids, unit: unit)
@@ -147,18 +139,7 @@ final class OBDService : ObservableObject {
                         }
                     }
                 }
-            }
-            .eraseToAnyPublisher()
-    }
-    
-    /// Adds an OBD2 command to the list of commands to be requested.
-    func addPID(_ pid: OBDCommand) {
-        pidList.append(pid)
-    }
-    
-    /// Removes an OBD2 command from the list of commands to be requested.
-    func removePID(_ pid: OBDCommand) {
-        pidList.removeAll { $0 == pid }
+            }.eraseToAnyPublisher()
     }
     
     /// Sends an OBD2 command to the vehicle and returns the raw response.
@@ -200,10 +181,29 @@ final class OBDService : ObservableObject {
         }
     }
     
+    /// Initiates the connection process to the OBD2 adapter and vehicle.
+    ///
+    /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).
+    /// - Returns: Information about the connected vehicle (`OBDInfo`).
+    /// - Throws: Errors that might occur during the connection process.
+    func sendATCommand(at : String) async throws {
+        Logger.info("Sending AT command")
+        do {
+            if at == "ATZ" || at.contains("@") {
+                let atConvert = at.contains("@") ? setOrShowOBDIndentifier(at) : at
+                try await elm327.sendCommand(atConvert)
+            } else {
+                try await elm327.okResponse(at, false)
+            }
+        }
+    }
+}
+
+extension OBDService {
     /// Initiates the sending Message for at command
     ///
     func initsendingMessage() async {
-        bleManager.initsendingMessage()
+        bleManager.resetSendingMessage()
     }
     
     /// Sends an OBD2 command to the vehicle and returns the raw response.
@@ -253,46 +253,12 @@ final class OBDService : ObservableObject {
     /// - Parameter message: The raw command to send.
     /// - Returns: The raw response from the vehicle.
     /// - Throws: Errors that might occur during the request process.
-    func sendCommandInternal(_ message: String, retries: Int) async throws -> [String] {
+    private func sendCommandInternal(_ message: String, retries: Int) async throws -> [String] {
         do {
             return try await elm327.sendCommand(message, retries: retries)
         } catch {
             Logger.error(error)
             throw OBDServiceError.commandFailed(command: message, error: error)
-        }
-    }
-    
-    func connectToPeripheral(address: String) async throws {
-        do {
-            try await elm327.connectToAdapter(timeout: 60,address: address)
-        } catch {
-            Logger.error(error)
-            throw OBDServiceError.adapterConnectionFailed(underlyingError: error)
-        }
-    }
-    
-    func startScan() async throws {
-        bleManager.startScanning()
-    }
-    
-    func stopScan() async throws {
-        bleManager.stopScanning()
-    }
-    
-    /// Initiates the connection process to the OBD2 adapter and vehicle.
-    ///
-    /// - Parameter preferedProtocol: The optional OBD2 protocol to use (if supported).
-    /// - Returns: Information about the connected vehicle (`OBDInfo`).
-    /// - Throws: Errors that might occur during the connection process.
-    func sendATCommand(at : String) async throws {
-        Logger.info("Sending AT command")
-        do {
-            if at == "ATZ" || at.contains("@") {
-                let atConvert = at.contains("@") ? setOrShowOBDIndentifier(at) : at
-                try await elm327.sendCommand(atConvert)
-            } else {
-                try await elm327.okResponse(at, false)
-            }
         }
     }
     
@@ -314,6 +280,11 @@ final class OBDService : ObservableObject {
         return decoded
     }
     
+    /// Adding Bluetooth Device
+    func addBTList(_ addList : BluetoothDeviceList) {
+        btList = addList.map { BluetoothItem(name: $0.name, address: $0.address, rssi: $0.rssi) }
+    }
+    
     private func setOrShowOBDIndentifier(_ message: String) -> String {
         // 정규표현식: @ 뒤에 1~3이 오고, 그 이후로 숫자가 이어지는 패턴
         let pattern = "(?<=@)([1-3])(\\d+)"
@@ -324,72 +295,6 @@ final class OBDService : ObservableObject {
         let res = regex.stringByReplacingMatches(in: message, options: [], range: range, withTemplate: "$1 $2")
 
         return res
-    }
-}
-
-//MARK: - BluetoothScanEventDelegate
-extension OBDService :BluetoothScanEventDelegate {
-    func onDiscoveryStarted() {
-        
-    }
-    
-    func onDiscoveryFinised() {
-        
-    }
-    
-    func onDeviceFound(device: BluetoothDeviceList) {
-        Logger.debug("Found device: \(device)")
-        addBTList(device)
-        onDeviceFoundProperty.send(device)
-    }
-}
-
-//MARK: - BluetoothConnectionDelegate
-extension OBDService : BluetoothConnectionEventDelegate {
-    func onConnectingEcu() {
-        
-    }
-    
-    func onConnectEcu() {
-        
-    }
-    
-    func onConnectingDevice(device: BluetoothDevice) {
-        Logger.info("onConnectingDevice \(device)")
-    }
-    
-    func onConnectDevice(device: BluetoothDevice) {
-        Logger.info("onConnectDevice \(device)")
-        onConnectDeviceProperty.send(device)
-    }
-    
-    func onConnectFailedDevice(device: BluetoothDevice) {
-        Logger.error("onConnectFailedDevice \(device)")
-        onConnectFailedDeviceProperty.send(device)
-    }
-    
-    func onDisConnectDevice(device: BluetoothDevice) {
-        Logger.info("onDisconnectDevice \(device)")
-        onDisConnectDeviceProperty.send(device)
-    }
-    
-    func onOBDLog(logs: String) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self else { return }
-            obdLog.append(logs)
-        }
-    }
-}
-
-extension OBDService {
-    /// Adding Bluetooth Device
-    func addBTList(_ addList : BluetoothDeviceList) {
-        btList = addList.map { BluetoothItem(name: $0.name, address: $0.address, rssi: $0.rssi) }
-    }
-    
-    /// Removing Bluetooth Device
-    func delBTList(at indexPath: IndexPath) {
-        btList.remove(at: indexPath.row)
     }
 }
 
