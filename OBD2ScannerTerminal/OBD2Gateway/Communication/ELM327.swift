@@ -185,10 +185,6 @@ final class ELM327 {
         try await okResponse("AT SH " + header)
     }
     
-    func stopConnection() {
-        comm.disconnectPeripheral()
-    }
-    
     // MARK: - Message Sending
     @discardableResult
     func sendCommand(_ message: String, retries: Int = 1) async throws -> [String] {

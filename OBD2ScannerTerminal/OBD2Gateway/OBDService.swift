@@ -94,7 +94,7 @@ final class OBDService : ObservableObject {
     
     /// Terminates the connection with the OBD2 adapter.
     func stopConnection() async {
-        elm327.stopConnection()
+        bleManager.disconnectPeripheral()
     }
     
     /// Initializes communication with the vehicle and retrieves vehicle information.
