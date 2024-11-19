@@ -135,7 +135,6 @@ struct MainFeature {
                 }
                 
             case .buttonTapped(.sendMessage):
-                Logger.debug("sendMessage: \(state.userCommand)")
                 state.sendLoading = true
                 
                 return .run { [typeOfCommand = state.commandType] send in

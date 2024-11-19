@@ -279,10 +279,11 @@ final class OBDService : ObservableObject {
     /// - Returns: Information about the connected vehicle (`OBDInfo`).
     /// - Throws: Errors that might occur during the connection process.
     func sendATCommand(at : String) async throws {
-        Logger.info("Sending AT command: \(at)")
+        Logger.info("Sending AT command")
         do {
-            if at == "ATZ" {
-                try await elm327.sendCommand(at)
+            if at == "ATZ" || at.contains("@") {
+                let atConvert = at.contains("@") ? setOrShowOBDIndentifier(at) : at
+                try await elm327.sendCommand(atConvert)
             } else {
                 try await elm327.okResponse(at, false)
             }
@@ -305,6 +306,18 @@ final class OBDService : ObservableObject {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode(VINResults.self, from: data)
         return decoded
+    }
+    
+    private func setOrShowOBDIndentifier(_ message: String) -> String {
+        // 정규표현식: @ 뒤에 1~3이 오고, 그 이후로 숫자가 이어지는 패턴
+        let pattern = "(?<=@)([1-3])(\\d+)"
+        let regex = try! NSRegularExpression(pattern: pattern)
+
+        // 정규표현식 패턴을 찾아서 치환합니다.
+        let range = NSRange(location: 0, length: message.utf16.count)
+        let res = regex.stringByReplacingMatches(in: message, options: [], range: range, withTemplate: "$1 $2")
+
+        return res
     }
 }
 
