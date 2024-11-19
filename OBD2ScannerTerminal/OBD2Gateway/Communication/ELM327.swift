@@ -162,7 +162,11 @@ final class ELM327 {
     
     // MARK: - Adapter Initialization
     func connectToAdapter(timeout: TimeInterval, address: String? = nil) async throws {
-        try await comm.connectAsync(timeout: timeout, address: address)
+        do {
+            try await comm.connectAsync(timeout: timeout, address: address)
+        } catch {
+            obdConnectionDelegate?.onConnectFailedDevice(device: BluetoothDevice(name: "", address: address ?? "", rssi: 0, lastSeen: Date()))
+        }
     }
     
     /// Initializes the adapter by sending a series of commands.
@@ -206,9 +210,6 @@ final class ELM327 {
     func okResponse(_ message: String, _ initMode : Bool = true) async throws -> [String] {
         let response = try await sendCommand(message)
         if response.contains("OK") {
-//            if !initMode {
-//                obdConnectionDelegate?.onOBDLog(logs: "Parse Response: \(response)")
-//            }
             return response
         } else {
             Logger.error("Invalid response: \(response)")

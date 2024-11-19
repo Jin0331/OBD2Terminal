@@ -305,7 +305,7 @@ final class BLEManager: NSObject, CommProtocol {
             throw BLEManagerError.noData
         }
         
-        return try await Timeout(seconds: 10) {
+        return try await Timeout(seconds: 5) {
             try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
                 // Set up a timeout timer
                 self.sendMessageCompletion = { response, error in
@@ -320,6 +320,13 @@ final class BLEManager: NSObject, CommProtocol {
             }
         }
     }
+    
+    /// Initiates the sending Message for at command
+    ///
+    func initsendingMessage() {
+        sendMessageCompletion = nil
+    }
+    
     
     /// Processes the received data from the peripheral.
     /// - Parameters:

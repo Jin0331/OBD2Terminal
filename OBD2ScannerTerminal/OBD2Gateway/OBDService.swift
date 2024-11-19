@@ -109,15 +109,15 @@ final class OBDService : ObservableObject {
     }
     
     /// Terminates the connection with the OBD2 adapter.
-    func stopConnection() {
+    func stopConnection() async {
         elm327.stopConnection()
     }
     
     /// Switches the active connection type (between Bluetooth and Wi-Fi).
     ///
     /// - Parameter connectionType: The new desired connection type.
-    func switchConnectionType(_ connectionType: ConnectionType) {
-        self.stopConnection()
+    func switchConnectionType(_ connectionType: ConnectionType) async {
+        await stopConnection()
         switch connectionType {
         case .bluetooth:
             elm327 = ELM327(comm: BLEManager())
@@ -198,6 +198,12 @@ final class OBDService : ObservableObject {
             Logger.error(error)
             throw OBDServiceError.commandFailed(command: command.properties.command, error: error)
         }
+    }
+    
+    /// Initiates the sending Message for at command
+    ///
+    func initsendingMessage() async {
+        bleManager.initsendingMessage()
     }
     
     /// Sends an OBD2 command to the vehicle and returns the raw response.
@@ -363,7 +369,7 @@ extension OBDService : BluetoothConnectionEventDelegate {
     }
     
     func onDisConnectDevice(device: BluetoothDevice) {
-        Logger.info("onConnectDevice \(device)")
+        Logger.info("onDisconnectDevice \(device)")
         onDisConnectDeviceProperty.send(device)
     }
     
