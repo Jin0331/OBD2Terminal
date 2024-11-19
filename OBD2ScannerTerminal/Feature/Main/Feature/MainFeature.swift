@@ -7,20 +7,19 @@
 
 import Foundation
 import ComposableArchitecture
-import UIKit
 
 @Reducer
 struct MainFeature {
     @ObservableState
     struct State : Equatable {
         let id = UUID()
-        var bluetoothItemList : BluetoothItemList = .init()
-        var bluetoothConnect : Bool = false
-        var userCommand : String = .init()
-        var obdInfo : OBDInfo = .init()
         @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: ["OBD2 Terminal Start..."])
+        var obdInfo : OBDInfo = .init()
+        var bluetoothItemList : BluetoothItemList = .init()
+        var userCommand : String = .init()
         var commandType : CommandType = .PIDs
         
+        var bluetoothConnect : Bool = false
         var sendLoading : Bool = false
         var bluetoothConnectPresent : Bool = false
         var supportedPIDsCheckPresnet : Bool = false
@@ -297,8 +296,6 @@ extension MainFeature {
                     }
             }
         )
-        
-        
         return effects
     }
 }
