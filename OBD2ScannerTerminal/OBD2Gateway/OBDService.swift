@@ -109,15 +109,15 @@ final class OBDService : ObservableObject {
     }
     
     /// Terminates the connection with the OBD2 adapter.
-    func stopConnection() {
+    func stopConnection() async {
         elm327.stopConnection()
     }
     
     /// Switches the active connection type (between Bluetooth and Wi-Fi).
     ///
     /// - Parameter connectionType: The new desired connection type.
-    func switchConnectionType(_ connectionType: ConnectionType) {
-        self.stopConnection()
+    func switchConnectionType(_ connectionType: ConnectionType) async {
+        await stopConnection()
         switch connectionType {
         case .bluetooth:
             elm327 = ELM327(comm: BLEManager())
@@ -200,6 +200,12 @@ final class OBDService : ObservableObject {
         }
     }
     
+    /// Initiates the sending Message for at command
+    ///
+    func initsendingMessage() async {
+        bleManager.initsendingMessage()
+    }
+    
     /// Sends an OBD2 command to the vehicle and returns the raw response.
     ///   - Parameter command: The OBD2 command to send.
     ///   - Returns: The raw response from the vehicle.
@@ -279,10 +285,11 @@ final class OBDService : ObservableObject {
     /// - Returns: Information about the connected vehicle (`OBDInfo`).
     /// - Throws: Errors that might occur during the connection process.
     func sendATCommand(at : String) async throws {
-        Logger.info("Sending AT command: \(at)")
+        Logger.info("Sending AT command")
         do {
-            if at == "ATZ" {
-                try await elm327.sendCommand(at)
+            if at == "ATZ" || at.contains("@") {
+                let atConvert = at.contains("@") ? setOrShowOBDIndentifier(at) : at
+                try await elm327.sendCommand(atConvert)
             } else {
                 try await elm327.okResponse(at, false)
             }
@@ -305,6 +312,18 @@ final class OBDService : ObservableObject {
         let decoder = JSONDecoder()
         let decoded = try decoder.decode(VINResults.self, from: data)
         return decoded
+    }
+    
+    private func setOrShowOBDIndentifier(_ message: String) -> String {
+        // 정규표현식: @ 뒤에 1~3이 오고, 그 이후로 숫자가 이어지는 패턴
+        let pattern = "(?<=@)([1-3])(\\d+)"
+        let regex = try! NSRegularExpression(pattern: pattern)
+
+        // 정규표현식 패턴을 찾아서 치환합니다.
+        let range = NSRange(location: 0, length: message.utf16.count)
+        let res = regex.stringByReplacingMatches(in: message, options: [], range: range, withTemplate: "$1 $2")
+
+        return res
     }
 }
 
@@ -350,7 +369,7 @@ extension OBDService : BluetoothConnectionEventDelegate {
     }
     
     func onDisConnectDevice(device: BluetoothDevice) {
-        Logger.info("onConnectDevice \(device)")
+        Logger.info("onDisconnectDevice \(device)")
         onDisConnectDeviceProperty.send(device)
     }
     

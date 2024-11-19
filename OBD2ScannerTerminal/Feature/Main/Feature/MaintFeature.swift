@@ -69,6 +69,7 @@ struct MainFeature {
     enum AnyAction {
         case addLogSeperate
         case addLogRes([OBDCommand : MeasurementResult])
+        case errorHandling(Error)
     }
     
     @Dependency(\.obdService) var obdService
@@ -108,10 +109,16 @@ struct MainFeature {
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
                     try await obdService.stopScan()
-                    let obdInfo = try await obdService.startConnection(address: item.address, timeout: 60)
-                    await send(.provider(.supportedPID(obdInfo)))
-                    try await Task.sleep(for: .seconds(1))
-                    await send(.viewTransition(.loadingOff))
+                    await obdService.stopConnection()
+                    
+                    do {
+                        let obdInfo = try await obdService.startConnection(address: item.address, timeout: 10)
+                        await send(.provider(.supportedPID(obdInfo)))
+                        try await Task.sleep(for: .seconds(1))
+                        await send(.viewTransition(.loadingOff))
+                    } catch(let error) {
+                        await send(.anyAction(.errorHandling(error)))
+                    }
                 }
                 .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
                 
@@ -131,11 +138,10 @@ struct MainFeature {
                 state.bluetoothConnect = false
                 
                 return .run { send in
-                    obdService.stopConnection()
+                    await obdService.stopConnection()
                 }
                 
             case .buttonTapped(.sendMessage):
-                Logger.debug("sendMessage: \(state.userCommand)")
                 state.sendLoading = true
                 
                 return .run { [typeOfCommand = state.commandType] send in
@@ -213,23 +219,35 @@ struct MainFeature {
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
                 Logger.debug("OBD2 disconnected ⛑️")
-                state.obdLog = .init(log: [])
+                initBluetoothConnectInformation(&state, isLogInit: true)
                 state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
-                    obdService.stopConnection()
+                    await obdService.initsendingMessage()
+                    await obdService.stopConnection()
+                    await send(.viewTransition(.loadingOff))
                 }
                                 
             case .binding(\.commandType):
                 Logger.info(state.commandType.name)
                 
             case .anyAction(.addLogSeperate):
-//                state.obdLog.append(contentsOf: [""])
                 state.obdLog.append("")
                 
             case let .anyAction(.addLogRes(response)):
                 response.forEach { (key, items) in
                     state.obdLog.append("Parse Response: [\(key.properties.description)] \(items.value) \(items.unit.symbol)")
+                }
+                
+            case .anyAction(.errorHandling(_)):
+                initBluetoothConnectInformation(&state)
+                state.obdLog.append("🚫 OBD2 Connet Error: Please try reconnecting.")
+                
+                return .run { send in
+                    await obdService.initsendingMessage()
+                    try await obdService.stopScan()
+                    await obdService.stopConnection()
+                    await send(.viewTransition(.loadingOff))
                 }
                 
             default :
@@ -311,6 +329,16 @@ extension MainFeature {
 }
 
 extension MainFeature {
+    func initBluetoothConnectInformation(_ state : inout MainFeature.State, isLogInit : Bool = false) {
+        if isLogInit {
+            state.obdLog = .init(log: [])
+        }
+        
+        state.bluetoothItemList = .init()
+        state.bluetoothConnect = false
+        state.bluetoothConnectPresent = false
+    }
+    
     func splitByAT(_ state : inout MainFeature.State, _ input: String) -> [String] {
         // "A"를 기준으로 나누고 공백을 추가하는 작업
         let modifiedInput = input.replacingOccurrences(of: "A", with: " A")
