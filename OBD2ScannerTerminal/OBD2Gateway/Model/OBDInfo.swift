@@ -19,13 +19,7 @@ struct OBDInfo: Codable, Hashable {
     
     var supportedPIDsToString : [OBDCommand] {
         guard let supportedPIDs else { return .init() }
-        
         let orderedPIDs = supportedPIDs.sorted { $0.properties.command < $1.properties.command }
-        
-//        let res = orderedPIDs.map { obdCommand in
-//            return "\(obdCommand.properties.command) - \(obdCommand.properties.description)"
-//        }
-//        
                 
         return orderedPIDs
     }

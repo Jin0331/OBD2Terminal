@@ -37,20 +37,9 @@ final class ELM327 {
     ///     - `SetupError.ignitionOff` if the vehicle's ignition is not on.
     ///     - `SetupError.invalidProtocol` if the protocol is not recognized.
     func setupVehicle(preferredProtocol: PROTOCOL?) async throws -> OBDInfo {
-        //        var obdProtocol: PROTOCOL?
         let detectedProtocol = try await detectProtocol(preferredProtocol: preferredProtocol)
-        
-        //        guard let obdProtocol = detectedProtocol else {
-        //            throw SetupError.noProtocolFound
-        //        }
-        
-        //        self.obdProtocol = obdProtocol
-        self.canProtocol = protocols[detectedProtocol]
-        
+        canProtocol = protocols[detectedProtocol]        
         let vin = await requestVin()
-        
-        //        try await setHeader(header: "7E0")
-        
         let supportedPIDs = await getSupportedPIDs()
         
         guard let messages = try canProtocol?.parse(r100) else {

@@ -306,12 +306,15 @@ final class BLEManager: NSObject, CommProtocol {
         }
         
         return try await Timeout(seconds: 5) {
-            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<[String], Error>) in
+            try await withCheckedThrowingContinuation { [unowned self] (continuation: CheckedContinuation<[String], Error>) in
                 // Set up a timeout timer
                 self.sendMessageCompletion = { response, error in
                     if let response {
+                        Logger.info("Raw Response: \(response)")
+                        self.obdConnectionDelegate?.onOBDLog(logs: "Raw Response: \(response)")
                         continuation.resume(returning: response)
                     } else if let error {
+                        Logger.error(error)
                         continuation.resume(throwing: error)
                     }
                     self.sendMessageCompletion = nil
@@ -320,13 +323,6 @@ final class BLEManager: NSObject, CommProtocol {
             }
         }
     }
-    
-    /// Initiates the sending Message for at command
-    ///
-    func initsendingMessage() {
-        sendMessageCompletion = nil
-    }
-    
     
     /// Processes the received data from the peripheral.
     /// - Parameters:
@@ -341,7 +337,6 @@ final class BLEManager: NSObject, CommProtocol {
         }
         
         if string.contains(">") {
-            Logger.debug("Response: \(string)")
             var lines = string
                 .components(separatedBy: .newlines)
                 .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
@@ -349,10 +344,12 @@ final class BLEManager: NSObject, CommProtocol {
             // remove the last line
             lines.removeLast()
             
-            obdConnectionDelegate?.onOBDLog(logs: "Raw Response: \(lines)")
+//            Logger.debug("Raw Response: \(lines)")
+//            obdConnectionDelegate?.onOBDLog(logs: "Raw Response: \(lines)")
             
             if sendMessageCompletion != nil {
                 if lines[0].uppercased().contains("NO DATA") {
+                    Logger.error("NO Data received from OBD2")
                     sendMessageCompletion?(nil, BLEManagerError.noData)
                 } else {
                     sendMessageCompletion?(lines, nil)
@@ -396,6 +393,10 @@ final class BLEManager: NSObject, CommProtocol {
         }
     }
     
+    func resetSendingMessage() {
+        sendMessageCompletion = nil
+    }
+    
     private func resetConfigure() {
         ecuReadCharacteristic = nil
         ecuWriteCharacteristic = nil
@@ -404,7 +405,7 @@ final class BLEManager: NSObject, CommProtocol {
     
     private func removeLostDevices() {
         let currentTime = Date()
-        let timeIntervalThreshold: TimeInterval = 5 // 10초 동안 신호 없으면 제거
+        let timeIntervalThreshold: TimeInterval = 5 // 5초 동안 신호 없으면 제거
         
         deviceListWithPublished.removeAll { device in
             let timeSinceLastSeen = currentTime.timeIntervalSince(device.lastSeen)
