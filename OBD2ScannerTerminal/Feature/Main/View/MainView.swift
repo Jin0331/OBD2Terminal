@@ -21,12 +21,12 @@ struct MainView: View {
                 bodyView
                 bottomView
             }
-            .animation(.easeIn(duration: 0.5), value: store.bluetoothConnect)
+            .animation(.easeIn(duration: 0.5), value: store.statusItem.bluetoothConnect)
             .padding()
             .onAppear {
                 store.send(.viewTransition(.onAppear))
             }
-            .popup(isPresented: $store.bluetoothConnectPresent) {
+            .popup(isPresented: $store.statusItem.bluetoothConnectPresent) {
                 OBD2ConnectPopupView(bluetoothItemList: store.bluetoothItemList) { item in
                     store.send(.buttonTapped(.bluetoothConnect(item)))
                 } searchAction: {
@@ -43,7 +43,7 @@ struct MainView: View {
                         PopupBackgroundView(value: 0.4)
                     }
             }
-            .popup(isPresented: $store.supportedPIDsCheckPresnet) {
+            .popup(isPresented: $store.statusItem.supportedPIDsCheckPresnet) {
                 OBD2SupportedPopupView(supportedOBD2Commands: store.obdInfo.supportedPIDsToString)
             } customize : {
                 $0

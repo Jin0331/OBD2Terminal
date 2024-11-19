@@ -13,25 +13,25 @@ extension MainView {
     var headerView: some View {
         HStack(alignment:.center) {
             Text("Supported\nPIDs")
-                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
+                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.statusItem.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
                     store.send(.buttonTapped(.supportedPIDs))
                 }
-                .disabled(!store.bluetoothConnect)
+                .disabled(!store.statusItem.bluetoothConnect)
             
             Text("OBD2\nReset")
-                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
+                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.statusItem.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
                     store.send(.buttonTapped(.obd2Reset))
                 }
-                .disabled(!store.bluetoothConnect)
+                .disabled(!store.statusItem.bluetoothConnect)
             
             
             Spacer()
             
-            Image(store.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
+            Image(store.statusItem.bluetoothConnect ? .zcarConnect : .zcarUnconnect)
                 .resizable()
                 .frame(width: 55, height: 55)
                 .asButton {
-                    if store.bluetoothConnect {
+                    if store.statusItem.bluetoothConnect {
                         store.send(.buttonTapped(.bluetoothDisconnect))
                     } else {
                         store.send(.buttonTapped(.bluetoothRegistration))
@@ -94,10 +94,10 @@ extension MainView {
             .pickerStyle(.segmented)
             .frame(maxWidth: 120)
             .clipped()
-            .disabled(!store.bluetoothConnect)
+            .disabled(!store.statusItem.bluetoothConnect)
             
             
-            if store.bluetoothConnect {
+            if store.statusItem.bluetoothConnect {
                 TextField("Type OBD2 Command", text: $store.userCommand)
                     .normalTextFieldModifier(height: 45)
             } else {
@@ -111,16 +111,16 @@ extension MainView {
                     .font(.system(size: 15, weight: .bold))
                     .frame(width: 50, height: 45)
                     .foregroundStyle(Color.init(hex: ColorSystem.white.rawValue))
-                    .background(store.bluetoothConnect ? Color.init(hex: ColorSystem.green5ea504.rawValue) : Color.init(hex: ColorSystem.gray6e7f8d.rawValue))
+                    .background(store.statusItem.bluetoothConnect ? Color.init(hex: ColorSystem.green5ea504.rawValue) : Color.init(hex: ColorSystem.gray6e7f8d.rawValue))
                     .clipShape(RoundedRectangle(cornerRadius: 4))
                     .asButton {
                         store.send(.buttonTapped(.sendMessage))
                     }
-                    .disabled(!store.bluetoothConnect)
-                    .disabled(store.sendLoading)
+                    .disabled(!store.statusItem.bluetoothConnect)
+                    .disabled(store.statusItem.sendLoading)
                     .overlay {
-                        if store.sendLoading {
-                            ActivityIndicatorView(isVisible: $store.sendLoading,
+                        if store.statusItem.sendLoading {
+                            ActivityIndicatorView(isVisible: $store.statusItem.sendLoading,
                                                   type: .flickeringDots(count: 8))
                             .frame(width: 25, height: 25)
                             .foregroundColor(.red)
