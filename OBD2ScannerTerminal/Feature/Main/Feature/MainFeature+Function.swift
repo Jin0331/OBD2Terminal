@@ -37,11 +37,7 @@ extension MainFeature {
                 
             case .buttonTapped(.bluetoothScanStart):
                 return .run { send in
-                    do {
-                        try await obdService.startScan()
-                    } catch(let error) {
-                        Logger.error(error)
-                    }
+                    await obdService.startScan()
                 }
                 
             case let .buttonTapped(.bluetoothConnect(item)):
@@ -49,7 +45,7 @@ extension MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
-                    try await obdService.stopScan()
+                    await obdService.stopScan()
                     await obdService.stopConnection()
                     
                     do {

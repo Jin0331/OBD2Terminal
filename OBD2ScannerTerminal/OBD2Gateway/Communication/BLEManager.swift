@@ -285,6 +285,9 @@ final class BLEManager: NSObject, CommProtocol {
     ///     `BLEManagerError.unknownError` if an unknown error occurs.
     @discardableResult
     func sendCommand(_ command: String, retries: Int = 3) async throws -> [String] {
+        
+        Logger.debug("command: \(command)")
+        
         guard sendMessageCompletion == nil else {
             obdConnectionDelegate?.onOBDLog(logs: "\(BLEManagerError.sendingMessagesInProgress)")
             throw BLEManagerError.sendingMessagesInProgress
