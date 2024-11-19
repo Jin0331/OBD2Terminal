@@ -12,19 +12,6 @@ import Foundation
 final class BLEManager: NSObject, CommProtocol {
     
     static let shared = BLEManager()
-    
-    private let peripheralSubject = PassthroughSubject<CBPeripheral, Never>()
-    
-    var peripheralPublisher: AnyPublisher<CBPeripheral, Never> {
-        return peripheralSubject.eraseToAnyPublisher()
-    }
-    
-    static let services = [
-        CBUUID(string: "FFE0"),
-        CBUUID(string: "FFF0"),
-        CBUUID(string: "18F0") //e.g. VGate iCar Pro
-    ]
-    
     static let RestoreIdentifierKey: String = "OBD2Adapter"
     
     @Published var connectedPeripheral: CBPeripheral?
@@ -130,20 +117,6 @@ final class BLEManager: NSObject, CommProtocol {
         } else {
             Logger.error("Bluetooth address is Empty")
         }
-    }
-    
-    /// 파라미터로 넘어온 주변 기기를 CentralManager에 연결하도록 시도합니다.
-    private func connect(_ peripheral: CBPeripheral){
-        let name    = peripheral.name
-        let address = peripheral.identifier.uuidString
-        let device = BluetoothDevice(name: name!, address: address, rssi: 0, lastSeen: Date())
-        
-        
-        // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
-        obdConnectionDelegate?.onConnectingDevice(device: device)
-        
-        // 연결 실패를 대비하여 현재 연결 중인 주변 기기를 저장합니다.
-        centralManager.connect(peripheral, options: nil)
     }
     
     func didConnect(_: CBCentralManager, peripheral: CBPeripheral) {
@@ -342,13 +315,8 @@ final class BLEManager: NSObject, CommProtocol {
         if string.contains(">") {
             var lines = string
                 .components(separatedBy: .newlines)
-                .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
-            
-            // remove the last line
+                .filter { !$0.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }            
             lines.removeLast()
-            
-//            Logger.debug("Raw Response: \(lines)")
-//            obdConnectionDelegate?.onOBDLog(logs: "Raw Response: \(lines)")
             
             if sendMessageCompletion != nil {
                 if lines[0].uppercased().contains("NO DATA") {
@@ -361,11 +329,21 @@ final class BLEManager: NSObject, CommProtocol {
             buffer.removeAll()
         }
     }
-    
-    func scanForPeripherals() async throws {
-        startScanning(nil)
-        try await Task.sleep(nanoseconds: 10_000_000_000)
-        stopScanning()
+}
+
+extension BLEManager {
+    /// 파라미터로 넘어온 주변 기기를 CentralManager에 연결하도록 시도합니다.
+    private func connect(_ peripheral: CBPeripheral){
+        let name    = peripheral.name
+        let address = peripheral.identifier.uuidString
+        let device = BluetoothDevice(name: name!, address: address, rssi: 0, lastSeen: Date())
+        
+        
+        // 주변 기기와 연결 실패 시 동작하는 코드를 여기에 작성합니다.
+        obdConnectionDelegate?.onConnectingDevice(device: device)
+        
+        // 연결 실패를 대비하여 현재 연결 중인 주변 기기를 저장합니다.
+        centralManager.connect(peripheral, options: nil)
     }
     
     private func Timeout<R>(seconds: TimeInterval, operation: @escaping @Sendable () async throws -> R) async throws -> R {
@@ -396,6 +374,12 @@ final class BLEManager: NSObject, CommProtocol {
         }
     }
     
+    func scanForPeripherals() async throws {
+        startScanning(nil)
+        try await Task.sleep(nanoseconds: 10_000_000_000)
+        stopScanning()
+    }
+    
     func resetSendingMessage() {
         sendMessageCompletion = nil
     }
@@ -414,41 +398,5 @@ final class BLEManager: NSObject, CommProtocol {
             let timeSinceLastSeen = currentTime.timeIntervalSince(device.lastSeen)
             return timeSinceLastSeen > timeIntervalThreshold
         }
-    }
-}
-
-extension BLEManager : CBCentralManagerDelegate {
-    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String: Any], rssi RSSI: NSNumber) {
-        didDiscover(central, peripheral: peripheral, advertisementData: advertisementData, rssi: RSSI)
-    }
-    
-    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-        didConnect(central, peripheral: peripheral)
-    }
-    
-    func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        didUpdateState(central)
-    }
-    
-    func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
-        didFailToConnect(central, peripheral: peripheral, error: error)
-    }
-    
-    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        didDisconnect(central, peripheral: peripheral, error: error)
-    }
-}
-
-extension BLEManager: CBPeripheralDelegate {
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        didDiscoverServices(peripheral, error: error)
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        didDiscoverCharacteristics(peripheral, service: service, error: error)
-    }
-    
-    func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic, error: Error?) {
-        didUpdateValue(peripheral, characteristic: characteristic, error: error)
     }
 }
