@@ -571,11 +571,20 @@ func currentCenteredDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
 
 // 0 to 1.275 volts
 func sensorVoltageDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    let voltage = Double(data[0]) / 200
+    guard let firstByte = data.first else {
+        Logger.error("sensorVoltageDecoder: Data is empty")
+        return .failure(.invalidData)
+    }
+    
+    let voltage = Double(firstByte) / 200
     return .success(.measurementResult(MeasurementResult(value: voltage, unit: UnitElectricPotentialDifference.volts)))
 }
 
 func sensorVoltageBigDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
+    guard data.count >= 2 else {
+        return .failure(.decodingFailed(reason: "Data is too short for sensorVoltageBigDecoder"))
+    }
+        
     let value = bytesToInt(data[2 ..< 4])
     let voltage = (Double(value) * 8.0) / 65535
     return .success(.measurementResult(MeasurementResult(value: voltage, unit: UnitElectricPotentialDifference.volts)))
