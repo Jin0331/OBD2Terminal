@@ -276,13 +276,13 @@ public enum Decoders: Equatable {
             case .singleDTC:
                 return singleDtcDecoder(data)
             case .fuelStatus:
-                return  fuelStatusDecoder(data)
+                return fuelStatusDecoder(data)
             case .percentCentered:
                 return percentCenteredDecoder(data)
             case .fuelPressure:
-                return  fuelPressureDecoder(data)
+                return fuelPressureDecoder(data)
             case .pressure:
-                return  fuelPressureDecoder(data)
+                return pressureDecoder(data)
             case .timingAdvance:
                 return timingAdvanceDecoder(data)
             case .obdCompliance:
@@ -580,8 +580,12 @@ func sensorVoltageBigDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> 
 
 // 0 to 765 kPa
 func fuelPressureDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    var value = Double(data[0])
-    value = value * 3
+    guard let firstByte = data.first else {
+        Logger.error("fuelPressureDecoder: Data is empty")
+        return .failure(.invalidData)
+    }
+    
+    let value = Double(firstByte) * 3
     return .success(.measurementResult(MeasurementResult(value: value, unit: UnitPressure.kilopascals)))
 }
 
