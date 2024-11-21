@@ -472,10 +472,13 @@ func o2SensorsAltDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
 }
 
 func obdComplianceDecoder(_ data: Data) -> Result<DecodeResult, DecodeError> {
-    let i = data[1]
-
-    if i < OBD_COMPLIANCE.count {
-        return .success(.stringResult((OBD_COMPLIANCE[Int(i)])))
+    guard data.count > 1 else {
+        return .failure(.decodingFailed(reason: "Data is too short for OBD compliance"))
+    }
+    
+    let index = data[1]
+    if index < OBD_COMPLIANCE.count {
+        return .success(.stringResult(OBD_COMPLIANCE[Int(index)]))
     } else {
         return .failure(.decodingFailed(reason: "Invalid response for OBD compliance (no table entry)"))
     }
