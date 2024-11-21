@@ -147,9 +147,8 @@ final class OBDService : ObservableObject {
     /// - Returns: measurement result
     /// - Throws: Errors that might occur during the request process.
     @discardableResult
-    func requestPIDs(_ commands: [OBDCommand], unit: MeasurementUnit) async throws -> [OBDCommand: MeasurementResult] {
-        let response = try await sendCommandInternal(commands.compactMap { $0.properties.command }.joined(), retries: 10)
-        
+    func requestPIDs(_ commands: [OBDCommand], unit: MeasurementUnit, single : Bool = false) async throws -> [OBDCommand: MeasurementResult] {
+        let response = single ? try await sendCommandInternal(commands.compactMap { $0.properties.command }.joined(), retries: 10) : try await sendCommandInternal("01" + commands.compactMap { $0.properties.command.dropFirst(2) }.joined(), retries: 10)
         Logger.debug("requestPIDs Response: \(response)")
         
         guard let responseData = try elm327.canProtocol?.parse(response).first?.data else { return [:] }

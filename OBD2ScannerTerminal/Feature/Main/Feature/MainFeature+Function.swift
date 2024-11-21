@@ -133,7 +133,7 @@ extension MainFeature {
                 return .run { send in
                     for command in commands {
                         do {
-                            let response = try await obdService.requestPIDs([command], unit: .metric)
+                            let response = try await obdService.requestPIDs([command], unit: .metric, single: true)
                             await send(.anyAction(.addLogRes(response)))
                         } catch { }
                         
