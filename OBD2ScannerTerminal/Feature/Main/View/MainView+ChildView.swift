@@ -54,9 +54,6 @@ extension MainView {
                         .cornerRadius(4)
                 }
                 .animation(.easeIn(duration: 0.2), value: store.obdLog)
-                .onChange(of: store.obdLog) { _ in
-                    cursorPublisher.send(())
-                }
                 .onReceive(cursorPublisher
                     .debounce(for: .seconds(0.5), scheduler: DispatchQueue.main)) {
                         if let lastLogIndex = store.obdLog.indices.last {
@@ -75,6 +72,9 @@ extension MainView {
                     Label("Share", systemImage: "square.and.arrow.up")
                 })
             }
+        }
+        .onChange(of: store.obdLog) { _ in
+            cursorPublisher.send(())
         }
         .background(Color(.systemGray5))
         .cornerRadius(4)

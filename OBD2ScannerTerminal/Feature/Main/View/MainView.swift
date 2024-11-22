@@ -11,7 +11,7 @@ import PopupView
 import Combine
 
 struct MainView: View {
-    @State var store : StoreOf<MainFeature>
+    @Perception.Bindable var store : StoreOf<MainFeature>
     @State var cursorPublisher = PassthroughSubject<Void, Never>()
     
     var body: some View {
