@@ -45,15 +45,13 @@ extension MainView {
     var bodyView: some View {
         ScrollViewReader { scrollViewProxy in
             ScrollView {
-                VStack(alignment: .leading, spacing: 8) {
-                    ForEach(store.obdLog.indices, id: \.self) { index in
-                        Text(store.obdLog[index])
-                            .font(.system(size: 15, weight: .regular, design: .monospaced))
-                            .padding(.horizontal)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(index % 2 == 0 ? Color(.systemGray6) : Color(.white)) // 배경색 번갈아 가며 설정
-                            .cornerRadius(4)
-                    }
+                ForEach(store.obdLog.indices, id: \.self) { index in
+                    Text(store.obdLog[index])
+                        .font(.system(size: 14, weight: .regular, design: .monospaced))
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(index % 2 == 0 ? Color(.systemGray6) : Color(.white)) // 배경색 번갈아 가며 설정
+                        .cornerRadius(4)
                 }
                 .animation(.easeIn(duration: 0.2), value: store.obdLog)
                 .onChange(of: store.obdLog) { _ in
