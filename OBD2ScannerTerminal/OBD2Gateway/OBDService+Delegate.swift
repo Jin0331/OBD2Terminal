@@ -48,7 +48,7 @@ extension OBDService : BluetoothConnectionEventDelegate {
     func onOBDLog(logs: String) {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
-            obdLog.append(logs)
+            receiveOBD2LogProperty.send(OBD2Log(log: [logs]))
         }
     }
 }

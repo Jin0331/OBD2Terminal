@@ -13,7 +13,10 @@ struct MainFeature {
     @ObservableState
     struct State : Equatable {
         let id = UUID()
-        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: ["OBD2 Terminal Start..."])
+//        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: ["OBD2 Terminal Start..."])
+        
+        var obdLog : [String] = ["OBD2 Terminal Start..."]
+        
         var obdInfo : OBDInfo = .init()
         var bluetoothItemList : BluetoothItemList = .init()
         var userCommand : String = .init()
@@ -55,6 +58,7 @@ struct MainFeature {
         case onConnectEcuProperty
         case onConnectFailedDeviceProperty(BluetoothDevice)
         case onDisConnectDeviceProperty(BluetoothDevice)
+        case receiveOBD2LogProperty(OBD2Log)
         
         case requestAT
         case requestPID

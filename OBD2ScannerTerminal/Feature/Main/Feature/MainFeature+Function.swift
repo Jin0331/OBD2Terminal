@@ -61,7 +61,7 @@ extension MainFeature {
                 
             case .buttonTapped(.obd2Reset):
                 Logger.info("OBD2 Reset")
-                state.obdLog = .init(log: [])
+                state.obdLog = .init()
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
@@ -98,7 +98,7 @@ extension MainFeature {
                 state.statusItem.supportedPIDsCheckPresnet = true
                 
             case .buttonTapped(.logClear):
-                state.obdLog = .init(log: [""])
+                state.obdLog = .init()
                 
             default:
                 break
@@ -159,7 +159,7 @@ extension MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOff))
-                    try await obdService.stopScan()
+                    await obdService.stopScan()
                 }
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
@@ -172,6 +172,11 @@ extension MainFeature {
                     await obdService.stopConnection()
                     await send(.viewTransition(.loadingOff))
                 }
+            
+            case let .provider(.receiveOBD2LogProperty(obdLog)):
+                Logger.debug("OBD2 Log Receive")
+                state.obdLog.append(contentsOf: obdLog.log)
+                
             default:
                 break
             }
@@ -200,7 +205,7 @@ extension MainFeature {
                 
                 return .run { send in
                     await obdService.initsendingMessage()
-                    try await obdService.stopScan()
+                    await obdService.stopScan()
                     await obdService.stopConnection()
                     await send(.viewTransition(.loadingOff))
                 }
@@ -250,6 +255,16 @@ extension MainFeature {
                     }
             }
         )
+        
+        effects.append(Effect<MainFeature.Action>
+            .publisher {
+                obdService.receiveOBD2LogProperty
+                    .map { log in
+                        Action.provider(.receiveOBD2LogProperty(log))
+                    }
+            }
+       )
+        
         return effects
     }
 }
@@ -257,7 +272,7 @@ extension MainFeature {
 extension MainFeature {
     private func initBluetoothConnectInformation(_ state : inout MainFeature.State, isLogInit : Bool = false) {
         if isLogInit {
-            state.obdLog = .init(log: [])
+            state.obdLog = .init()
         }
         
         state.bluetoothItemList = .init()

@@ -12,7 +12,6 @@ import Foundation
 import ComposableArchitecture
 
 final class OBDService : ObservableObject {
-    @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: [])
     @Published public  var connectionType: ConnectionType = .bluetooth
     @Published var btList: BluetoothItemList = .init()
     
@@ -27,6 +26,7 @@ final class OBDService : ObservableObject {
     let onConnectEcuProperty : PassthroughSubject<Void, Never> = .init()
     let onConnectFailedDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
     let onDisConnectDeviceProperty: PassthroughSubject<BluetoothDevice, Never>  = .init()
+    let receiveOBD2LogProperty: PassthroughSubject<OBD2Log, Never> = .init()
     
     init(connectionType: ConnectionType = .bluetooth) {
         self.connectionType = connectionType
