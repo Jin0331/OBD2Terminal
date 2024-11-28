@@ -7,12 +7,15 @@
 
 import Foundation
 import ComposableArchitecture
+import OBDGatewayFramework
 
 extension MainFeature {
     func viewTransitionReducer() -> some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
             case .viewTransition(.onAppear):
+                 
+                OBDService.shared.setUpService(connectionType: .bluetooth)
                 
                 return .run { send in
                     await send(.provider(.registerPublisher))
@@ -37,7 +40,7 @@ extension MainFeature {
                 
             case .buttonTapped(.bluetoothScanStart):
                 return .run { send in
-                    await obdService.startScan()
+                    await OBDService.shared.startScan()
                 }
                 
             case let .buttonTapped(.bluetoothConnect(item)):
@@ -45,11 +48,11 @@ extension MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
-                    await obdService.stopScan()
-                    await obdService.stopConnection()
+                    await OBDService.shared.stopScan()
+                    await OBDService.shared.stopConnection()
                     
                     do {
-                        let obdInfo = try await obdService.startConnection(address: item.address, timeout: 10)
+                        let obdInfo = try await OBDService.shared.startConnection(address: item.address, timeout: 10)
                         await send(.provider(.supportedPID(obdInfo)))
                         try await Task.sleep(for: .seconds(1))
                         await send(.viewTransition(.loadingOff))
@@ -65,7 +68,7 @@ extension MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))
-                    let obdInfo = try await obdService.reConnection()
+                    let obdInfo = try await OBDService.shared.reConnection()
                     await send(.provider(.supportedPID(obdInfo)))
                 }
                 .throttle(id: ID.throttle, for: 1, scheduler: DispatchQueue.main, latest: true)
@@ -75,7 +78,7 @@ extension MainFeature {
                 state.statusItem.bluetoothConnect = false
                 
                 return .run { send in
-                    await obdService.stopConnection()
+                    await OBDService.shared.stopConnection()
                 }
                 
             case .buttonTapped(.sendMessage):
@@ -118,7 +121,7 @@ extension MainFeature {
                 return .run { send in
                     for command in splitCommand {
                         do {
-                            try await obdService.sendATCommand(at: command)
+                            try await OBDService.shared.sendATCommand(at: command)
                         } catch { }
                         
                         await send(.anyAction(.addLogSeperate))
@@ -133,7 +136,7 @@ extension MainFeature {
                 return .run { send in
                     for command in commands {
                         do {
-                            let response = try await obdService.requestPIDs([command], unit: .metric, single: true)
+                            let response = try await OBDService.shared.requestPIDs([command], unit: .metric, single: true)
                             await send(.anyAction(.addLogRes(response)))
                         } catch { }
                         
@@ -159,7 +162,7 @@ extension MainFeature {
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOff))
-                    await obdService.stopScan()
+                    await OBDService.shared.stopScan()
                 }
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
@@ -168,8 +171,8 @@ extension MainFeature {
                 state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
-                    await obdService.initsendingMessage()
-                    await obdService.stopConnection()
+                    await OBDService.shared.initsendingMessage()
+                    await OBDService.shared.stopConnection()
                     await send(.viewTransition(.loadingOff))
                 }
             
@@ -204,9 +207,9 @@ extension MainFeature {
                 state.obdLog.append("🚫 OBD2 Connet Error: Please try reconnecting.")
                 
                 return .run { send in
-                    await obdService.initsendingMessage()
-                    await obdService.stopScan()
-                    await obdService.stopConnection()
+                    await OBDService.shared.initsendingMessage()
+                    await OBDService.shared.stopScan()
+                    await OBDService.shared.stopConnection()
                     await send(.viewTransition(.loadingOff))
                 }
             default:
@@ -222,7 +225,7 @@ extension MainFeature {
         
         effects.append(Effect<MainFeature.Action>
             .publisher {
-                obdService.onDeviceFoundProperty
+                OBDService.shared.onDeviceFoundProperty
                     .map { deviceList in
                         Action.provider(.onDeviceFoundProperty(deviceList))
                     }
@@ -231,7 +234,7 @@ extension MainFeature {
         
         effects.append(Effect<MainFeature.Action>
             .publisher {
-                obdService.onConnectEcuProperty
+                OBDService.shared.onConnectEcuProperty
                     .map { device in
                         Action.provider(.onConnectEcuProperty)
                     }
@@ -240,7 +243,7 @@ extension MainFeature {
         
         effects.append(Effect<MainFeature.Action>
             .publisher {
-                obdService.onDisConnectDeviceProperty
+                OBDService.shared.onDisConnectDeviceProperty
                     .map { device in
                         Action.provider(.onDisConnectDeviceProperty(device))
                     }
@@ -249,7 +252,7 @@ extension MainFeature {
         
         effects.append(Effect<MainFeature.Action>
             .publisher {
-                obdService.onConnectFailedDeviceProperty
+                OBDService.shared.onConnectFailedDeviceProperty
                     .map { device in
                         Action.provider(.onConnectFailedDeviceProperty(device))
                     }
@@ -258,7 +261,7 @@ extension MainFeature {
         
         effects.append(Effect<MainFeature.Action>
             .publisher {
-                obdService.receiveOBD2LogProperty
+                OBDService.shared.receiveOBD2LogProperty
                     .map { log in
                         Action.provider(.receiveOBD2LogProperty(log))
                     }

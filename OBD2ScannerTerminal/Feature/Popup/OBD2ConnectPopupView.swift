@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import OBDGatewayFramework
 
 struct OBD2ConnectPopupView: View {
     let bluetoothItemList : BluetoothItemList
