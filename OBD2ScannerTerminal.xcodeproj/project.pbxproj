@@ -14,6 +14,19 @@
 		6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BF051F92CE59C160087A250 /* ComposableArchitecture */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		6B8089EE2CF82098006D16AE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OBD2ScannerTerminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -28,11 +41,25 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		6B808A002CF826E6006D16AE /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				Framework/OBDGatewayFramework.xcframework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
+			};
+			buildPhase = 6B8089EE2CF82098006D16AE /* Embed Frameworks */;
+			membershipExceptions = (
+				Framework/OBDGatewayFramework.xcframework,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		6BB97D3B2CD8911300CA6407 /* OBD2ScannerTerminal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */,
+				6B808A002CF826E6006D16AE /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */,
 			);
 			path = OBD2ScannerTerminal;
 			sourceTree = "<group>";
@@ -81,6 +108,7 @@
 				6BB97D352CD8911300CA6407 /* Sources */,
 				6BB97D362CD8911300CA6407 /* Frameworks */,
 				6BB97D372CD8911300CA6407 /* Resources */,
+				6B8089EE2CF82098006D16AE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

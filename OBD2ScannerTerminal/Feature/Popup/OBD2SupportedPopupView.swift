@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Foundation
+import OBDGatewayFramework
 
 struct OBD2SupportedPopupView : View {
     let supportedOBD2Commands: [OBDCommand]

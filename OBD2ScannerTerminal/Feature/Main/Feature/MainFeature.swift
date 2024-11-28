@@ -7,13 +7,13 @@
 
 import Foundation
 import ComposableArchitecture
+import OBDGatewayFramework
 
 @Reducer
 struct MainFeature {
     @ObservableState
     struct State : Equatable {
         let id = UUID()
-//        @Shared(Environment.SharedInMemoryType.obdLog.keys) var obdLog : OBD2Log = .init(log: ["OBD2 Terminal Start..."])
         
         var obdLog : [String] = ["OBD2 Terminal Start..."]
         
@@ -70,8 +70,6 @@ struct MainFeature {
         case addLogRes([OBDCommand : MeasurementResult])
         case errorHandling(Error)
     }
-    
-    @Dependency(\.obdService) var obdService
     
     var body : some ReducerOf<Self> {
         
