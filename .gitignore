@@ -18,6 +18,7 @@ Pods/
 ## User settings
 xcuserdata/
 OBD2Gateway/
+Framework/
 
 ## Xcode 8 and earlier
 *.xcscmblueprint
