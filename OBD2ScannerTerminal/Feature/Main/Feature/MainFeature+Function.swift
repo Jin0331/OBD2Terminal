@@ -199,7 +199,11 @@ extension MainFeature {
                 
             case let .anyAction(.addLogRes(response)):
                 response.forEach { (key, items) in
-                    state.obdLog.append("Parse Response: [\(key.properties.description)] \(items.value) \(items.unit.symbol)")
+                    if let item = items.stringResult {
+                        state.obdLog.append("Parse Response : [\(key.properties.description)] \(item)")
+                    } else if let item = items.measurementResult {
+                        state.obdLog.append("Parse Response: [\(key.properties.description)] \(item.value) \(item.unit.symbol)")
+                    }
                 }
                 
             case .anyAction(.errorHandling(_)):
