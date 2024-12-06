@@ -67,7 +67,7 @@ struct MainFeature {
     
     enum AnyAction {
         case addLogSeperate
-        case addLogRes([OBDCommand : MeasurementResult])
+        case addLogRes([OBDCommand : DecodeResult])
         case errorHandling(Error)
     }
     
