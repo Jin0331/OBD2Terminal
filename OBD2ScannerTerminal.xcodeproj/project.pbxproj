@@ -42,7 +42,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		6B210AAB2D018BCA00B10A66 /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */ = {
+		6B210B5E2D01F8CE00B10A66 /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */ = {
 			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
 			attributesByRelativePath = {
 				Framework/OBDGatewayFramework.xcframework = (CodeSignOnCopy, RemoveHeadersOnCopy, );
@@ -59,7 +59,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */,
-				6B210AAB2D018BCA00B10A66 /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */,
+				6B210B5E2D01F8CE00B10A66 /* Exceptions for "OBD2ScannerTerminal" folder in "Embed Frameworks" phase from "OBD2ScannerTerminal" target */,
 			);
 			path = OBD2ScannerTerminal;
 			sourceTree = "<group>";
