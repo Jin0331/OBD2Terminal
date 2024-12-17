@@ -52,7 +52,7 @@ extension MainFeature {
                     await OBDService.shared.stopConnection()
                     
                     do {
-                        let obdInfo = try await OBDService.shared.startConnection(address: item.address, timeout: 10)
+                        let obdInfo = try await OBDService.shared.startConnection(name: item.name, address: item.address, timeout: 10)
                         await send(.provider(.supportedPID(obdInfo)))
                         try await Task.sleep(for: .seconds(1))
                         await send(.viewTransition(.loadingOff))
@@ -203,6 +203,14 @@ extension MainFeature {
                         state.obdLog.append("Parse Response : [\(key.properties.description)] \(item)")
                     } else if let item = items.measurementResult {
                         state.obdLog.append("Parse Response: [\(key.properties.description)] \(item.value) \(item.unit.symbol)")
+                    } else if let item = items.troubleCode {
+                        if item.isEmpty {
+                            state.obdLog.append("Parse Response: [\(key.properties.description)] DTC Not found!")
+                        } else {
+                            item.forEach { dtc in
+                                state.obdLog.append("Parse Response: [\(key.properties.description)] \(dtc.code) - \(dtc.description)")
+                            }
+                        }
                     }
                 }
                 
