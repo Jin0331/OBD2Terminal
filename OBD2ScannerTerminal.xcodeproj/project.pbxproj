@@ -454,8 +454,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "http://git.namuplanet.com/jinoo/obdlib-ios-package.git";
 			requirement = {
-				kind = revision;
-				revision = 8e1fa3aa098c8ccddc698fdecc4fe8f437d48c26;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

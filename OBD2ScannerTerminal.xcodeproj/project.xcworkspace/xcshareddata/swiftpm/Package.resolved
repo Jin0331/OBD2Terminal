@@ -1,5 +1,5 @@
 {
-  "originHash" : "4370b0a1310de1307db7f6d0c5d5a89e26d03af680f5a8c688e09a5e15ca7df6",
+  "originHash" : "c403bce30078275b204619555084d00a2eefb24337a2b3808e050d0122d33c70",
   "pins" : [
     {
       "identity" : "activityindicatorview",
@@ -33,7 +33,8 @@
       "kind" : "remoteSourceControl",
       "location" : "http://git.namuplanet.com/jinoo/obdlib-ios-package.git",
       "state" : {
-        "revision" : "8e1fa3aa098c8ccddc698fdecc4fe8f437d48c26"
+        "branch" : "main",
+        "revision" : "5fc1770949f179c82169483d32d235d8e8a03598"
       }
     },
     {
