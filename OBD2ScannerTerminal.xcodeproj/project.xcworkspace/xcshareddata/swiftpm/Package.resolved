@@ -1,5 +1,5 @@
 {
-  "originHash" : "c403bce30078275b204619555084d00a2eefb24337a2b3808e050d0122d33c70",
+  "originHash" : "6df0fc109862138c5dc0c05f70f06c96252f94db7707999960454b77b2dd341b",
   "pins" : [
     {
       "identity" : "activityindicatorview",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "9970fd0bb7a05dad0b6566ae1f56937716686b24",
         "version" : "1.1.1"
+      }
+    },
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "513364f870f6bfc468f9d2ff0a95caccc10044c5",
+        "version" : "5.10.2"
       }
     },
     {

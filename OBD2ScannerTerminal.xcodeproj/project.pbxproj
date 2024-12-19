@@ -11,6 +11,7 @@
 		6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */; };
 		6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */; };
 		6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97DA62CD9F35A00CA6407 /* PopupView */; };
+		6BEF53972D139D3D00640A3F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6BEF53962D139D3D00640A3F /* Alamofire */; };
 		6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BF051F92CE59C160087A250 /* ComposableArchitecture */; };
 		6BF8EDE22D116ED60064AF37 /* obdlib-ios-package in Frameworks */ = {isa = PBXBuildFile; productRef = 6BF8EDE12D116ED60064AF37 /* obdlib-ios-package */; };
 /* End PBXBuildFile section */
@@ -59,6 +60,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */,
+				6BEF53972D139D3D00640A3F /* Alamofire in Frameworks */,
 				6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */,
 				6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */,
 				6BF8EDE22D116ED60064AF37 /* obdlib-ios-package in Frameworks */,
@@ -113,6 +115,7 @@
 				6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */,
 				6BF051F92CE59C160087A250 /* ComposableArchitecture */,
 				6BF8EDE12D116ED60064AF37 /* obdlib-ios-package */,
+				6BEF53962D139D3D00640A3F /* Alamofire */,
 			);
 			productName = OBD2ScannerTerminal;
 			productReference = 6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */;
@@ -149,6 +152,7 @@
 				6B2262C32CE2F227001CF6B2 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 				6BF051F82CE59C160087A250 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 				6BF8EDE02D116ED60064AF37 /* XCRemoteSwiftPackageReference "obdlib-ios-package" */,
+				6BEF53952D139D3D00640A3F /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 6BB97D3A2CD8911300CA6407 /* Products */;
@@ -442,6 +446,14 @@
 				minimumVersion = 3.1.4;
 			};
 		};
+		6BEF53952D139D3D00640A3F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 		6BF051F82CE59C160087A250 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -480,6 +492,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 6BB97DA52CD9F35A00CA6407 /* XCRemoteSwiftPackageReference "PopupView" */;
 			productName = PopupView;
+		};
+		6BEF53962D139D3D00640A3F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BEF53952D139D3D00640A3F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 		6BF051F92CE59C160087A250 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

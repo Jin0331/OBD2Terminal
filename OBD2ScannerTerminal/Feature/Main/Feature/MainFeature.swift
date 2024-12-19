@@ -28,8 +28,9 @@ struct MainFeature {
         case binding(BindingAction<State>)
         case buttonTapped(ButtonTapped)
         case viewTransition(ViewTransition)
-        case anyAction(AnyAction)
         case provider(Provider)
+        case networkResponse(NetworkResponse)
+        case anyAction(AnyAction)
     }
     
     enum ButtonTapped {
@@ -38,6 +39,7 @@ struct MainFeature {
         case bluetoothDisconnect
         case bluetoothRegistration
         case sendMessage
+        case sendLogs
         case supportedPIDs
         case obd2Reset
         
@@ -65,11 +67,17 @@ struct MainFeature {
         case supportedPID(OBDInfo)
     }
     
+    enum NetworkResponse {
+        case sendLog(Result<String, APIError>)
+    }
+    
     enum AnyAction {
         case addLogSeperate
         case addLogRes([OBDCommand : DecodeResult])
         case errorHandling(Error)
     }
+    
+    @Dependency(\.networkManager) var networkManager
     
     var body : some ReducerOf<Self> {
         
@@ -78,6 +86,7 @@ struct MainFeature {
         viewTransitionReducer()
         buttonTappedReducer()
         providerReducer()
+        networkResponseReducer()
         anyActionReducer()
     }
 }
