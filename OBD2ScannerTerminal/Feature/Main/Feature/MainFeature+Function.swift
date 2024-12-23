@@ -182,7 +182,7 @@ extension MainFeature {
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
                 Logger.debug("OBD2 disconnected ⛑️")
-                initBluetoothConnectInformation(&state, isLogInit: true)
+                initBluetoothConnectInformation(&state, isLogInit: false)
                 state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
