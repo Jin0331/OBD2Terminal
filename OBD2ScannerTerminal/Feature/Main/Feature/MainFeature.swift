@@ -60,7 +60,7 @@ struct MainFeature {
         case onConnectEcuProperty
         case onConnectFailedDeviceProperty(BluetoothDevice)
         case onDisConnectDeviceProperty(BluetoothDevice)
-        case receiveOBD2LogProperty(OBD2Log)
+        case receiveOBD2LogProperty(OBDLog)
         
         case requestAT
         case requestPID
