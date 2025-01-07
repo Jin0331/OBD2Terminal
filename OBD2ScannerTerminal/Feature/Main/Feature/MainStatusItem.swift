@@ -10,6 +10,7 @@ import Foundation
 struct MainStatusItem : Equatable {
     var bluetoothConnect : Bool = false
     var sendLoading : Bool = false
+    var logSendLoading : Bool = false
     var bluetoothConnectPresent : Bool = false
     var supportedPIDsCheckPresnet : Bool = false
 }

@@ -25,6 +25,20 @@ extension MainView {
                 }
                 .disabled(!store.statusItem.bluetoothConnect)
             
+            Text("Send\nLogs")
+                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.statusItem.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
+                    store.send(.buttonTapped(.sendLogs))
+                }
+                .disabled(!store.statusItem.bluetoothConnect)
+                .disabled(store.statusItem.logSendLoading)
+                .overlay {
+                    if store.statusItem.logSendLoading {
+                        ActivityIndicatorView(isVisible: $store.statusItem.logSendLoading,
+                                              type: .flickeringDots(count: 8))
+                        .frame(width: 25, height: 25)
+                        .foregroundColor(.red)
+                    }
+                }
             
             Spacer()
             

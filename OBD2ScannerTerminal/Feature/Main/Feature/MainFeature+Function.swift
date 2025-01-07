@@ -100,6 +100,21 @@ extension MainFeature {
                 #endif
                 state.statusItem.supportedPIDsCheckPresnet = true
                 
+            case .buttonTapped(.sendLogs):
+                state.statusItem.logSendLoading = true
+                let logs = state.obdLog.joined(separator: "\n")
+                Logger.debug(logs)
+                
+                return .run { [logs = logs] send in
+                    let res = try await OBDService.shared.requestPIDs([.mode9(.VIN)], unit: .metric, single: true)
+                    let vin = res[.mode9(.VIN)]?.stringResult ?? ""
+                    try await Task.sleep(for: .seconds(1.5))
+                    await send(.networkResponse(.sendLog(
+                        networkManager.sendLogs(request: SendLogsRequest(vin: vin, iosLog: logs))
+                    )))
+                }
+                .throttle(id: ID.throttle, for: 3, scheduler: DispatchQueue.main, latest: true)
+                
             case .buttonTapped(.logClear):
                 state.obdLog = .init()
                 
@@ -167,7 +182,7 @@ extension MainFeature {
                 
             case let .provider(.onDisConnectDeviceProperty(device)), let .provider(.onConnectFailedDeviceProperty(device)):
                 Logger.debug("OBD2 disconnected ⛑️")
-                initBluetoothConnectInformation(&state, isLogInit: true)
+                initBluetoothConnectInformation(&state, isLogInit: false)
                 state.obdLog.append("🚫 OBD2 disconnected - Device Name: \(device.name), Device Address: \(device.address), Time : \(Date())")
                 
                 return .run { send in
@@ -179,6 +194,25 @@ extension MainFeature {
             case let .provider(.receiveOBD2LogProperty(obdLog)):
                 Logger.debug("OBD2 Log Receive")
                 state.obdLog.append(contentsOf: obdLog.log)
+                
+            default:
+                break
+            }
+            
+            return .none
+        }
+    }
+    
+    func networkResponseReducer() -> some ReducerOf<Self> {
+        Reduce { state, action in
+            switch action {
+            case let .networkResponse(.sendLog(.success(res))):
+                Logger.debug(res)
+                state.statusItem.logSendLoading = false
+                
+            case let .networkResponse(.sendLog(.failure(error))):
+                Logger.error(error)
+                state.statusItem.logSendLoading = false
                 
             default:
                 break
