@@ -13,6 +13,7 @@ import Combine
 struct MainView: View {
     @Perception.Bindable var store : StoreOf<MainFeature>
     @State var cursorPublisher = PassthroughSubject<Void, Never>()
+    var isSendLogButton : Bool = false
     
     var body: some View {
         WithPerceptionTracking {
