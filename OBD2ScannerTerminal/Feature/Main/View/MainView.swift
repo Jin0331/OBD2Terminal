@@ -13,14 +13,14 @@ import Combine
 struct MainView: View {
     @Perception.Bindable var store : StoreOf<MainFeature>
     @State var cursorPublisher = PassthroughSubject<Void, Never>()
-    var isSendLogButton : Bool = false
+    var isSendLogButton : Bool = true
     
     var body: some View {
         WithPerceptionTracking {
             VStack(spacing : 10) {
                 headerView
                 bodyView
-                bottomView
+//                bottomView
             }
             .animation(.easeIn(duration: 0.5), value: store.statusItem.bluetoothConnect)
             .padding()

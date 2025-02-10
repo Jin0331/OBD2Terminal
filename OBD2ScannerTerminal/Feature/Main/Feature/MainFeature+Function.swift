@@ -45,6 +45,7 @@ extension MainFeature {
                 
             case let .buttonTapped(.bluetoothConnect(item)):
                 Logger.debug("item: \(item)")
+                state.statusItem.bluetoothConnectPresent = false
                 
                 return .run { send in
                     await send(.viewTransition(.loadingOn))

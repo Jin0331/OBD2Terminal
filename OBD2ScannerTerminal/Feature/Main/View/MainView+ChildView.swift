@@ -13,17 +13,13 @@ import Combine
 extension MainView {
     var headerView: some View {
         HStack(alignment:.center) {
-            Text("Supported\nPIDs")
-                .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.statusItem.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
-                    store.send(.buttonTapped(.supportedPIDs))
-                }
-                .disabled(!store.statusItem.bluetoothConnect)
-            
             Text("OBD2\nReset")
                 .textTobuttonModifier(fontSize: 15, width: 90, height: 40, textColor: ColorSystem.white.rawValue, bgColor: store.statusItem.bluetoothConnect ?   ColorSystem.green5ea504.rawValue : ColorSystem.gray6e7f8d.rawValue) {
                     store.send(.buttonTapped(.obd2Reset))
                 }
                 .disabled(!store.statusItem.bluetoothConnect)
+            
+            Spacer()
             
             if isSendLogButton {
                 Text("Send\nLogs")

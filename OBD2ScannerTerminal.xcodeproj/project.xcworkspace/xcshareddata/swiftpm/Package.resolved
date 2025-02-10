@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "http://git.namuplanet.com/jinoo/obdlib-ios-package.git",
       "state" : {
-        "revision" : "33b7dc5468416647cc6490da353ddeb699b86803",
-        "version" : "2.2.10"
+        "revision" : "a6af1d3f5f75690036a38a7185d2bddc5e238fc2",
+        "version" : "2.2.17"
       }
     },
     {
