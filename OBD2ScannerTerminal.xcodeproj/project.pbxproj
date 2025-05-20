@@ -10,6 +10,105 @@
 		6B2262BE2CE2D9BE001CF6B2 /* TCACoordinators in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262BD2CE2D9BE001CF6B2 /* TCACoordinators */; };
 		6B2262C52CE2F227001CF6B2 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 6B2262C42CE2F227001CF6B2 /* ActivityIndicatorView */; };
 		6B576BB72D1949D8006E584A /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6B576BB62D1949D8006E584A /* Alamofire */; };
+		6BA07FBA2DDC758A007DF815 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F772DDC758A007DF815 /* Dictionary+Extension.swift */; };
+		6BA07FBB2DDC758A007DF815 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F782DDC758A007DF815 /* Publisher+Extension.swift */; };
+		6BA07FBC2DDC758A007DF815 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F792DDC758A007DF815 /* String+Extension.swift */; };
+		6BA07FBD2DDC758A007DF815 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7A2DDC758A007DF815 /* View+Extension.swift */; };
+		6BA07FBE2DDC758A007DF815 /* ButtonWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7C2DDC758A007DF815 /* ButtonWrapper.swift */; };
+		6BA07FBF2DDC758A007DF815 /* DynamicFontSizeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7D2DDC758A007DF815 /* DynamicFontSizeModifier.swift */; };
+		6BA07FC02DDC758A007DF815 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7E2DDC758A007DF815 /* FontModifier.swift */; };
+		6BA07FC12DDC758A007DF815 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7F2DDC758A007DF815 /* NavigationBarModifier.swift */; };
+		6BA07FC22DDC758A007DF815 /* NormalTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F802DDC758A007DF815 /* NormalTextFieldModifier.swift */; };
+		6BA07FC32DDC758A007DF815 /* NormalTextLabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F812DDC758A007DF815 /* NormalTextLabelModifier.swift */; };
+		6BA07FC42DDC758A007DF815 /* NormalTextLabelModifier2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F822DDC758A007DF815 /* NormalTextLabelModifier2.swift */; };
+		6BA07FC52DDC758A007DF815 /* ProfileImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F832DDC758A007DF815 /* ProfileImageModifier.swift */; };
+		6BA07FC62DDC758A007DF815 /* RedactedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F842DDC758A007DF815 /* RedactedModifier.swift */; };
+		6BA07FC72DDC758A007DF815 /* ShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F852DDC758A007DF815 /* ShadowModifier.swift */; };
+		6BA07FC82DDC758A007DF815 /* TextBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F862DDC758A007DF815 /* TextBackgroundModifier.swift */; };
+		6BA07FC92DDC758A007DF815 /* TextToButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F872DDC758A007DF815 /* TextToButtonModifier.swift */; };
+		6BA07FCA2DDC758A007DF815 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8A2DDC758A007DF815 /* MainCoordinator.swift */; };
+		6BA07FCB2DDC758A007DF815 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8B2DDC758A007DF815 /* MainScreen.swift */; };
+		6BA07FCC2DDC758A007DF815 /* MainScreen+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8C2DDC758A007DF815 /* MainScreen+Identifiable.swift */; };
+		6BA07FCD2DDC758A007DF815 /* MainFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8E2DDC758A007DF815 /* MainFeature.swift */; };
+		6BA07FCE2DDC758A007DF815 /* MainFeature+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8F2DDC758A007DF815 /* MainFeature+Enum.swift */; };
+		6BA07FCF2DDC758A007DF815 /* MainFeature+Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F902DDC758A007DF815 /* MainFeature+Function.swift */; };
+		6BA07FD02DDC758A007DF815 /* MainStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F912DDC758A007DF815 /* MainStatusItem.swift */; };
+		6BA07FD12DDC758A007DF815 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F932DDC758A007DF815 /* MainView.swift */; };
+		6BA07FD22DDC758A007DF815 /* MainView+ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F942DDC758A007DF815 /* MainView+ChildView.swift */; };
+		6BA07FD32DDC758A007DF815 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F972DDC758A007DF815 /* LoadingView.swift */; };
+		6BA07FD42DDC758A007DF815 /* OBD2ConnectPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F982DDC758A007DF815 /* OBD2ConnectPopupView.swift */; };
+		6BA07FD52DDC758A007DF815 /* OBD2SupportedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F992DDC758A007DF815 /* OBD2SupportedPopupView.swift */; };
+		6BA07FD62DDC758A007DF815 /* PopupBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F9A2DDC758A007DF815 /* PopupBackgroundView.swift */; };
+		6BA07FD72DDC758A007DF815 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F9F2DDC758A007DF815 /* APIError.swift */; };
+		6BA07FD82DDC758A007DF815 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA02DDC758A007DF815 /* NetworkManager.swift */; };
+		6BA07FD92DDC758A007DF815 /* NetworkManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA12DDC758A007DF815 /* NetworkManager+Extension.swift */; };
+		6BA07FDA2DDC758A007DF815 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA32DDC758A007DF815 /* HTTPHeader.swift */; };
+		6BA07FDB2DDC758A007DF815 /* RemoteConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA42DDC758A007DF815 /* RemoteConstants.swift */; };
+		6BA07FDC2DDC758A007DF815 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA52DDC758A007DF815 /* TargetType.swift */; };
+		6BA07FDD2DDC758A007DF815 /* SendLogsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA82DDC758A007DF815 /* SendLogsRequest.swift */; };
+		6BA07FDE2DDC758A007DF815 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAA2DDC758A007DF815 /* ErrorResponse.swift */; };
+		6BA07FDF2DDC758A007DF815 /* RemoteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAB2DDC758A007DF815 /* RemoteResponse.swift */; };
+		6BA07FE02DDC758A007DF815 /* OBD2TerminalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAE2DDC758A007DF815 /* OBD2TerminalRouter.swift */; };
+		6BA07FE12DDC758A007DF815 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB12DDC758A007DF815 /* Color.swift */; };
+		6BA07FE22DDC758A007DF815 /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB22DDC758A007DF815 /* Enviroment.swift */; };
+		6BA07FE32DDC758A007DF815 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB32DDC758A007DF815 /* Logger.swift */; };
+		6BA07FE42DDC758A007DF815 /* OBD2ScannerTerminalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB82DDC758A007DF815 /* OBD2ScannerTerminalApp.swift */; };
+		6BA07FE52DDC758A007DF815 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07F9D2DDC758A007DF815 /* Preview Assets.xcassets */; };
+		6BA07FE62DDC758A007DF815 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07FB52DDC758A007DF815 /* Assets.xcassets */; };
+		6BA07FE82DDC758A007DF815 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07FB72DDC758A007DF815 /* LaunchScreen.storyboard */; };
+		6BA07FF92DDC759D007DF815 /* Dictionary+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F772DDC758A007DF815 /* Dictionary+Extension.swift */; };
+		6BA07FFA2DDC759D007DF815 /* Publisher+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F782DDC758A007DF815 /* Publisher+Extension.swift */; };
+		6BA07FFB2DDC759D007DF815 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F792DDC758A007DF815 /* String+Extension.swift */; };
+		6BA07FFC2DDC759D007DF815 /* View+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7A2DDC758A007DF815 /* View+Extension.swift */; };
+		6BA07FFD2DDC759D007DF815 /* ButtonWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7C2DDC758A007DF815 /* ButtonWrapper.swift */; };
+		6BA07FFE2DDC759D007DF815 /* DynamicFontSizeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7D2DDC758A007DF815 /* DynamicFontSizeModifier.swift */; };
+		6BA07FFF2DDC759D007DF815 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7E2DDC758A007DF815 /* FontModifier.swift */; };
+		6BA080002DDC759D007DF815 /* NavigationBarModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F7F2DDC758A007DF815 /* NavigationBarModifier.swift */; };
+		6BA080012DDC759D007DF815 /* NormalTextFieldModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F802DDC758A007DF815 /* NormalTextFieldModifier.swift */; };
+		6BA080022DDC759D007DF815 /* NormalTextLabelModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F812DDC758A007DF815 /* NormalTextLabelModifier.swift */; };
+		6BA080032DDC759D007DF815 /* NormalTextLabelModifier2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F822DDC758A007DF815 /* NormalTextLabelModifier2.swift */; };
+		6BA080042DDC759D007DF815 /* ProfileImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F832DDC758A007DF815 /* ProfileImageModifier.swift */; };
+		6BA080052DDC759D007DF815 /* RedactedModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F842DDC758A007DF815 /* RedactedModifier.swift */; };
+		6BA080062DDC759D007DF815 /* ShadowModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F852DDC758A007DF815 /* ShadowModifier.swift */; };
+		6BA080072DDC759D007DF815 /* TextBackgroundModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F862DDC758A007DF815 /* TextBackgroundModifier.swift */; };
+		6BA080082DDC759D007DF815 /* TextToButtonModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F872DDC758A007DF815 /* TextToButtonModifier.swift */; };
+		6BA080092DDC759D007DF815 /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8A2DDC758A007DF815 /* MainCoordinator.swift */; };
+		6BA0800A2DDC759D007DF815 /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8B2DDC758A007DF815 /* MainScreen.swift */; };
+		6BA0800B2DDC759D007DF815 /* MainScreen+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8C2DDC758A007DF815 /* MainScreen+Identifiable.swift */; };
+		6BA0800C2DDC759D007DF815 /* MainFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8E2DDC758A007DF815 /* MainFeature.swift */; };
+		6BA0800D2DDC759D007DF815 /* MainFeature+Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F8F2DDC758A007DF815 /* MainFeature+Enum.swift */; };
+		6BA0800E2DDC759D007DF815 /* MainFeature+Function.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F902DDC758A007DF815 /* MainFeature+Function.swift */; };
+		6BA0800F2DDC759D007DF815 /* MainStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F912DDC758A007DF815 /* MainStatusItem.swift */; };
+		6BA080102DDC759D007DF815 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F932DDC758A007DF815 /* MainView.swift */; };
+		6BA080112DDC759D007DF815 /* MainView+ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F942DDC758A007DF815 /* MainView+ChildView.swift */; };
+		6BA080122DDC759D007DF815 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F972DDC758A007DF815 /* LoadingView.swift */; };
+		6BA080132DDC759D007DF815 /* OBD2ConnectPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F982DDC758A007DF815 /* OBD2ConnectPopupView.swift */; };
+		6BA080142DDC759D007DF815 /* OBD2SupportedPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F992DDC758A007DF815 /* OBD2SupportedPopupView.swift */; };
+		6BA080152DDC759D007DF815 /* PopupBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F9A2DDC758A007DF815 /* PopupBackgroundView.swift */; };
+		6BA080162DDC759D007DF815 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07F9F2DDC758A007DF815 /* APIError.swift */; };
+		6BA080172DDC759D007DF815 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA02DDC758A007DF815 /* NetworkManager.swift */; };
+		6BA080182DDC759D007DF815 /* NetworkManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA12DDC758A007DF815 /* NetworkManager+Extension.swift */; };
+		6BA080192DDC759D007DF815 /* HTTPHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA32DDC758A007DF815 /* HTTPHeader.swift */; };
+		6BA0801A2DDC759D007DF815 /* RemoteConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA42DDC758A007DF815 /* RemoteConstants.swift */; };
+		6BA0801B2DDC759D007DF815 /* TargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA52DDC758A007DF815 /* TargetType.swift */; };
+		6BA0801C2DDC759D007DF815 /* SendLogsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FA82DDC758A007DF815 /* SendLogsRequest.swift */; };
+		6BA0801D2DDC759D007DF815 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAA2DDC758A007DF815 /* ErrorResponse.swift */; };
+		6BA0801E2DDC759D007DF815 /* RemoteResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAB2DDC758A007DF815 /* RemoteResponse.swift */; };
+		6BA0801F2DDC759D007DF815 /* OBD2TerminalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FAE2DDC758A007DF815 /* OBD2TerminalRouter.swift */; };
+		6BA080202DDC759D007DF815 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB12DDC758A007DF815 /* Color.swift */; };
+		6BA080212DDC759D007DF815 /* Enviroment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB22DDC758A007DF815 /* Enviroment.swift */; };
+		6BA080222DDC759D007DF815 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB32DDC758A007DF815 /* Logger.swift */; };
+		6BA080232DDC759D007DF815 /* OBD2ScannerTerminalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BA07FB82DDC758A007DF815 /* OBD2ScannerTerminalApp.swift */; };
+		6BA080252DDC759D007DF815 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FF22DDC759D007DF815 /* ComposableArchitecture */; };
+		6BA080262DDC759D007DF815 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FF62DDC759D007DF815 /* Alamofire */; };
+		6BA080272DDC759D007DF815 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FF02DDC759D007DF815 /* ActivityIndicatorView */; };
+		6BA080282DDC759D007DF815 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FEC2DDC759D007DF815 /* PopupView */; };
+		6BA080292DDC759D007DF815 /* obdlib-ios-package in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FF42DDC759D007DF815 /* obdlib-ios-package */; };
+		6BA0802A2DDC759D007DF815 /* TCACoordinators in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FEE2DDC759D007DF815 /* TCACoordinators */; };
+		6BA0802B2DDC759D007DF815 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BA07FEA2DDC759D007DF815 /* SwiftyBeaver */; };
+		6BA0802D2DDC759D007DF815 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07F9D2DDC758A007DF815 /* Preview Assets.xcassets */; };
+		6BA0802E2DDC759D007DF815 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07FB52DDC758A007DF815 /* Assets.xcassets */; };
+		6BA0802F2DDC759D007DF815 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6BA07FB72DDC758A007DF815 /* LaunchScreen.storyboard */; };
 		6BB97D622CD8AEB400CA6407 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */; };
 		6BB97DA72CD9F35A00CA6407 /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB97DA62CD9F35A00CA6407 /* PopupView */; };
 		6BF051FA2CE59C160087A250 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 6BF051F92CE59C160087A250 /* ComposableArchitecture */; };
@@ -27,34 +126,86 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		6BA080302DDC759D007DF815 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OBD2ScannerTerminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BA07F772DDC758A007DF815 /* Dictionary+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extension.swift"; sourceTree = "<group>"; };
+		6BA07F782DDC758A007DF815 /* Publisher+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+Extension.swift"; sourceTree = "<group>"; };
+		6BA07F792DDC758A007DF815 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		6BA07F7A2DDC758A007DF815 /* View+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extension.swift"; sourceTree = "<group>"; };
+		6BA07F7C2DDC758A007DF815 /* ButtonWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWrapper.swift; sourceTree = "<group>"; };
+		6BA07F7D2DDC758A007DF815 /* DynamicFontSizeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFontSizeModifier.swift; sourceTree = "<group>"; };
+		6BA07F7E2DDC758A007DF815 /* FontModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModifier.swift; sourceTree = "<group>"; };
+		6BA07F7F2DDC758A007DF815 /* NavigationBarModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarModifier.swift; sourceTree = "<group>"; };
+		6BA07F802DDC758A007DF815 /* NormalTextFieldModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalTextFieldModifier.swift; sourceTree = "<group>"; };
+		6BA07F812DDC758A007DF815 /* NormalTextLabelModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalTextLabelModifier.swift; sourceTree = "<group>"; };
+		6BA07F822DDC758A007DF815 /* NormalTextLabelModifier2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalTextLabelModifier2.swift; sourceTree = "<group>"; };
+		6BA07F832DDC758A007DF815 /* ProfileImageModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageModifier.swift; sourceTree = "<group>"; };
+		6BA07F842DDC758A007DF815 /* RedactedModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RedactedModifier.swift; sourceTree = "<group>"; };
+		6BA07F852DDC758A007DF815 /* ShadowModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShadowModifier.swift; sourceTree = "<group>"; };
+		6BA07F862DDC758A007DF815 /* TextBackgroundModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBackgroundModifier.swift; sourceTree = "<group>"; };
+		6BA07F872DDC758A007DF815 /* TextToButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToButtonModifier.swift; sourceTree = "<group>"; };
+		6BA07F8A2DDC758A007DF815 /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		6BA07F8B2DDC758A007DF815 /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		6BA07F8C2DDC758A007DF815 /* MainScreen+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainScreen+Identifiable.swift"; sourceTree = "<group>"; };
+		6BA07F8E2DDC758A007DF815 /* MainFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainFeature.swift; sourceTree = "<group>"; };
+		6BA07F8F2DDC758A007DF815 /* MainFeature+Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+Enum.swift"; sourceTree = "<group>"; };
+		6BA07F902DDC758A007DF815 /* MainFeature+Function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainFeature+Function.swift"; sourceTree = "<group>"; };
+		6BA07F912DDC758A007DF815 /* MainStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStatusItem.swift; sourceTree = "<group>"; };
+		6BA07F932DDC758A007DF815 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		6BA07F942DDC758A007DF815 /* MainView+ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainView+ChildView.swift"; sourceTree = "<group>"; };
+		6BA07F972DDC758A007DF815 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		6BA07F982DDC758A007DF815 /* OBD2ConnectPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBD2ConnectPopupView.swift; sourceTree = "<group>"; };
+		6BA07F992DDC758A007DF815 /* OBD2SupportedPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBD2SupportedPopupView.swift; sourceTree = "<group>"; };
+		6BA07F9A2DDC758A007DF815 /* PopupBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupBackgroundView.swift; sourceTree = "<group>"; };
+		6BA07F9D2DDC758A007DF815 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		6BA07F9F2DDC758A007DF815 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		6BA07FA02DDC758A007DF815 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		6BA07FA12DDC758A007DF815 /* NetworkManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkManager+Extension.swift"; sourceTree = "<group>"; };
+		6BA07FA32DDC758A007DF815 /* HTTPHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPHeader.swift; sourceTree = "<group>"; };
+		6BA07FA42DDC758A007DF815 /* RemoteConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConstants.swift; sourceTree = "<group>"; };
+		6BA07FA52DDC758A007DF815 /* TargetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TargetType.swift; sourceTree = "<group>"; };
+		6BA07FA82DDC758A007DF815 /* SendLogsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendLogsRequest.swift; sourceTree = "<group>"; };
+		6BA07FAA2DDC758A007DF815 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		6BA07FAB2DDC758A007DF815 /* RemoteResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteResponse.swift; sourceTree = "<group>"; };
+		6BA07FAE2DDC758A007DF815 /* OBD2TerminalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBD2TerminalRouter.swift; sourceTree = "<group>"; };
+		6BA07FB12DDC758A007DF815 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		6BA07FB22DDC758A007DF815 /* Enviroment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviroment.swift; sourceTree = "<group>"; };
+		6BA07FB32DDC758A007DF815 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		6BA07FB52DDC758A007DF815 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6BA07FB62DDC758A007DF815 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BA07FB72DDC758A007DF815 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6BA07FB82DDC758A007DF815 /* OBD2ScannerTerminalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBD2ScannerTerminalApp.swift; sourceTree = "<group>"; };
+		6BA080342DDC759D007DF815 /* Dev.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dev.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BA080352DDC759D007DF815 /* Info-dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Info-dev.plist"; path = "/Users/hahaha/Desktop/WORK/GITWORKING/OBD2ScannerTerminal/Info-dev.plist"; sourceTree = "<absolute>"; };
+		6BB97D392CD8911300CA6407 /* Prod.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Prod.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 6BB97D382CD8911300CA6407 /* OBD2ScannerTerminal */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		6BB97D3B2CD8911300CA6407 /* OBD2ScannerTerminal */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				6B8B42C42CDDC72B00905E2A /* Exceptions for "OBD2ScannerTerminal" folder in "OBD2ScannerTerminal" target */,
-			);
-			path = OBD2ScannerTerminal;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
+		6BA080242DDC759D007DF815 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BA080252DDC759D007DF815 /* ComposableArchitecture in Frameworks */,
+				6BA080262DDC759D007DF815 /* Alamofire in Frameworks */,
+				6BA080272DDC759D007DF815 /* ActivityIndicatorView in Frameworks */,
+				6BA080282DDC759D007DF815 /* PopupView in Frameworks */,
+				6BA080292DDC759D007DF815 /* obdlib-ios-package in Frameworks */,
+				6BA0802A2DDC759D007DF815 /* TCACoordinators in Frameworks */,
+				6BA0802B2DDC759D007DF815 /* SwiftyBeaver in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BB97D362CD8911300CA6407 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -72,10 +223,217 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6BA07F7B2DDC758A007DF815 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F772DDC758A007DF815 /* Dictionary+Extension.swift */,
+				6BA07F782DDC758A007DF815 /* Publisher+Extension.swift */,
+				6BA07F792DDC758A007DF815 /* String+Extension.swift */,
+				6BA07F7A2DDC758A007DF815 /* View+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		6BA07F882DDC758A007DF815 /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F7C2DDC758A007DF815 /* ButtonWrapper.swift */,
+				6BA07F7D2DDC758A007DF815 /* DynamicFontSizeModifier.swift */,
+				6BA07F7E2DDC758A007DF815 /* FontModifier.swift */,
+				6BA07F7F2DDC758A007DF815 /* NavigationBarModifier.swift */,
+				6BA07F802DDC758A007DF815 /* NormalTextFieldModifier.swift */,
+				6BA07F812DDC758A007DF815 /* NormalTextLabelModifier.swift */,
+				6BA07F822DDC758A007DF815 /* NormalTextLabelModifier2.swift */,
+				6BA07F832DDC758A007DF815 /* ProfileImageModifier.swift */,
+				6BA07F842DDC758A007DF815 /* RedactedModifier.swift */,
+				6BA07F852DDC758A007DF815 /* ShadowModifier.swift */,
+				6BA07F862DDC758A007DF815 /* TextBackgroundModifier.swift */,
+				6BA07F872DDC758A007DF815 /* TextToButtonModifier.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
+		6BA07F892DDC758A007DF815 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F7B2DDC758A007DF815 /* Extension */,
+				6BA07F882DDC758A007DF815 /* ViewModifier */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		6BA07F8D2DDC758A007DF815 /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F8A2DDC758A007DF815 /* MainCoordinator.swift */,
+				6BA07F8B2DDC758A007DF815 /* MainScreen.swift */,
+				6BA07F8C2DDC758A007DF815 /* MainScreen+Identifiable.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		6BA07F922DDC758A007DF815 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F8E2DDC758A007DF815 /* MainFeature.swift */,
+				6BA07F8F2DDC758A007DF815 /* MainFeature+Enum.swift */,
+				6BA07F902DDC758A007DF815 /* MainFeature+Function.swift */,
+				6BA07F912DDC758A007DF815 /* MainStatusItem.swift */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		6BA07F952DDC758A007DF815 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F932DDC758A007DF815 /* MainView.swift */,
+				6BA07F942DDC758A007DF815 /* MainView+ChildView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6BA07F962DDC758A007DF815 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F8D2DDC758A007DF815 /* Coordinator */,
+				6BA07F922DDC758A007DF815 /* Feature */,
+				6BA07F952DDC758A007DF815 /* View */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		6BA07F9B2DDC758A007DF815 /* Popup */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F972DDC758A007DF815 /* LoadingView.swift */,
+				6BA07F982DDC758A007DF815 /* OBD2ConnectPopupView.swift */,
+				6BA07F992DDC758A007DF815 /* OBD2SupportedPopupView.swift */,
+				6BA07F9A2DDC758A007DF815 /* PopupBackgroundView.swift */,
+			);
+			path = Popup;
+			sourceTree = "<group>";
+		};
+		6BA07F9C2DDC758A007DF815 /* Feature */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F962DDC758A007DF815 /* Main */,
+				6BA07F9B2DDC758A007DF815 /* Popup */,
+			);
+			path = Feature;
+			sourceTree = "<group>";
+		};
+		6BA07F9E2DDC758A007DF815 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F9D2DDC758A007DF815 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6BA07FA22DDC758A007DF815 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F9F2DDC758A007DF815 /* APIError.swift */,
+				6BA07FA02DDC758A007DF815 /* NetworkManager.swift */,
+				6BA07FA12DDC758A007DF815 /* NetworkManager+Extension.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		6BA07FA62DDC758A007DF815 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FA32DDC758A007DF815 /* HTTPHeader.swift */,
+				6BA07FA42DDC758A007DF815 /* RemoteConstants.swift */,
+				6BA07FA52DDC758A007DF815 /* TargetType.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		6BA07FA72DDC758A007DF815 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		6BA07FA92DDC758A007DF815 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FA82DDC758A007DF815 /* SendLogsRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		6BA07FAC2DDC758A007DF815 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FAA2DDC758A007DF815 /* ErrorResponse.swift */,
+				6BA07FAB2DDC758A007DF815 /* RemoteResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		6BA07FAD2DDC758A007DF815 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FA92DDC758A007DF815 /* Request */,
+				6BA07FAC2DDC758A007DF815 /* Response */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		6BA07FAF2DDC758A007DF815 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FAE2DDC758A007DF815 /* OBD2TerminalRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
+		6BA07FB02DDC758A007DF815 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FA22DDC758A007DF815 /* API */,
+				6BA07FA62DDC758A007DF815 /* Common */,
+				6BA07FA72DDC758A007DF815 /* Entity */,
+				6BA07FAD2DDC758A007DF815 /* Model */,
+				6BA07FAF2DDC758A007DF815 /* Router */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		6BA07FB42DDC758A007DF815 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07FB12DDC758A007DF815 /* Color.swift */,
+				6BA07FB22DDC758A007DF815 /* Enviroment.swift */,
+				6BA07FB32DDC758A007DF815 /* Logger.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
+		6BA07FB92DDC758A007DF815 /* OBD2ScannerTerminal */ = {
+			isa = PBXGroup;
+			children = (
+				6BA07F892DDC758A007DF815 /* Core */,
+				6BA07F9C2DDC758A007DF815 /* Feature */,
+				6BA07F9E2DDC758A007DF815 /* Preview Content */,
+				6BA07FB02DDC758A007DF815 /* Repository */,
+				6BA07FB42DDC758A007DF815 /* Util */,
+				6BA07FB52DDC758A007DF815 /* Assets.xcassets */,
+				6BA07FB72DDC758A007DF815 /* LaunchScreen.storyboard */,
+				6BA07FB82DDC758A007DF815 /* OBD2ScannerTerminalApp.swift */,
+			);
+			path = OBD2ScannerTerminal;
+			sourceTree = "<group>";
+		};
 		6BB97D302CD8911300CA6407 = {
 			isa = PBXGroup;
 			children = (
-				6BB97D3B2CD8911300CA6407 /* OBD2ScannerTerminal */,
+				6BA07FB92DDC758A007DF815 /* OBD2ScannerTerminal */,
+				6BA080352DDC759D007DF815 /* Info-dev.plist */,
+				6BA07FB62DDC758A007DF815 /* Info.plist */,
 				6BB97D3A2CD8911300CA6407 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,7 +441,8 @@
 		6BB97D3A2CD8911300CA6407 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */,
+				6BB97D392CD8911300CA6407 /* Prod.app */,
+				6BA080342DDC759D007DF815 /* Dev.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -91,9 +450,36 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		6BB97D382CD8911300CA6407 /* OBD2ScannerTerminal */ = {
+		6BA07FE92DDC759D007DF815 /* Dev */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6BB97D472CD8911400CA6407 /* Build configuration list for PBXNativeTarget "OBD2ScannerTerminal" */;
+			buildConfigurationList = 6BA080312DDC759D007DF815 /* Build configuration list for PBXNativeTarget "Dev" */;
+			buildPhases = (
+				6BA07FF82DDC759D007DF815 /* Sources */,
+				6BA080242DDC759D007DF815 /* Frameworks */,
+				6BA0802C2DDC759D007DF815 /* Resources */,
+				6BA080302DDC759D007DF815 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dev;
+			packageProductDependencies = (
+				6BA07FEA2DDC759D007DF815 /* SwiftyBeaver */,
+				6BA07FEC2DDC759D007DF815 /* PopupView */,
+				6BA07FEE2DDC759D007DF815 /* TCACoordinators */,
+				6BA07FF02DDC759D007DF815 /* ActivityIndicatorView */,
+				6BA07FF22DDC759D007DF815 /* ComposableArchitecture */,
+				6BA07FF42DDC759D007DF815 /* obdlib-ios-package */,
+				6BA07FF62DDC759D007DF815 /* Alamofire */,
+			);
+			productName = OBD2ScannerTerminal;
+			productReference = 6BA080342DDC759D007DF815 /* Dev.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6BB97D382CD8911300CA6407 /* Prod */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6BB97D472CD8911400CA6407 /* Build configuration list for PBXNativeTarget "Prod" */;
 			buildPhases = (
 				6BB97D352CD8911300CA6407 /* Sources */,
 				6BB97D362CD8911300CA6407 /* Frameworks */,
@@ -104,10 +490,7 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				6BB97D3B2CD8911300CA6407 /* OBD2ScannerTerminal */,
-			);
-			name = OBD2ScannerTerminal;
+			name = Prod;
 			packageProductDependencies = (
 				6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */,
 				6BB97DA62CD9F35A00CA6407 /* PopupView */,
@@ -118,7 +501,7 @@
 				6B576BB62D1949D8006E584A /* Alamofire */,
 			);
 			productName = OBD2ScannerTerminal;
-			productReference = 6BB97D392CD8911300CA6407 /* OBD2ScannerTerminal.app */;
+			productReference = 6BB97D392CD8911300CA6407 /* Prod.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -159,33 +542,228 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				6BB97D382CD8911300CA6407 /* OBD2ScannerTerminal */,
+				6BB97D382CD8911300CA6407 /* Prod */,
+				6BA07FE92DDC759D007DF815 /* Dev */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6BA0802C2DDC759D007DF815 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BA0802D2DDC759D007DF815 /* Preview Assets.xcassets in Resources */,
+				6BA0802E2DDC759D007DF815 /* Assets.xcassets in Resources */,
+				6BA0802F2DDC759D007DF815 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BB97D372CD8911300CA6407 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA07FE52DDC758A007DF815 /* Preview Assets.xcassets in Resources */,
+				6BA07FE62DDC758A007DF815 /* Assets.xcassets in Resources */,
+				6BA07FE82DDC758A007DF815 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6BA07FF82DDC759D007DF815 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6BA07FF92DDC759D007DF815 /* Dictionary+Extension.swift in Sources */,
+				6BA07FFA2DDC759D007DF815 /* Publisher+Extension.swift in Sources */,
+				6BA07FFB2DDC759D007DF815 /* String+Extension.swift in Sources */,
+				6BA07FFC2DDC759D007DF815 /* View+Extension.swift in Sources */,
+				6BA07FFD2DDC759D007DF815 /* ButtonWrapper.swift in Sources */,
+				6BA07FFE2DDC759D007DF815 /* DynamicFontSizeModifier.swift in Sources */,
+				6BA07FFF2DDC759D007DF815 /* FontModifier.swift in Sources */,
+				6BA080002DDC759D007DF815 /* NavigationBarModifier.swift in Sources */,
+				6BA080012DDC759D007DF815 /* NormalTextFieldModifier.swift in Sources */,
+				6BA080022DDC759D007DF815 /* NormalTextLabelModifier.swift in Sources */,
+				6BA080032DDC759D007DF815 /* NormalTextLabelModifier2.swift in Sources */,
+				6BA080042DDC759D007DF815 /* ProfileImageModifier.swift in Sources */,
+				6BA080052DDC759D007DF815 /* RedactedModifier.swift in Sources */,
+				6BA080062DDC759D007DF815 /* ShadowModifier.swift in Sources */,
+				6BA080072DDC759D007DF815 /* TextBackgroundModifier.swift in Sources */,
+				6BA080082DDC759D007DF815 /* TextToButtonModifier.swift in Sources */,
+				6BA080092DDC759D007DF815 /* MainCoordinator.swift in Sources */,
+				6BA0800A2DDC759D007DF815 /* MainScreen.swift in Sources */,
+				6BA0800B2DDC759D007DF815 /* MainScreen+Identifiable.swift in Sources */,
+				6BA0800C2DDC759D007DF815 /* MainFeature.swift in Sources */,
+				6BA0800D2DDC759D007DF815 /* MainFeature+Enum.swift in Sources */,
+				6BA0800E2DDC759D007DF815 /* MainFeature+Function.swift in Sources */,
+				6BA0800F2DDC759D007DF815 /* MainStatusItem.swift in Sources */,
+				6BA080102DDC759D007DF815 /* MainView.swift in Sources */,
+				6BA080112DDC759D007DF815 /* MainView+ChildView.swift in Sources */,
+				6BA080122DDC759D007DF815 /* LoadingView.swift in Sources */,
+				6BA080132DDC759D007DF815 /* OBD2ConnectPopupView.swift in Sources */,
+				6BA080142DDC759D007DF815 /* OBD2SupportedPopupView.swift in Sources */,
+				6BA080152DDC759D007DF815 /* PopupBackgroundView.swift in Sources */,
+				6BA080162DDC759D007DF815 /* APIError.swift in Sources */,
+				6BA080172DDC759D007DF815 /* NetworkManager.swift in Sources */,
+				6BA080182DDC759D007DF815 /* NetworkManager+Extension.swift in Sources */,
+				6BA080192DDC759D007DF815 /* HTTPHeader.swift in Sources */,
+				6BA0801A2DDC759D007DF815 /* RemoteConstants.swift in Sources */,
+				6BA0801B2DDC759D007DF815 /* TargetType.swift in Sources */,
+				6BA0801C2DDC759D007DF815 /* SendLogsRequest.swift in Sources */,
+				6BA0801D2DDC759D007DF815 /* ErrorResponse.swift in Sources */,
+				6BA0801E2DDC759D007DF815 /* RemoteResponse.swift in Sources */,
+				6BA0801F2DDC759D007DF815 /* OBD2TerminalRouter.swift in Sources */,
+				6BA080202DDC759D007DF815 /* Color.swift in Sources */,
+				6BA080212DDC759D007DF815 /* Enviroment.swift in Sources */,
+				6BA080222DDC759D007DF815 /* Logger.swift in Sources */,
+				6BA080232DDC759D007DF815 /* OBD2ScannerTerminalApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6BB97D352CD8911300CA6407 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BA07FBA2DDC758A007DF815 /* Dictionary+Extension.swift in Sources */,
+				6BA07FBB2DDC758A007DF815 /* Publisher+Extension.swift in Sources */,
+				6BA07FBC2DDC758A007DF815 /* String+Extension.swift in Sources */,
+				6BA07FBD2DDC758A007DF815 /* View+Extension.swift in Sources */,
+				6BA07FBE2DDC758A007DF815 /* ButtonWrapper.swift in Sources */,
+				6BA07FBF2DDC758A007DF815 /* DynamicFontSizeModifier.swift in Sources */,
+				6BA07FC02DDC758A007DF815 /* FontModifier.swift in Sources */,
+				6BA07FC12DDC758A007DF815 /* NavigationBarModifier.swift in Sources */,
+				6BA07FC22DDC758A007DF815 /* NormalTextFieldModifier.swift in Sources */,
+				6BA07FC32DDC758A007DF815 /* NormalTextLabelModifier.swift in Sources */,
+				6BA07FC42DDC758A007DF815 /* NormalTextLabelModifier2.swift in Sources */,
+				6BA07FC52DDC758A007DF815 /* ProfileImageModifier.swift in Sources */,
+				6BA07FC62DDC758A007DF815 /* RedactedModifier.swift in Sources */,
+				6BA07FC72DDC758A007DF815 /* ShadowModifier.swift in Sources */,
+				6BA07FC82DDC758A007DF815 /* TextBackgroundModifier.swift in Sources */,
+				6BA07FC92DDC758A007DF815 /* TextToButtonModifier.swift in Sources */,
+				6BA07FCA2DDC758A007DF815 /* MainCoordinator.swift in Sources */,
+				6BA07FCB2DDC758A007DF815 /* MainScreen.swift in Sources */,
+				6BA07FCC2DDC758A007DF815 /* MainScreen+Identifiable.swift in Sources */,
+				6BA07FCD2DDC758A007DF815 /* MainFeature.swift in Sources */,
+				6BA07FCE2DDC758A007DF815 /* MainFeature+Enum.swift in Sources */,
+				6BA07FCF2DDC758A007DF815 /* MainFeature+Function.swift in Sources */,
+				6BA07FD02DDC758A007DF815 /* MainStatusItem.swift in Sources */,
+				6BA07FD12DDC758A007DF815 /* MainView.swift in Sources */,
+				6BA07FD22DDC758A007DF815 /* MainView+ChildView.swift in Sources */,
+				6BA07FD32DDC758A007DF815 /* LoadingView.swift in Sources */,
+				6BA07FD42DDC758A007DF815 /* OBD2ConnectPopupView.swift in Sources */,
+				6BA07FD52DDC758A007DF815 /* OBD2SupportedPopupView.swift in Sources */,
+				6BA07FD62DDC758A007DF815 /* PopupBackgroundView.swift in Sources */,
+				6BA07FD72DDC758A007DF815 /* APIError.swift in Sources */,
+				6BA07FD82DDC758A007DF815 /* NetworkManager.swift in Sources */,
+				6BA07FD92DDC758A007DF815 /* NetworkManager+Extension.swift in Sources */,
+				6BA07FDA2DDC758A007DF815 /* HTTPHeader.swift in Sources */,
+				6BA07FDB2DDC758A007DF815 /* RemoteConstants.swift in Sources */,
+				6BA07FDC2DDC758A007DF815 /* TargetType.swift in Sources */,
+				6BA07FDD2DDC758A007DF815 /* SendLogsRequest.swift in Sources */,
+				6BA07FDE2DDC758A007DF815 /* ErrorResponse.swift in Sources */,
+				6BA07FDF2DDC758A007DF815 /* RemoteResponse.swift in Sources */,
+				6BA07FE02DDC758A007DF815 /* OBD2TerminalRouter.swift in Sources */,
+				6BA07FE12DDC758A007DF815 /* Color.swift in Sources */,
+				6BA07FE22DDC758A007DF815 /* Enviroment.swift in Sources */,
+				6BA07FE32DDC758A007DF815 /* Logger.swift in Sources */,
+				6BA07FE42DDC758A007DF815 /* OBD2ScannerTerminalApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		6BB97D452CD8911400CA6407 /* Debug */ = {
+		6BA080322DDC759D007DF815 /* Dev */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0;
+				DEVELOPMENT_ASSET_PATHS = "\"OBD2ScannerTerminal/Preview Content\"";
+				DEVELOPMENT_TEAM = SUZFV58S8B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "info-dev.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.0;
+				OTHER_SWIFT_FLAGS = "-D DEV";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Dev;
+		};
+		6BA080332DDC759D007DF815 /* Prod */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 0;
+				DEVELOPMENT_ASSET_PATHS = "\"OBD2ScannerTerminal/Preview Content\"";
+				DEVELOPMENT_TEAM = SUZFV58S8B;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "info-dev.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleLightContent;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.0;
+				OTHER_SWIFT_FLAGS = "-D DEV";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REGISTER_APP_GROUPS = NO;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Prod;
+		};
+		6BB97D452CD8911400CA6407 /* Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -246,9 +824,9 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug;
+			name = Dev;
 		};
-		6BB97D462CD8911400CA6407 /* Release */ = {
+		6BB97D462CD8911400CA6407 /* Prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -302,9 +880,9 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
-			name = Release;
+			name = Prod;
 		};
-		6BB97D482CD8911400CA6407 /* Debug */ = {
+		6BB97D482CD8911400CA6407 /* Dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -316,7 +894,7 @@
 				DEVELOPMENT_TEAM = SUZFV58S8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
@@ -334,6 +912,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTHER_SWIFT_FLAGS = "-D PROD";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -345,9 +924,9 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = Dev;
 		};
-		6BB97D492CD8911400CA6407 /* Release */ = {
+		6BB97D492CD8911400CA6407 /* Prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -359,7 +938,7 @@
 				DEVELOPMENT_TEAM = SUZFV58S8B;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = OBD2ScannerTerminal/Info.plist;
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "OBDII Terminal";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "The permission to communicate with Bluetooth devices(OBD2) is required";
@@ -377,6 +956,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.0;
+				OTHER_SWIFT_FLAGS = "-D PROD";
 				PRODUCT_BUNDLE_IDENTIFIER = com.JinwooLee.OBD2Terminal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -388,28 +968,37 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
+			name = Prod;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6BA080312DDC759D007DF815 /* Build configuration list for PBXNativeTarget "Dev" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6BA080322DDC759D007DF815 /* Dev */,
+				6BA080332DDC759D007DF815 /* Prod */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Prod;
+		};
 		6BB97D342CD8911300CA6407 /* Build configuration list for PBXProject "OBD2ScannerTerminal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6BB97D452CD8911400CA6407 /* Debug */,
-				6BB97D462CD8911400CA6407 /* Release */,
+				6BB97D452CD8911400CA6407 /* Dev */,
+				6BB97D462CD8911400CA6407 /* Prod */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Prod;
 		};
-		6BB97D472CD8911400CA6407 /* Build configuration list for PBXNativeTarget "OBD2ScannerTerminal" */ = {
+		6BB97D472CD8911400CA6407 /* Build configuration list for PBXNativeTarget "Prod" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6BB97D482CD8911400CA6407 /* Debug */,
-				6BB97D492CD8911400CA6407 /* Release */,
+				6BB97D482CD8911400CA6407 /* Dev */,
+				6BB97D492CD8911400CA6407 /* Prod */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Prod;
 		};
 /* End XCConfigurationList section */
 
@@ -431,6 +1020,62 @@
 			};
 		};
 		6B576BB52D1949D8006E584A /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		6BA07FEB2DDC759D007DF815 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
+		6BA07FED2DDC759D007DF815 /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.4;
+			};
+		};
+		6BA07FEF2DDC759D007DF815 /* XCRemoteSwiftPackageReference "TCACoordinators" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnpatrickmorgan/TCACoordinators.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.10.1;
+			};
+		};
+		6BA07FF12DDC759D007DF815 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+		6BA07FF32DDC759D007DF815 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.16.0;
+			};
+		};
+		6BA07FF52DDC759D007DF815 /* XCRemoteSwiftPackageReference "obdlib-ios-package" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "http://git.namuplanet.com/jinoo/obdlib-ios-package.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
+		6BA07FF72DDC759D007DF815 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
 			requirement = {
@@ -486,6 +1131,41 @@
 		6B576BB62D1949D8006E584A /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 6B576BB52D1949D8006E584A /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		6BA07FEA2DDC759D007DF815 /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FEB2DDC759D007DF815 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+		6BA07FEC2DDC759D007DF815 /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FED2DDC759D007DF815 /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
+		};
+		6BA07FEE2DDC759D007DF815 /* TCACoordinators */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FEF2DDC759D007DF815 /* XCRemoteSwiftPackageReference "TCACoordinators" */;
+			productName = TCACoordinators;
+		};
+		6BA07FF02DDC759D007DF815 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FF12DDC759D007DF815 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
+		6BA07FF22DDC759D007DF815 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FF32DDC759D007DF815 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		6BA07FF42DDC759D007DF815 /* obdlib-ios-package */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FF52DDC759D007DF815 /* XCRemoteSwiftPackageReference "obdlib-ios-package" */;
+			productName = "obdlib-ios-package";
+		};
+		6BA07FF62DDC759D007DF815 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6BA07FF72DDC759D007DF815 /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
 		6BB97D612CD8AEB400CA6407 /* SwiftyBeaver */ = {

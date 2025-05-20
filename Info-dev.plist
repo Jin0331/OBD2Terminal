@@ -9,6 +9,10 @@
 	</dict>
 	<key>NSBluetoothServices</key>
 	<array/>
+	<key>CFBundleVersion</key>
+	<string>0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1.0</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
