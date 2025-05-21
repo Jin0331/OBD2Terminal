@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/xcode,cocoapods,swift
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,cocoapods,swift
 
+## fastlane
+Gemfile
+Gemfile.lock
+fastlane/
+
 ### CocoaPods ###
 ## CocoaPods GitIgnore Template
 
